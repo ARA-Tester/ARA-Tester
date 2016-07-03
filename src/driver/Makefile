@@ -19,6 +19,8 @@ load: header
 	dmesg -c
 	clear
 	insmod $(__name__).ko
+
+device:
 	$(foreach number,$(__minor__),mknod $(__device__)$(number) c $(__major__) $(number);chmod $(__mode__) $(__device__)$(number);)
 
 unload:

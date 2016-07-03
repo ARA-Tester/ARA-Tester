@@ -62,7 +62,7 @@ static int on_release(struct inode* inode, struct file* file) {
     return 0;
 }
 
-static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long arguemnt) {
+static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long argument) {
     _ARA_TESTER_AXIS_CURRENT_AXIS(file);
     switch(command) {
         case ARA_TESTER_SET: {
@@ -70,18 +70,20 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
                 printk("Active: %lu\n", ara_tester_axis->counter);
                 return -EBUSY;
             } else {
+                if(__get_user(ara_tester_axis->counter, (unsigned long __user*)argument)) {
+                    return -EFAULT;
+                }
                 printk("Start: %lu\n", ara_tester_axis->counter);
-                ara_tester_axis->counter = arguemnt;
                 ara_tester_axis_exec(ara_tester_axis);
                 return 0;
             }
         }
         case ARA_TESTER_GET: {
             printk("COUNTER: %lu\n", ara_tester_axis->counter);
-            return ara_tester_axis->counter;
+            return __put_user(ara_tester_axis->counter, (unsigned long __user*)argument);
         }
         default: {
-            return -EINVAL;
+            return -ENOTTY;
         }
     }
     return 0;

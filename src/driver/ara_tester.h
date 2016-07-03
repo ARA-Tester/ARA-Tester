@@ -10,6 +10,9 @@
 #include <linux/fs.h>
 #include <linux/cdev.h>
 #include <linux/ioctl.h>
+#include <linux/slab.h>
+#include <asm/uaccess.h>
+#include <asm/errno.h>
 #include "ara_tester_axis.h"
 
 static int on_open(struct inode* inode, struct file* file);
