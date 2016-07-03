@@ -98,6 +98,11 @@ static int __init on_init(void) {
     cdev->ops = &file_operations;
     _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add", 1);
     _ARA_TESTER_AXIS_INIT_AXIS(0, 22, 27, 10);
+    ara_tester_axises[0].t_max = 28;
+    ara_tester_axises[0].t_min = 10;
+    ara_tester_axises[0].t_delta = 18;
+    ara_tester_axises[0].linear = 1;
+    ara_tester_axis_exec(ara_tester_axises);
     //_ARA_TESTER_AXIS_INIT_AXIS(1);
     //_ARA_TESTER_AXIS_INIT_AXIS(2);
     //_ARA_TESTER_AXIS_INIT_AXIS(3);
