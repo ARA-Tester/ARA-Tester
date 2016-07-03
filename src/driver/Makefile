@@ -6,6 +6,7 @@ __major__ = $(shell grep -o "[0-9]\+ $(__name__)" /proc/devices | grep -o -m 1 "
 __minor__ = 0 1 2 3
 __ioctl_header__ = /usr/include/$(__name__)_ioctl.h
 make_module_action = make -C /lib/modules/$(shell uname -r)/build M=$(PWD)
+ccflags-y := -O3
 obj-m := $(__name__).o
 
 all: clean
@@ -14,7 +15,7 @@ all: clean
 clean:
 	$(make_module_action) clean
 
-load:
+load: header
 	dmesg -c
 	clear
 	insmod $(__name__).ko
