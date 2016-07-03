@@ -100,8 +100,8 @@ static int __init on_init(void) {
     _ARA_TESTER_AXIS_INIT_AXIS(0, 22, 27, 10);
     ara_tester_axises[0].t_max = 28;
     ara_tester_axises[0].t_min = 10;
-    ara_tester_axises[0].t_delta = 18;
-    ara_tester_axises[0].linear = 1;
+    ara_tester_axises[0].t_delta = 6;
+    ara_tester_axises[0].linear = 2;
     ara_tester_axis_exec(ara_tester_axises);
     //_ARA_TESTER_AXIS_INIT_AXIS(1);
     //_ARA_TESTER_AXIS_INIT_AXIS(2);
