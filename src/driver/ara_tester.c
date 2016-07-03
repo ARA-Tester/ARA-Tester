@@ -22,8 +22,8 @@ static enum hrtimer_restart ara_tester_axis_function##axis(struct hrtimer *timer
     return ara_tester_axis_change_state(ara_tester_axises + axis); \
 } \
 
-#define _ARA_TESTER_AXIS_INIT_AXIS(axis) \
-ara_tester_axis_init(ara_tester_axises + axis, ara_tester_axis_function##axis) \
+#define _ARA_TESTER_AXIS_INIT_AXIS(axis, pulse, dir, pulse_width) \
+ara_tester_axis_init(ara_tester_axises + axis, pulse, dir, pulse_width, ara_tester_axis_function##axis) \
 
 #define _ARA_TESTER_AXIS_CURRENT_AXIS(file) \
 struct ara_tester_axis* ara_tester_axis = ara_tester_axises + iminor(file->f_path.dentry->d_inode) \
@@ -42,9 +42,9 @@ static struct file_operations file_operations = {
 };
 
 _ARA_TESTER_AXIS_FUNCTION_FACTORY(0);
-_ARA_TESTER_AXIS_FUNCTION_FACTORY(1);
-_ARA_TESTER_AXIS_FUNCTION_FACTORY(2);
-_ARA_TESTER_AXIS_FUNCTION_FACTORY(3);   
+//_ARA_TESTER_AXIS_FUNCTION_FACTORY(1);
+//_ARA_TESTER_AXIS_FUNCTION_FACTORY(2);
+//_ARA_TESTER_AXIS_FUNCTION_FACTORY(3);   
 
 static int on_open(struct inode* inode, struct file* file) {
     _ARA_TESTER_AXIS_CURRENT_AXIS(file);
@@ -97,10 +97,10 @@ static int __init on_init(void) {
     cdev->owner = THIS_MODULE;
     cdev->ops = &file_operations;
     _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add", 1);
-    _ARA_TESTER_AXIS_INIT_AXIS(0);
-    _ARA_TESTER_AXIS_INIT_AXIS(1);
-    _ARA_TESTER_AXIS_INIT_AXIS(2);
-    _ARA_TESTER_AXIS_INIT_AXIS(3);
+    _ARA_TESTER_AXIS_INIT_AXIS(0, 22, 27, 10);
+    //_ARA_TESTER_AXIS_INIT_AXIS(1);
+    //_ARA_TESTER_AXIS_INIT_AXIS(2);
+    //_ARA_TESTER_AXIS_INIT_AXIS(3);
     return 0;
 }
 
@@ -108,10 +108,7 @@ static void on_exit(void) {
     unsigned int i = 0;
     printk("on_exit\n");
     for(i = 0; i < _ARA_TESTER_AXIS_NUMBER; ++i) {
-        if(ara_tester_axis_clean(ara_tester_axises + i)) {
-            _LOG_ERR("ara_test_axis_clean");
-            return;
-        }
+        ara_tester_axis_clean(ara_tester_axises + i);
     }
     if(cdev) {
         cdev_del(cdev);
