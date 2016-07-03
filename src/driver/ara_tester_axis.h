@@ -100,46 +100,48 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
 }
 
 static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_tester_axis* ara_tester_axis) {
-    unsigned long timeout;
     if(ara_tester_axis->active) {
-        if(! ara_tester_axis->pulse) {
-            ara_tester_axis->counter++;
-        }
+        unsigned long timeout = 0;
         ara_tester_axis->pulse = !ara_tester_axis->pulse;
-        timeout = ara_tester_axis->pulse ? ara_tester_axis->pulse_width : ara_tester_axis->t_current;
+        if(ara_tester_axis->pulse) {
+            ara_tester_axis->counter++;
+            timeout = ara_tester_axis->pulse_width;
+        } else {
+            timeout = ara_tester_axis->t_current;
+        }
         output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
         ___print_value(ara_tester_axis);
         printk("TIMER :                        %lu  ns\n", timeout);
         hrtimer_start(__ara_tester_axis_timer_pointer(ara_tester_axis), ktime_set(0, timeout), HRTIMER_MODE_REL);
-    }
-    if(!ara_tester_axis->pulse) {
-        switch(ara_tester_axis->movment_state) {
-            case 0: {
-                if(ara_tester_axis->t_current >= ara_tester_axis->t_min + ara_tester_axis->t_delta) {
-                    ara_tester_axis->t_current -= ara_tester_axis->t_delta;
-                } else {
-                    ___print_line();
-                    ara_tester_axis->movment_state = 1;
+        if(!ara_tester_axis->pulse) {
+            switch(ara_tester_axis->movment_state) {
+                case 0: {
+                    if(ara_tester_axis->t_current >= ara_tester_axis->t_min + ara_tester_axis->t_delta) {
+                        ara_tester_axis->t_current -= ara_tester_axis->t_delta;
+                    } else {
+                        ___print_line();
+                        ara_tester_axis->movment_state = 1;
+                    }
+                    break;
                 }
-                break;
-            }
-            case 1: {
-                if(ara_tester_axis->linear > 1) {
-                    ara_tester_axis->linear--;;
-                } else {
-                    ___print_line();
-                    ara_tester_axis->movment_state = 2;
+                case 1: {
+                    if(ara_tester_axis->linear > 1) {
+                        ara_tester_axis->linear--;;
+                    } else {
+                        ___print_line();
+                        ara_tester_axis->movment_state = 2;
+                    }
+                    break;
                 }
-                break;
-            }
-            case 2: {
-                if(ara_tester_axis->t_current + ara_tester_axis->t_delta <= ara_tester_axis->t_max) {
-                    ara_tester_axis->t_current += ara_tester_axis->t_delta;
-                } else {
-                    ___print_line();
-                    ara_tester_axis->active = 0;
+                case 2: {
+                    if(ara_tester_axis->t_current + ara_tester_axis->t_delta <= ara_tester_axis->t_max) {
+                        ara_tester_axis->t_current += ara_tester_axis->t_delta;
+                    } else {
+                        ___print_line();
+                        ara_tester_axis->active = 0;
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
