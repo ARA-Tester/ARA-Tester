@@ -28,9 +28,9 @@ ara_tester_axis_init(ara_tester_axises + axis, pulse, dir, pulse_width, ara_test
 #define _ARA_TESTER_AXIS_CURRENT_AXIS(file) \
 struct ara_tester_axis* ara_tester_axis = ara_tester_axises + iminor(file->f_path.dentry->d_inode) \
 
-static dev_t numbers;
+//static dev_t numbers;
 struct ara_tester_axis ara_tester_axises[_ARA_TESTER_AXIS_NUMBER];
-static int major = -1;
+/*static int major = -1;
 static const int first_minor = 0;
 static const unsigned int minor_count = _ARA_TESTER_AXIS_NUMBER;
 static struct cdev* cdev = NULL;
@@ -39,14 +39,14 @@ static struct file_operations file_operations = {
     .open = on_open,
     .release = on_release,
     .unlocked_ioctl = on_unlocked_ioctl
-};
+};*/
 
 _ARA_TESTER_AXIS_FUNCTION_FACTORY(0);
 //_ARA_TESTER_AXIS_FUNCTION_FACTORY(1);
 //_ARA_TESTER_AXIS_FUNCTION_FACTORY(2);
 //_ARA_TESTER_AXIS_FUNCTION_FACTORY(3);   
 
-static int on_open(struct inode* inode, struct file* file) {
+/*static int on_open(struct inode* inode, struct file* file) {
     _ARA_TESTER_AXIS_CURRENT_AXIS(file);
     if(ara_tester_axis->in_use) {
         return -EBUSY;
@@ -87,16 +87,16 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
         }
     }
     return 0;
-}
+}*/
 
 static int __init on_init(void) {
     printk("on_init\n");
-    _HANDLE_IF_ERR(alloc_chrdev_region(&numbers, first_minor, minor_count, __NAME__), "alloc_chrdev_region", 1);
+    /*_HANDLE_IF_ERR(alloc_chrdev_region(&numbers, first_minor, minor_count, __NAME__), "alloc_chrdev_region", 1);
     major = MAJOR(numbers);
     cdev = cdev_alloc();
     cdev->owner = THIS_MODULE;
     cdev->ops = &file_operations;
-    _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add", 1);
+    _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add", 1);*/
     _ARA_TESTER_AXIS_INIT_AXIS(0, 22, 27, 10);
     ara_tester_axises[0].t_max = 28;
     ara_tester_axises[0].t_min = 10;
@@ -110,9 +110,10 @@ static int __init on_init(void) {
 }
 
 static void on_exit(void) {
-    unsigned int i = 0;
+    //unsigned int i = 0;
     printk("on_exit\n");
-    for(i = 0; i < _ARA_TESTER_AXIS_NUMBER; ++i) {
+    ara_tester_axis_clean(ara_tester_axises);
+    /*for(i = 0; i < _ARA_TESTER_AXIS_NUMBER; ++i) {
         ara_tester_axis_clean(ara_tester_axises + i);
     }
     if(cdev) {
@@ -120,7 +121,7 @@ static void on_exit(void) {
     }
     if(major > -1) {
         unregister_chrdev_region(numbers, minor_count);
-    }
+    }*/
 }
 
 

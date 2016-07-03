@@ -100,39 +100,34 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
 }
 
 static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_tester_axis* ara_tester_axis) {
-    unsigned long timeout = ara_tester_axis->pulse_width;
-    if(!ara_tester_axis->pulse) {
-        switch(ara_tester_axis->movment_state) {
-            case 0: {
-                if(ara_tester_axis->t_current >= ara_tester_axis->t_min + ara_tester_axis->t_delta) {
-                    ara_tester_axis->t_current -= ara_tester_axis->t_delta;
-                    timeout = ara_tester_axis->t_current;
-                    break;
-                } else {
-                    ___print_line();
-                    ara_tester_axis->movment_state = 1;
-                }
-            }
-            case 1: {
-                if(ara_tester_axis->linear > 0) {
-                    ara_tester_axis->linear--;
-                    timeout = ara_tester_axis->t_current;
-                    break;
-                } else {
-                    ___print_line();
-                    ara_tester_axis->movment_state = 2;
-                }
-            }
-            case 2: {
-                if(ara_tester_axis->t_current + ara_tester_axis->t_delta <= ara_tester_axis->t_max) {
-                    ara_tester_axis->t_current += ara_tester_axis->t_delta;
-                    timeout = ara_tester_axis->t_current;
-                } else {
-                    ___print_line();
-                    ara_tester_axis->active = 0;
-                }
+    unsigned long timeout = ara_tester_axis->pulse ? ara_tester_axis->pulse_width : ara_tester_axis->t_current;
+    switch(ara_tester_axis->movment_state) {
+        case 0: {
+            if(ara_tester_axis->t_current >= ara_tester_axis->t_min + ara_tester_axis->t_delta) {
+                ara_tester_axis->t_current -= ara_tester_axis->t_delta;
                 break;
+            } else {
+                ___print_line();
+                ara_tester_axis->movment_state = 1;
             }
+        }
+        case 1: {
+            if(ara_tester_axis->linear > 0) {
+                ara_tester_axis->linear--;
+                break;
+            } else {
+                 ___print_line();
+                 ara_tester_axis->movment_state = 2;
+            }
+        }
+        case 2: {
+            if(ara_tester_axis->t_current + ara_tester_axis->t_delta <= ara_tester_axis->t_max) {
+                ara_tester_axis->t_current += ara_tester_axis->t_delta;
+            } else {
+                ___print_line();
+                ara_tester_axis->active = 0;
+            }
+            break;
         }
     }
     if(ara_tester_axis->active) {

@@ -15,9 +15,9 @@
 #include <asm/errno.h>
 #include "ara_tester_axis.h"
 
-static int on_open(struct inode* inode, struct file* file);
+/*static int on_open(struct inode* inode, struct file* file);
 static int on_release(struct inode* inode, struct file* file);
-static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long arguemnt);
+static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long arguemnt);*/
 static int __init on_init(void);
 static void on_exit(void);
 
