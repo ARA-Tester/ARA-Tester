@@ -84,9 +84,6 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
     ara_tester_axis->t_current = ara_tester_axis->t_max;
     printk("DIR: %d\n", ara_tester_axis->dir);
     output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
-    ara_tester_axis->dir = !ara_tester_axis->dir;
-    printk("DIR: %d\n", ara_tester_axis->dir);
-    output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
     ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
 }
 
