@@ -44,19 +44,6 @@ static inline struct output_pin* __ara_tester_axis_dir_pin_pointer(struct ara_te
     return &(ara_tester_axis->dir_pin);
 }
 
-static inline void ___print_line(void) {
-    printk("---------------------\n");
-}
-
-static inline void ___print_value(struct ara_tester_axis* ara_tester_axis) {
-    printk("PULSE :           ");
-    if(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis)->state) {
-        printk("ON \n");
-    } else {
-        printk("OFF\n");
-    }
-}
-
 static inline void ara_tester_axis_init(struct ara_tester_axis* ara_tester_axis, int pulse_pin, int dir_pin, unsigned long pulse_width, hrtimer_function function) {
     hrtimer_init(__ara_tester_axis_timer_pointer(ara_tester_axis), CLOCK_MONOTONIC, HRTIMER_MODE_REL);
     output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin);
@@ -101,34 +88,26 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
 
 static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_tester_axis* ara_tester_axis) {
     if(ara_tester_axis->active) {
-        unsigned long timeout = 0;
+        unsigned long timeout = ara_tester_axis->pulse ? ara_tester_axis->t_current : ara_tester_axis->pulse_width;
         ara_tester_axis->pulse = !ara_tester_axis->pulse;
-        if(ara_tester_axis->pulse) {
-            ara_tester_axis->counter++;
-            timeout = ara_tester_axis->pulse_width;
-        } else {
-            timeout = ara_tester_axis->t_current;
-        }
         output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
-        ___print_value(ara_tester_axis);
-        printk("TIMER :                        %lu  ns\n", timeout);
         hrtimer_start(__ara_tester_axis_timer_pointer(ara_tester_axis), ktime_set(0, timeout), HRTIMER_MODE_REL);
         if(!ara_tester_axis->pulse) {
+            ara_tester_axis->counter++;
+            printk("COUNTER: %lu\n", ara_tester_axis->counter);
             switch(ara_tester_axis->movment_state) {
                 case 0: {
                     if(ara_tester_axis->t_current >= ara_tester_axis->t_min + ara_tester_axis->t_delta) {
                         ara_tester_axis->t_current -= ara_tester_axis->t_delta;
                     } else {
-                        ___print_line();
                         ara_tester_axis->movment_state = 1;
                     }
                     break;
                 }
                 case 1: {
                     if(ara_tester_axis->linear > 1) {
-                        ara_tester_axis->linear--;;
+                        ara_tester_axis->linear--;
                     } else {
-                        ___print_line();
                         ara_tester_axis->movment_state = 2;
                     }
                     break;
@@ -137,7 +116,6 @@ static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_teste
                     if(ara_tester_axis->t_current + ara_tester_axis->t_delta <= ara_tester_axis->t_max) {
                         ara_tester_axis->t_current += ara_tester_axis->t_delta;
                     } else {
-                        ___print_line();
                         ara_tester_axis->active = 0;
                     }
                     break;
