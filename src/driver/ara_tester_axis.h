@@ -82,6 +82,10 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
     ara_tester_axis->counter = 0;
     ara_tester_axis->movment_state = 0;
     ara_tester_axis->t_current = ara_tester_axis->t_max;
+    printk("DIR: %d\n", ara_tester_axis->dir);
+    output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
+    ara_tester_axis->dir = !ara_tester_axis->dir;
+    printk("DIR: %d\n", ara_tester_axis->dir);
     output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
     ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
 }
@@ -94,7 +98,7 @@ static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_teste
         hrtimer_start(__ara_tester_axis_timer_pointer(ara_tester_axis), ktime_set(0, timeout), HRTIMER_MODE_REL);
         if(!ara_tester_axis->pulse) {
             ara_tester_axis->counter++;
-            printk("COUNTER: %lu\n", ara_tester_axis->counter);
+            //printk("COUNTER: %lu\n", ara_tester_axis->counter);
             switch(ara_tester_axis->movment_state) {
                 case 0: {
                     if(ara_tester_axis->t_current >= ara_tester_axis->t_min + ara_tester_axis->t_delta) {
