@@ -1,8 +1,10 @@
 #include <string>
 #include <fstream>
-#include <iostream>
+#include <cstdlib>
 
 using namespace std;
+
+// IOCTL_ENUM, IOCTL_ENUM_IOCTL, IOCTL_ENUM_EXPORT
 
 #define _IOCTL_ENUM_JS(name) \
     string str_js = "exports."; \
@@ -42,7 +44,11 @@ using namespace std;
     tmp.pop_back(); \
     tmp.pop_back(); \
     tmp += "\n};\n"; \
-    cout << tmp \
+    f_name = "dist/ioctl."; \
+    f_name += #name; \
+    out_file.open(f_name.c_str()); \
+    out_file << tmp; \
+    out_file.close(); \
 
 #define IOCTL_ENUM_EXPORT() \
     _IOCTL_ENUM_EXPORT_SINGLE(js); \
@@ -55,7 +61,7 @@ int main(void) { \
     ofstream out_file; \
     string f_name; \
     string tmp; \
+    system("mkdir -p dist"); \
     _IOCTL_ENUM_JS(name); \
     _IOCTL_ENUM_TS(name) \
 
-//
