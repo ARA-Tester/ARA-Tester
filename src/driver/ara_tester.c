@@ -111,6 +111,10 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
             ara_tester_axis_pause(ara_tester_axis);
             break;
         }
+        case ARA_TESTER_RESUME: {
+            ara_tester_axis_resume(ara_tester_axis);
+            break;
+        }
         case ARA_TESTER_SET_DIR: {
             _ARA_TESTER_INPUT(dir);
         }

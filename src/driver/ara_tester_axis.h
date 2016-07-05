@@ -88,6 +88,11 @@ static inline void ara_tester_axis_pause(struct ara_tester_axis* ara_tester_axis
     while(hrtimer_try_to_cancel(__ara_tester_axis_timer_pointer(ara_tester_axis)));
 }
 
+static inline void ara_tester_axis_resume(struct ara_tester_axis* ara_tester_axis) {
+    ara_tester_axis->pause = 0;
+    ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
+}
+
 static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis) {
     ara_tester_axis_pause(ara_tester_axis);
     //output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
@@ -98,7 +103,6 @@ static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis
 static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis) {
     ara_tester_axis->total = (2 * (((ara_tester_axis->t_max - ara_tester_axis->t_min) / ara_tester_axis->t_delta) + 1)) + ara_tester_axis->linear;
     ara_tester_axis->active = 1;
-    ara_tester_axis->movment_state = 0;
     ara_tester_axis->pulse = 0;
     ara_tester_axis->counter = 0;
     ara_tester_axis->movment_state = 0;
@@ -107,7 +111,7 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
     printk("TOTAL: %lu\n", ara_tester_axis->total);
     ___print_line();
     //output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
-    ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
+    ara_tester_axis_resume(ara_tester_axis);
 }
 
 static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_tester_axis* ara_tester_axis) {

@@ -24,12 +24,15 @@ int main(void) {
     test_ioctl(fd, ARA_TESTER_SET_T_DELTA, 11);
     test_ioctl(fd, ARA_TESTER_SET_LINEAR, 1);
     test_ioctl(fd, ARA_TESTER_EXEC, 0);
-    test_ioctl(fd, ARA_TESTER_GET_ACTIVE, 0);
-    test_ioctl(fd, ARA_TESTER_GET_COUNTER, 0);
-    test_ioctl(fd, ARA_TESTER_GET_ACTIVE, 0);
-    test_ioctl(fd, ARA_TESTER_GET_MOVMENT_STATE, 0);
+    test_ioctl(fd, ARA_TESTER_GET_TOTAL, 0);
     test_ioctl(fd, ARA_TESTER_PAUSE, 0);
     test_ioctl(fd, ARA_TESTER_GET_PAUSE, 0);
+    test_ioctl(fd, ARA_TESTER_GET_COUNTER, 0);
+    test_ioctl(fd, ARA_TESTER_GET_MOVMENT_STATE, 0);
+    test_ioctl(fd, ARA_TESTER_GET_ACTIVE, 0);
+    test_ioctl(fd, ARA_TESTER_RESUME, 0);
+    test_ioctl(fd, ARA_TESTER_GET_ACTIVE, 0);
+    test_ioctl(fd, ARA_TESTER_GET_COUNTER, 0);
     close(fd);
     return 0;
 }
