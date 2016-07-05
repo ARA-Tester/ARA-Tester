@@ -5,7 +5,7 @@
 #include <linux/module.h>
 #include <linux/hrtimer.h>
 #include <linux/ktime.h>
-#include <linux/types.h>
+#include <linux/slab.h>
 #include "output_pin.h"
 
 MODULE_LICENSE("GPL v2");
@@ -58,25 +58,29 @@ static inline void ___print_value(struct ara_tester_axis* ara_tester_axis) {
     }
 }
 
-static inline void ara_tester_axis_init(struct ara_tester_axis* ara_tester_axis, int pulse_pin, int dir_pin, unsigned long pulse_width, hrtimer_function function) {
-    hrtimer_init(__ara_tester_axis_timer_pointer(ara_tester_axis), CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-    //output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin);
-    //output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin);
-    ara_tester_axis->timer.function = function;
-    ara_tester_axis->pulse_width = pulse_width;
-    ara_tester_axis->t_max = 0;
-    ara_tester_axis->t_min = 0;
-    ara_tester_axis->t_delta = 0;
-    ara_tester_axis->t_current = 0;
-    ara_tester_axis->linear = 0;
-    ara_tester_axis->counter = 0;
-    ara_tester_axis->total = 0;
-    ara_tester_axis->pulse = 0;
-    ara_tester_axis->movment_state = 0;
-    ara_tester_axis->dir = 0;
-    ara_tester_axis->in_use = 0;
-    ara_tester_axis->active = 0;
-    ara_tester_axis->pause = 0;
+static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int dir_pin, unsigned long pulse_width, hrtimer_function function) {
+    struct ara_tester_axis* ara_tester_axis = (struct ara_tester_axis*)kmalloc(sizeof(struct ara_tester_axis), GFP_KERNEL);
+    if(ara_tester_axis) {
+        hrtimer_init(__ara_tester_axis_timer_pointer(ara_tester_axis), CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+        //output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin);
+        //output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin);
+        ara_tester_axis->timer.function = function;
+        ara_tester_axis->pulse_width = pulse_width;
+        ara_tester_axis->t_max = 0;
+        ara_tester_axis->t_min = 0;
+        ara_tester_axis->t_delta = 0;
+        ara_tester_axis->t_current = 0;
+        ara_tester_axis->linear = 0;
+        ara_tester_axis->counter = 0;
+        ara_tester_axis->total = 0;
+        ara_tester_axis->pulse = 0;
+        ara_tester_axis->movment_state = 0;
+        ara_tester_axis->dir = 0;
+        ara_tester_axis->in_use = 0;
+        ara_tester_axis->active = 0;
+        ara_tester_axis->pause = 0;
+    }
+    return ara_tester_axis;
 }
 
 static inline void ara_tester_axis_pause(struct ara_tester_axis* ara_tester_axis) {
@@ -88,6 +92,7 @@ static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis
     ara_tester_axis_pause(ara_tester_axis);
     //output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
     //output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
+    kfree(ara_tester_axis);
 }
 
 static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis) {

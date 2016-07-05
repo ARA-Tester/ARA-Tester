@@ -19,17 +19,42 @@ if(return_value) { \
 
 #define _ARA_TESTER_AXIS_FUNCTION_FACTORY(axis) \
 static enum hrtimer_restart ara_tester_axis_function##axis(struct hrtimer *timer) { \
-    return ara_tester_axis_change_state(ara_tester_axises + axis); \
+    return ara_tester_axis_change_state(_ara_tester_axises[axis]); \
 } \
 
-#define _ARA_TESTER_AXIS_INIT_AXIS(axis, pulse, dir, pulse_width) \
-ara_tester_axis_init(ara_tester_axises + axis, pulse, dir, pulse_width, ara_tester_axis_function##axis) \
+#define _ARA_TESTER_AXIS_USING() \
+unsigned int _ara_ara_tester_axises_number; \
+struct ara_tester_axis** _ara_tester_axises \
+
+#define _ARA_TESTER_AXIS_USING_AXISES(axises) \
+_ara_ara_tester_axises_number = axises; \
+_ara_tester_axises = (struct ara_tester_axis**)kmalloc(axises * sizeof(struct ara_tester_axis*), GFP_KERNEL) \
+
+#define _HANDLE_IF_NO_MEMORY(pointer) \
+if(!pointer) { \
+    _LOG_ERR("ara_tester_axis_init"); \
+    on_exit(); \
+    return -ENOMEM; \
+} \
+
+#define _ARA_TESTER_AXIS_CREATE_AXIS(axis, pulse, dir, pulse_width) \
+_HANDLE_IF_NO_MEMORY(_ara_tester_axises); \
+_ara_tester_axises[axis] = ara_tester_axis_alloc(pulse, dir, pulse_width, ara_tester_axis_function##axis); \
+_HANDLE_IF_NO_MEMORY(_ara_tester_axises[axis]) \
 
 #define _ARA_TESTER_AXIS_CURRENT_AXIS(file) \
-struct ara_tester_axis* ara_tester_axis = ara_tester_axises + iminor(file->f_path.dentry->d_inode) \
+struct ara_tester_axis* ara_tester_axis = _ara_tester_axises[iminor(file->f_path.dentry->d_inode)] \
 
+#define _ARA_TESTER_AXIS_CLEAN() \
+unsigned int __counter__; \
+for(__counter__ = 0; __counter__ < _ara_ara_tester_axises_number; ++__counter__) { \
+    ara_tester_axis_clean(_ara_tester_axises[__counter__]); \
+} \
+kfree(_ara_tester_axises) \
+
+
+_ARA_TESTER_AXIS_USING();
 static dev_t numbers;
-struct ara_tester_axis ara_tester_axises[_ARA_TESTER_AXIS_NUMBER];
 static int major = -1;
 static const int first_minor = 0;
 static const unsigned int minor_count = _ARA_TESTER_AXIS_NUMBER;
@@ -135,17 +160,14 @@ static int __init on_init(void) {
     cdev->owner = THIS_MODULE;
     cdev->ops = &file_operations;
     _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add");
-    _ARA_TESTER_AXIS_INIT_AXIS(0, 22, 17, 10);
+    _ARA_TESTER_AXIS_USING_AXISES(1);
+    _ARA_TESTER_AXIS_CREATE_AXIS(0, 22, 17, 10);
     return 0;
 }
 
 static void on_exit(void) {
-    //unsigned int i = 0;
+    _ARA_TESTER_AXIS_CLEAN();
     printk("on_exit\n");
-    ara_tester_axis_clean(ara_tester_axises);
-    /*for(i = 0; i < _ARA_TESTER_AXIS_NUMBER; ++i) {
-        ara_tester_axis_clean(ara_tester_axises + i);
-    }*/
     if(cdev) {
         cdev_del(cdev);
     }
@@ -162,6 +184,9 @@ module_exit(on_exit);
 #undef _ARA_TESTER_AXIS_NUMBER
 #undef _LOG_ERR
 #undef _HANDLE_IF_ERR
+#undef _ARA_TESTER_AXIS_USING
+#undef _ARA_TESTER_AXIS_USING_AXISES
 #undef _ARA_TESTER_AXIS_FUNCTION_FACTORY
-#undef _ARA_TESTER_AXIS_INIT_AXIS
+#undef _ARA_TESTER_AXIS_CREATE_AXIS
 #undef _ARA_TESTER_AXIS_CURRENT_AXIS
+#undef _ARA_TESTER_AXIS_CLEAN
