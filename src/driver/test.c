@@ -8,22 +8,17 @@
 #include <limits.h>
 #include <ara_tester_ioctl.h>
 
+void test_ioctl(int fd, unsigned long cmd, uint32_t data) {
+    errno = 0;
+    unsigned long result = data;
+    printf("ioctl %d\n", ioctl(fd, cmd, &result));
+    printf("CMD: %lu errno %d result %lu\n", cmd, errno, result);
+}
+
 int main(void) {
-    int fd0 = open("/dev/ara_tester_axis0", 3);
-    uint32_t i = UINT32_MAX;
-    unsigned long get;
-    unsigned long set = i;
-    printf("SET %lu\n", set);
-    printf("error %d\nfd %d\n", errno, fd0);
-    errno = 0;
-    printf("ioctl %d\n", ioctl(fd0, ARA_TESTER_SET, &set));
-    printf("errno %d ARA_TESTER_SET 0\n", errno);
-    errno = 0;
-    printf("ioctl %d\n", ioctl(fd0, ARA_TESTER_SET, &set));
-    printf("errno %d ARA_TESTER_SET 0\n", errno);
-    errno = 0;
-    printf("ioctl %d\n", ioctl(fd0, ARA_TESTER_GET, &get));
-    printf("errno %d ARA_TESTER_GET 0 get %lu\n", errno, get);
-    close(fd0);
+    int fd = open("/dev/ara_tester_axis0", 3);
+    printf("error %d\nfd %d\n", errno, fd);
+    test_ioctl(fd, ARA_TESTER_PAUSE, 0);
+    close(fd);
     return 0;
 }

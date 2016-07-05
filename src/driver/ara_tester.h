@@ -15,9 +15,9 @@
 #include <asm/errno.h>
 #include "ara_tester_axis.h"
 
-/*static int on_open(struct inode* inode, struct file* file);
+static int on_open(struct inode* inode, struct file* file);
 static int on_release(struct inode* inode, struct file* file);
-static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long arguemnt);*/
+static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long arguemnt);
 static int __init on_init(void);
 static void on_exit(void);
 
@@ -28,7 +28,23 @@ static void on_exit(void);
 #endif
 
 #define ARA_TESTER_MAGIC_NUMBER '?'
-#define ARA_TESTER_SET _IOW(ARA_TESTER_MAGIC_NUMBER, 0, unsigned long)
-#define ARA_TESTER_GET _IOR(ARA_TESTER_MAGIC_NUMBER, 1, unsigned long)
+
+#define _ARA_TESTER_DEFINE_IOCTL(action, number) _IO##action(ARA_TESTER_MAGIC_NUMBER, number, unsigned long)
+
+#define ARA_TESTER_PAUSE _IO(ARA_TESTER_MAGIC_NUMBER, 0)
+
+#define ARA_TESTER_SET_DIR _ARA_TESTER_DEFINE_IOCTL(W, 1)
+#define ARA_TESTER_SET_T_MAX _ARA_TESTER_DEFINE_IOCTL(W, 2)
+#define ARA_TESTER_SET_T_MIN _ARA_TESTER_DEFINE_IOCTL(W, 3)
+#define ARA_TESTER_SET_T_DELTA _ARA_TESTER_DEFINE_IOCTL(W, 4)
+#define ARA_TESTER_SET_T_LINEAR _ARA_TESTER_DEFINE_IOCTL(W, 5)
+
+#define ARA_TESTER_GET_ACTIVE _ARA_TESTER_DEFINE_IOCTL(R, 6)
+#define ARA_TESTER_GET_PAUSE _ARA_TESTER_DEFINE_IOCTL(R, 7)
+#define ARA_TESTER_GET_TOTAL _ARA_TESTER_DEFINE_IOCTL(R, 8)
+#define ARA_TESTER_GET_COUNTER _ARA_TESTER_DEFINE_IOCTL(R, 9)
+#define ARA_TESTER_GET_MOVMENT_STATE _ARA_TESTER_DEFINE_IOCTL(R, 10)
+
+#define ARA_TESTER_GET_EXEC _ARA_TESTER_DEFINE_IOCTL(RW, 11)
 
 #endif
