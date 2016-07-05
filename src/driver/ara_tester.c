@@ -64,16 +64,65 @@ static int on_release(struct inode* inode, struct file* file) {
 
 static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned long argument) {
     _ARA_TESTER_AXIS_CURRENT_AXIS(file);
+    if(_IOC_TYPE(command) != ARA_TESTER_MAGIC_NUMBER) {
+		printk("Error: ioctl magic number isn't device driver's one\n");
+		return -ENOTTY;
+	}
+	if(_IOC_NR(command) > ARA_TESTER_LAST_IOCTL) {
+		printk("Error: ioctl command exceeds last implemented command\n");
+		return -ENOTTY;
+	}
+    if(ara_tester_axis->active && ((command == ARA_TESTER_SET_DIR) || (command == ARA_TESTER_SET_T_MAX) || (command == ARA_TESTER_SET_T_MIN) || (command == ARA_TESTER_SET_T_DELTA) || (command == ARA_TESTER_SET_LINEAR) || (command == ARA_TESTER_EXEC))) {
+        return -EBUSY;
+    }
     switch(command) {
+        #define _ARA_TESTER_INPUT(input) \
+        return get_user(ara_tester_axis->input, (unsigned long __user*)argument) \
+
+        #define _ARA_TESTER_OUTPUT(output) \
+        return put_user(ara_tester_axis->output, (unsigned long __user*)argument) \
+
         case ARA_TESTER_PAUSE: {
-            printk("PAUSE: \n");
             ara_tester_axis_pause(ara_tester_axis);
             break;
-            //return __put_user(ara_tester_axis->counter, (unsigned long __user*)argument);
         }
-        default: {
-            return -ENOTTY;
+        case ARA_TESTER_SET_DIR: {
+            _ARA_TESTER_INPUT(dir);
         }
+        case ARA_TESTER_SET_T_MAX: {
+            _ARA_TESTER_INPUT(t_max);
+        }
+        case ARA_TESTER_SET_T_MIN: {
+            _ARA_TESTER_INPUT(t_min);
+        }
+        case ARA_TESTER_SET_T_DELTA: {
+           _ARA_TESTER_INPUT(t_delta);
+        }
+        case ARA_TESTER_SET_LINEAR: {
+            _ARA_TESTER_INPUT(linear);
+        }
+        case ARA_TESTER_GET_ACTIVE: {
+            _ARA_TESTER_OUTPUT(active);
+        }
+        case ARA_TESTER_GET_PAUSE: {
+            _ARA_TESTER_OUTPUT(pause);
+        }
+        case ARA_TESTER_GET_TOTAL: {
+            _ARA_TESTER_OUTPUT(total);
+        }
+        case ARA_TESTER_GET_COUNTER: {
+            _ARA_TESTER_OUTPUT(counter);
+        }
+        case ARA_TESTER_GET_MOVMENT_STATE: {
+            _ARA_TESTER_OUTPUT(movment_state);
+        }
+        case ARA_TESTER_EXEC: {
+            ara_tester_axis_exec(ara_tester_axis);
+            _ARA_TESTER_OUTPUT(total);
+        }
+
+        #undef _ARA_TESTER_INPUT
+        #undef _ARA_TESTER_OUTPUT
     }
     return 0;
 }
@@ -87,15 +136,6 @@ static int __init on_init(void) {
     cdev->ops = &file_operations;
     _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add");
     _ARA_TESTER_AXIS_INIT_AXIS(0, 22, 17, 10);
-    /*ara_tester_axises[0].t_max = 20;//1000000;
-    ara_tester_axises[0].t_min = 9;//40000;
-    ara_tester_axises[0].t_delta = 11;
-    ara_tester_axises[0].linear = 1;
-    ara_tester_axises[0].dir = 0;
-    ara_tester_axis_exec(ara_tester_axises);*/
-    //_ARA_TESTER_AXIS_INIT_AXIS(1);
-    //_ARA_TESTER_AXIS_INIT_AXIS(2);
-    //_ARA_TESTER_AXIS_INIT_AXIS(3);
     return 0;
 }
 
@@ -117,3 +157,11 @@ static void on_exit(void) {
 
 module_init(on_init);
 module_exit(on_exit);
+
+#undef __NAME__
+#undef _ARA_TESTER_AXIS_NUMBER
+#undef _LOG_ERR
+#undef _HANDLE_IF_ERR
+#undef _ARA_TESTER_AXIS_FUNCTION_FACTORY
+#undef _ARA_TESTER_AXIS_INIT_AXIS
+#undef _ARA_TESTER_AXIS_CURRENT_AXIS
