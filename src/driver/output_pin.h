@@ -8,14 +8,14 @@ struct output_pin {
     int state;
 };
 
-static inline void output_pin_init(struct output_pin* output_pin, int pin) {
+static inline int output_pin_init(struct output_pin* output_pin, int pin) {
     output_pin->pin = pin;
     output_pin->state = 0;
     if(gpio_request(pin, "output_pin pin")) {
-        printk(KERN_ERR "Fail to request gpio %d\n", pin);
-        return;
+        return 1;
     }
     gpio_direction_output(output_pin->pin, output_pin->state);
+    return 0;
 }
 
 static inline void output_pin_clean(struct output_pin* output_pin) {

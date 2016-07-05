@@ -46,11 +46,14 @@ static inline struct output_pin* __ara_tester_axis_dir_pin_pointer(struct ara_te
 }
 
 static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int dir_pin, unsigned long pulse_width, hrtimer_function function) {
-    struct ara_tester_axis* ara_tester_axis = (struct ara_tester_axis*)kmalloc(sizeof(struct ara_tester_axis), GFP_KERNEL);
+    struct ara_tester_axis* ara_tester_axis;
+    ara_tester_axis = (struct ara_tester_axis*)kmalloc(sizeof(struct ara_tester_axis), GFP_KERNEL);
     if(ara_tester_axis) {
         hrtimer_init(__ara_tester_axis_timer_pointer(ara_tester_axis), CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-        output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin);
-        output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin);
+        if(output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin) || output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin)) {
+            kfree(ara_tester_axis);
+            return NULL;
+        }
         ara_tester_axis->timer.function = function;
         ara_tester_axis->pulse_width = pulse_width;
         ara_tester_axis->t_max = 0;
