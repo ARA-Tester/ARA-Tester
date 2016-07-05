@@ -17,6 +17,7 @@ void test_ioctl(int fd, unsigned long cmd, uint32_t data) {
 }
 
 int main(void) {
+    unsigned long active = 1;
     int fd = open("/dev/ara_tester_axis0", 3 | O_NONBLOCK);
     printf("error %d\nfd %d\n", errno, fd);
     test_ioctl(fd, ARA_TESTER_SET_DIR, 0);
@@ -25,7 +26,9 @@ int main(void) {
     test_ioctl(fd, ARA_TESTER_SET_T_DELTA, 50);
     test_ioctl(fd, ARA_TESTER_SET_LINEAR, 90000);
     test_ioctl(fd, ARA_TESTER_EXEC, 0);
+    sleep(8);
     test_ioctl(fd, ARA_TESTER_PAUSE, 0);
+    sleep(4);
     test_ioctl(fd, ARA_TESTER_GET_TOTAL, 0);
     test_ioctl(fd, ARA_TESTER_GET_COUNTER, 0);
     test_ioctl(fd, ARA_TESTER_GET_MOVMENT_STATE, 0);
@@ -33,8 +36,16 @@ int main(void) {
     test_ioctl(fd, ARA_TESTER_RESUME, 0);
     test_ioctl(fd, ARA_TESTER_GET_ACTIVE, 0);
     test_ioctl(fd, ARA_TESTER_GET_COUNTER, 0);
-    sleep(1);
     test_ioctl(fd, ARA_TESTER_GET_COUNTER, 0);
+    while(active) {
+        ioctl(fd, ARA_TESTER_GET_ACTIVE, &active);
+    }
+    test_ioctl(fd, ARA_TESTER_SET_DIR, 1);
+    test_ioctl(fd, ARA_TESTER_SET_T_MAX, 1000000);
+    test_ioctl(fd, ARA_TESTER_SET_T_MIN, 40000);
+    test_ioctl(fd, ARA_TESTER_SET_T_DELTA, 50);
+    test_ioctl(fd, ARA_TESTER_SET_LINEAR, 90000);
+    test_ioctl(fd, ARA_TESTER_EXEC, 0);
     close(fd);
     return 0;
 }

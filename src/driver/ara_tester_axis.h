@@ -49,8 +49,8 @@ static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int d
     struct ara_tester_axis* ara_tester_axis = (struct ara_tester_axis*)kmalloc(sizeof(struct ara_tester_axis), GFP_KERNEL);
     if(ara_tester_axis) {
         hrtimer_init(__ara_tester_axis_timer_pointer(ara_tester_axis), CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-        //output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin);
-        //output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin);
+        output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin);
+        output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin);
         ara_tester_axis->timer.function = function;
         ara_tester_axis->pulse_width = pulse_width;
         ara_tester_axis->t_max = 0;
@@ -82,8 +82,8 @@ static inline void ara_tester_axis_resume(struct ara_tester_axis* ara_tester_axi
 
 static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis) {
     ara_tester_axis_pause(ara_tester_axis);
-    //output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
-    //output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
+    output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
+    output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
     kfree(ara_tester_axis);
 }
 
@@ -95,7 +95,7 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
     ara_tester_axis->movment_state = 0;
     ara_tester_axis->t_current = ara_tester_axis->t_max;
     printk("TOTAL: %lu\n", ara_tester_axis->total);
-    //output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
+    output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
     ara_tester_axis_resume(ara_tester_axis);
 }
 
@@ -103,7 +103,7 @@ static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_teste
     if(ara_tester_axis->active && !ara_tester_axis->pause) {
         unsigned long timeout = ara_tester_axis->pulse ? ara_tester_axis->t_current : ara_tester_axis->pulse_width;
         ara_tester_axis->pulse = !ara_tester_axis->pulse;
-        //output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
+        output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
         hrtimer_start(__ara_tester_axis_timer_pointer(ara_tester_axis), ktime_set(0, timeout), HRTIMER_MODE_REL);
         if(!ara_tester_axis->pulse) {
             ara_tester_axis->counter++;
