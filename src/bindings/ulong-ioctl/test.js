@@ -5,7 +5,7 @@ const {ARA_TESTER} = require('./ara_tester');
 
 let fd = fs.openSync('/dev/ara_tester_axis0', 3 | constants.O_NONBLOCK);
 
-console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_DIR, 0));
+console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_DIR, 1));
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, 1000000));
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, 40000));
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, 50));
