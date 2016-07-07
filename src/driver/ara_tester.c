@@ -37,9 +37,9 @@ if(!pointer) { \
     return -ENOMEM; \
 } \
 
-#define _ARA_TESTER_AXIS_CREATE_AXIS(axis, pulse, dir, pulse_width) \
+#define _ARA_TESTER_AXIS_CREATE_AXIS(axis, pulse, dir) \
 _HANDLE_IF_NO_MEMORY(_ara_tester_axises); \
-_ara_tester_axises[axis] = ara_tester_axis_alloc(pulse, dir, pulse_width, ara_tester_axis_function##axis); \
+_ara_tester_axises[axis] = ara_tester_axis_alloc(pulse, dir, ara_tester_axis_function##axis); \
 _HANDLE_IF_NO_MEMORY(_ara_tester_axises[axis]) \
 
 #define _ARA_TESTER_AXIS_CURRENT_AXIS(file) \
@@ -50,7 +50,9 @@ unsigned int __counter__; \
 for(__counter__ = 0; __counter__ < _ara_ara_tester_axises_number; ++__counter__) { \
     ara_tester_axis_clean(_ara_tester_axises[__counter__]); \
 } \
-kfree(_ara_tester_axises) \
+if(_ara_tester_axises) { \
+    kfree(_ara_tester_axises); \
+} \
 
 
 _ARA_TESTER_AXIS_USING();
@@ -165,7 +167,7 @@ static int __init on_init(void) {
     cdev->ops = &file_operations;
     _HANDLE_IF_ERR(cdev_add(cdev, numbers, minor_count), "cdev_add");
     _ARA_TESTER_AXIS_USING_AXISES(1);
-    _ARA_TESTER_AXIS_CREATE_AXIS(0, 22, 17, 10);
+    _ARA_TESTER_AXIS_CREATE_AXIS(0, 22, 17);
     return 0;
 }
 
