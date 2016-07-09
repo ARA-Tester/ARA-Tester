@@ -3,6 +3,8 @@ import { openIoctlSync } from 'open-ioctl';
 import { closeSync } from 'fs';
 import { ARA_TESTER } from './ARA_TESTER';
 
+const nanoSecToMiliSec = 1000000;
+
 let dir: boolean = true;
 let fd: number = openIoctlSync('ara_tester_axis0');
 let max: number = 1000000;
@@ -13,19 +15,19 @@ let linear: number = 90000;
 
 function movment(dir: boolean, max: number, min: number, delta: number, linear: number): number {
     try {
-        ioctl(fd, ARA_TESTER.ARA_TESTER_SET_DIR, Number(dir);
+        ioctl(fd, ARA_TESTER.ARA_TESTER_SET_DIR, Number(dir));
         ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, max);
         ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, min);
         ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, delta);
-        ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_LINEAR, linear);
+        ioctl(fd, ARA_TESTER.ARA_TESTER_SET_LINEAR, linear);
         let exec: Ioctl = ioctl(fd, ARA_TESTER.ARA_TESTER_EXEC);
         let timeout: number = 0;
         for(let i: number = max; i >= min; i -= delta) {
-            timeout += i / 1000;
+            timeout += i / nanoSecToMiliSec;
         }
-        return (timeout * 2) + Math.floor(exec.data / 100) + (min / 1000 * linear) + 1;
+        return (timeout * 2) + Math.floor(exec.data / nanoSecToMiliSec * 10) + (min / nanoSecToMiliSec * linear) + 1;
 
-    } catch(err: NodeJS.ErrnoException) {
+    } catch(err) {
         console.log(err);
         return 0;
     }
