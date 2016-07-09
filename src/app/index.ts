@@ -7,10 +7,10 @@ const nanoSecToMiliSec = 1000000;
 
 let dir: boolean = true;
 let fd: number = openIoctlSync('ara_tester_axis0');
-let max: number = 1000000;
-let min: number = 40000;
+let max: number = 50000;
+let min: number = 4000;
 let delta: number = 50;
-let linear: number = 90000;
+let linear: number = 1000000;
 
 
 function movment(dir: boolean, max: number, min: number, delta: number, linear: number): number {
@@ -25,7 +25,7 @@ function movment(dir: boolean, max: number, min: number, delta: number, linear: 
         for(let i: number = max; i >= min; i -= delta) {
             timeout += i / nanoSecToMiliSec;
         }
-        return (timeout * 2) + Math.floor(exec.data / nanoSecToMiliSec * 10) + (min / nanoSecToMiliSec * linear) + 1;
+        return Math.floor((timeout * 2) + (exec.data / nanoSecToMiliSec * 10) + (min / nanoSecToMiliSec * linear)) + 1000;
 
     } catch(err) {
         console.log(err);
