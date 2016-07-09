@@ -1,6 +1,7 @@
-#include "ioctl-enum.h"
+#define IOCTL_ENUM_TS
+#include "node_modules/ioctl-enum/ioctl-enum.h"
 #include <ara_tester_ioctl.h>
-
+ 
 IOCTL_ENUM("ARA_TESTER");
 IOCTL_ENUM_IOCTL("ARA_TESTER_PAUSE", ARA_TESTER_PAUSE);
 IOCTL_ENUM_IOCTL("ARA_TESTER_RESUME", ARA_TESTER_RESUME);

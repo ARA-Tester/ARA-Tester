@@ -1,9 +1,9 @@
-let fs = require('fs');
-let constants = require('constants');
-let ioctl = require('bindings')('ulong_ioctl.node');
-const {ARA_TESTER} = require('./ara_tester');
+import { ioctl, Ioctl } from 'ioctl-ulong';
+import { openIoctlSync } from 'open-ioctl';
+import { closeSync } from 'fs';
+import { ARA_TESTER } from './ARA_TESTER';
 
-let fd = fs.openSync('/dev/ara_tester_axis0', 3 | constants.O_NONBLOCK);
+let fd: number = openIoctlSync('ara_tester_axis0');
 
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_DIR, 1));
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, 1000000));
@@ -20,4 +20,4 @@ console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_RESUME));
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_GET_ACTIVE));
 console.log(ioctl(fd, ARA_TESTER.ARA_TESTER_GET_COUNTER));
 
-fs.closeSync(fd);
+closeSync(fd);
