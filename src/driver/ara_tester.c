@@ -109,12 +109,12 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
         #define _ARA_TESTER_OUTPUT(output) \
         return put_user(ara_tester_axis->output, (unsigned long __user*)argument) \
 
-        case ARA_TESTER_PAUSE: {
-            ara_tester_axis_pause(ara_tester_axis);
+        case ARA_TESTER_EXEC: {
+            ara_tester_axis_exec(ara_tester_axis);
             break;
         }
-        case ARA_TESTER_RESUME: {
-            ara_tester_axis_resume(ara_tester_axis);
+        case ARA_TESTER_STOP: {
+            ara_tester_axis_stop(ara_tester_axis);
             break;
         }
         case ARA_TESTER_SET_DIR: {
@@ -135,21 +135,11 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
         case ARA_TESTER_GET_ACTIVE: {
             _ARA_TESTER_OUTPUT(active);
         }
-        case ARA_TESTER_GET_PAUSE: {
-            _ARA_TESTER_OUTPUT(pause);
-        }
-        case ARA_TESTER_GET_TOTAL: {
-            _ARA_TESTER_OUTPUT(total);
-        }
         case ARA_TESTER_GET_COUNTER: {
             _ARA_TESTER_OUTPUT(counter);
         }
         case ARA_TESTER_GET_MOVMENT_STATE: {
             _ARA_TESTER_OUTPUT(movment_state);
-        }
-        case ARA_TESTER_EXEC: {
-            ara_tester_axis_exec(ara_tester_axis);
-            _ARA_TESTER_OUTPUT(total);
         }
 
         #undef _ARA_TESTER_INPUT
@@ -159,7 +149,6 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
 }
 
 static int __init on_init(void) {
-    printk("on_init\n");
     _HANDLE_IF_ERR(alloc_chrdev_region(&numbers, first_minor, minor_count, __NAME__), "alloc_chrdev_region");
     major = MAJOR(numbers);
     cdev = cdev_alloc();
@@ -173,7 +162,6 @@ static int __init on_init(void) {
 
 static void on_exit(void) {
     _ARA_TESTER_AXIS_CLEAN();
-    printk("on_exit\n");
     if(cdev) {
         cdev_del(cdev);
     }

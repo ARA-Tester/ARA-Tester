@@ -22,13 +22,11 @@ struct ara_tester_axis {
     unsigned long t_current;
     unsigned long linear;
     unsigned long counter;
-    unsigned long total;
     int pulse;
     int movment_state;
     int dir;
     int in_use;
     int active;
-    int pause;
 };
 
 
@@ -63,30 +61,23 @@ static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int d
         ara_tester_axis->t_current = 0;
         ara_tester_axis->linear = 0;
         ara_tester_axis->counter = 0;
-        ara_tester_axis->total = 0;
         ara_tester_axis->pulse = 0;
         ara_tester_axis->movment_state = 0;
         ara_tester_axis->dir = 0;
         ara_tester_axis->in_use = 0;
-        ara_tester_axis->active = 0;
-        ara_tester_axis->pause = 0;
+        ara_tester_axis->active = 0;;
     }
     return ara_tester_axis;
 }
 
-static inline void ara_tester_axis_pause(struct ara_tester_axis* ara_tester_axis) {
-    ara_tester_axis->pause = 1;
+static inline void ara_tester_axis_stop(struct ara_tester_axis* ara_tester_axis) {
+    ara_tester_axis->active = 0;
     while(hrtimer_try_to_cancel(__ara_tester_axis_timer_pointer(ara_tester_axis)));
-}
-
-static inline void ara_tester_axis_resume(struct ara_tester_axis* ara_tester_axis) {
-    ara_tester_axis->pause = 0;
-    ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
 }
 
 static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis) {
     if(ara_tester_axis) {
-        ara_tester_axis_pause(ara_tester_axis);
+        ara_tester_axis_stop(ara_tester_axis);
         output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
         output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
         kfree(ara_tester_axis);
@@ -94,19 +85,17 @@ static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis
 }
 
 static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis) {
-    ara_tester_axis->total = (2 * (((ara_tester_axis->t_max - ara_tester_axis->t_min) / ara_tester_axis->t_delta) + 1)) + ara_tester_axis->linear;
     ara_tester_axis->active = 1;
     ara_tester_axis->pulse = 0;
     ara_tester_axis->counter = 0;
     ara_tester_axis->movment_state = 0;
     ara_tester_axis->t_current = ara_tester_axis->t_max;
-    printk("TOTAL: %lu\n", ara_tester_axis->total);
     output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
-    ara_tester_axis_resume(ara_tester_axis);
+    ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
 }
 
 static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_tester_axis* ara_tester_axis) {
-    if(ara_tester_axis->active && !ara_tester_axis->pause) {
+    if(ara_tester_axis->active) {
         unsigned long timeout = ara_tester_axis->pulse ? ara_tester_axis->t_current : _ARA_TESTER_AXIS_HIGH_LEVEL_WIDTH;
         ara_tester_axis->pulse = !ara_tester_axis->pulse;
         output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
@@ -135,7 +124,6 @@ static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_teste
                         ara_tester_axis->t_current += ara_tester_axis->t_delta;
                     } else {
                         ara_tester_axis->active = 0;
-                        printk("COUNTER: %lu\n", ara_tester_axis->counter);
                     }
                     break;
                 }
