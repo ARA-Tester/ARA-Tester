@@ -129,6 +129,9 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
         case ARA_TESTER_SET_DIR: {
             _ARA_TESTER_INPUT(dir);
         }
+        case ARA_TESTER_SET_EVEN: {
+            _ARA_TESTER_INPUT(even);
+        }
         case ARA_TESTER_SET_PROGRESSIVE: {
             _ARA_TESTER_INPUT(progressive);
         }

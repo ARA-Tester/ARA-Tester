@@ -2,14 +2,14 @@
 import { AraTesterAxisConfig } from './ara-tester-axis-config';
 import { AraTesterAxis } from './ara-tester-axis';
 
-/*let axisConfig: AraTesterAxisConfig = {
+let axisConfig: AraTesterAxisConfig = {
     id: 0,
-    pulse_width: 10,
-    t_max: 2,
-    t_min: 1,
-    t_delta: 1,
-    configured: 16
-};*/
+    pulse_width: 5000,
+    t_max: 5000000,
+    t_min: 15000,
+    t_delta: 10000,
+    configured: 6400
+};
 
 /*let axisConfig: AraTesterAxisConfig = {
     id: 0,
@@ -20,14 +20,13 @@ import { AraTesterAxis } from './ara-tester-axis';
     configured: 20
 };*/
 
-/*let axis: AraTesterAxis = new AraTesterAxis(axisConfig);
-let exec: Promise<number> = axis.movment(true, 1);
-exec.then((count: number) => {
+let axis: AraTesterAxis = new AraTesterAxis(axisConfig);
+axis.movment(true, 1).then((count: number) => {
     console.log("Counter: " + count);
     axis.release();
-}).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));*/
+}).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
 
-let axisConfig: AraTesterAxisConfig = {
+/*let axisConfig: AraTesterAxisConfig = {
     id: 0,
     pulse_width: 10,
     t_max: 12,
@@ -44,10 +43,4 @@ axis.movment(true, 1).then((count: number) => {
         axis.release();
     }).catch((err2: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err2)));
 }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
-
-/*setTimeout(() => {
-    axis.stop();
-    setTimeout(() => {
-        axis.resume();
-    }, 3000)
-}, 12000);*/
+*/

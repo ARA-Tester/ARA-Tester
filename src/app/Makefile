@@ -4,7 +4,7 @@ all: clean
 	g++ -std=c++11 ioctl_export.cc
 	./a.out
 	$(__npm_bin__)/tsc
-    #node index.js
+	node index.js
 
 install:
 	npm install

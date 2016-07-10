@@ -28,6 +28,7 @@ struct ara_tester_axis {
     unsigned long counter;
     int movment_state;
     int active;
+    int even;
     int dir;
     int pulse;
     int in_use;
@@ -51,11 +52,11 @@ static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int d
     struct ara_tester_axis* ara_tester_axis;
     ara_tester_axis = (struct ara_tester_axis*)kmalloc(sizeof(struct ara_tester_axis), GFP_KERNEL);
     if(ara_tester_axis) {
-        /*if(output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin) || output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin)) {
+        if(output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin) || output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin)) {
             printk("Error: can't request one or both of that gpios: %d, %d\n", pulse_pin, dir_pin);
             kfree(ara_tester_axis);
             return NULL;
-        }*/
+        }
         hrtimer_init(__ara_tester_axis_timer_pointer(ara_tester_axis), CLOCK_MONOTONIC, HRTIMER_MODE_REL);
         ara_tester_axis->timer.function = function;
         ara_tester_axis->active = 0;
@@ -76,8 +77,8 @@ static inline void ara_tester_axis_stop(struct ara_tester_axis* ara_tester_axis)
 static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis) {
     if(ara_tester_axis) {
         ara_tester_axis_stop(ara_tester_axis);
-        //output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
-        //output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
+        output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
+        output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
         kfree(ara_tester_axis);
     }
 }
@@ -89,7 +90,7 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
     ara_tester_axis->movment_state = 0;
     ara_tester_axis->t_current = ara_tester_axis->t_max;
     ara_tester_axis->count = ara_tester_axis->progressive;
-    //output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
+    output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
     ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
 }
 
@@ -97,8 +98,7 @@ static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_teste
     if(ara_tester_axis->active) {
         unsigned long timeout = ara_tester_axis->pulse ? ara_tester_axis->t_current : ara_tester_axis->pulse_width;
         ara_tester_axis->pulse = !ara_tester_axis->pulse;
-        //output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
-        printk("Timeout: %lu\n", timeout);
+        output_pin_set_state(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), ara_tester_axis->pulse);
         hrtimer_start(__ara_tester_axis_timer_pointer(ara_tester_axis), ktime_set(0, timeout), HRTIMER_MODE_REL);
         if(!ara_tester_axis->pulse) {
             ara_tester_axis->counter++;
@@ -115,11 +115,12 @@ static inline enum hrtimer_restart ara_tester_axis_change_state(struct ara_teste
                     }
                     case 1: {
                         ara_tester_axis->movment_state = 2;
-                        ara_tester_axis->count = ara_tester_axis->progressive;
+                        ara_tester_axis->count = ara_tester_axis->progressive + ara_tester_axis->even;
                         break;
                     }
                     case 2: {
                         ara_tester_axis->active = 0;
+                        printk("Counter %lu\n", ara_tester_axis->counter);
                         break;
                     }
                 }
