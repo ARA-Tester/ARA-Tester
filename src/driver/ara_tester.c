@@ -99,8 +99,8 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
 		printk("Error: ioctl command exceeds last implemented command\n");
 		return -ENOTTY;
 	}
-    if(ara_tester_axis->active && ((command == ARA_TESTER_SET_DIR) || (command == ARA_TESTER_SET_T_MAX) || (command == ARA_TESTER_SET_T_MIN) || (command == ARA_TESTER_SET_T_DELTA) || (command == ARA_TESTER_SET_LINEAR) || (command == ARA_TESTER_EXEC))) {
-        return -EBUSY;
+    if(ara_tester_axis->active && ((command == ARA_TESTER_SET_DIR) || (command == ARA_TESTER_SET_PROGRESSIVE) || (command == ARA_TESTER_SET_LINEAR) || (command == ARA_TESTER_EXEC))) {
+        return -EALREADY;
     }
     switch(command) {
         #define _ARA_TESTER_INPUT(input) \
@@ -108,6 +108,12 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
 
         #define _ARA_TESTER_OUTPUT(output) \
         return put_user(ara_tester_axis->output, (unsigned long __user*)argument) \
+
+        #define _ARA_TESTER_CONST_INPUT(input) \
+        if(ara_tester_axis->input) { \
+            return -EALREADY; \
+        } \
+        _ARA_TESTER_INPUT(input) \
 
         case ARA_TESTER_EXEC: {
             ara_tester_axis_exec(ara_tester_axis);
@@ -120,17 +126,23 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
         case ARA_TESTER_SET_DIR: {
             _ARA_TESTER_INPUT(dir);
         }
-        case ARA_TESTER_SET_T_MAX: {
-            _ARA_TESTER_INPUT(t_max);
-        }
-        case ARA_TESTER_SET_T_MIN: {
-            _ARA_TESTER_INPUT(t_min);
-        }
-        case ARA_TESTER_SET_T_DELTA: {
-           _ARA_TESTER_INPUT(t_delta);
+        case ARA_TESTER_SET_PROGRESSIVE: {
+            _ARA_TESTER_INPUT(progressive);
         }
         case ARA_TESTER_SET_LINEAR: {
             _ARA_TESTER_INPUT(linear);
+        }
+        case ARA_TESTER_SET_PULSE_WIDTH: {
+            _ARA_TESTER_CONST_INPUT(pulse_width);
+        }
+        case ARA_TESTER_SET_T_MAX: {
+            _ARA_TESTER_CONST_INPUT(t_max);
+        }
+        case ARA_TESTER_SET_T_MIN: {
+            _ARA_TESTER_CONST_INPUT(t_min);
+        }
+        case ARA_TESTER_SET_T_DELTA: {
+           _ARA_TESTER_CONST_INPUT(t_delta);
         }
         case ARA_TESTER_GET_ACTIVE: {
             _ARA_TESTER_OUTPUT(active);
@@ -144,6 +156,7 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
 
         #undef _ARA_TESTER_INPUT
         #undef _ARA_TESTER_OUTPUT
+        #undef _ARA_TESTER_CONST_INPUT
     }
     return 0;
 }
