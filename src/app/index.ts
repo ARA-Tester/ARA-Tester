@@ -85,7 +85,7 @@ class AraTesterAxis {
 
     public resume(): void {
         if(this._resolve) {
-            this.execute(!this._dir, this._max / 2, this._min / 2, this._delta, this._linear / 2);
+            this.execute(!this._dir, this._max * 2, this._min * 2, this._delta * 2, Math.floor(this._linear / 5));
         } else {
             throw new Error("No movment has been stopped first call stop before using resume");
         }
@@ -97,7 +97,7 @@ class AraTesterAxis {
 }
 
 let axis: AraTesterAxis = new AraTesterAxis(0);
-let dir: boolean = false;
+let dir: boolean = true;
 let max: number = 1000000;
 let min: number = 40000;
 let delta: number = 50;
@@ -112,5 +112,5 @@ setTimeout(() => {
     axis.stop();
     setTimeout(() => {
         axis.resume();
-    }, 2000)
+    }, 3000)
 }, 12000);
