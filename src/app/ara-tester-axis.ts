@@ -21,18 +21,18 @@ export class AraTesterAxis {
 
     private _ensureEven(progressive: number): number {
         var whole: number = progressive % 1;
-        this._even = progressive % 2;
         if(whole) {
             this._even = 1;
             return progressive - whole;
         }
+        this._even = 0;
         return progressive - this._even;
     }
 
     public constructor(config: AraTesterAxisConfig) {
         this._config = config;
         this._configured = config.configured / 4;
-        this._progressive = this._ensureEven(((config.t_max - config.t_min) / config.t_delta) + 1);
+        this._progressive = ((config.t_max - config.t_min) / config.t_delta) + 1;
         this._fd = openIoctlSync('ara_tester_axis' + config.id);
         this._active = false;
         this._even = 0;
@@ -49,7 +49,7 @@ export class AraTesterAxis {
         if(this._total < total) {
             progressive = this._ensureEven(this._total / 2);
         } else {
-            progressive = this._progressive;
+            progressive = this._ensureEven(this._progressive);
             if(this._total > total) {
                 linear = this._total - total;
             }
