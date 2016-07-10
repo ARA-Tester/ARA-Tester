@@ -21,20 +21,13 @@ class AraTesterAxis {
         return (new Date()).getTime();
     }
 
-    private tryToResolve(): void {
-        let counter: Ioctl
-        try {
-            counter = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
-        } catch(err) {
-            return this._reject(err);
-        }
-        this._resolve(counter.data);
-    }
-
     private setTimer(): void {
         this._lastMillis = AraTesterAxis.millis();
         this._pause = false;
-        this._timer = setTimeout(this.tryToResolve, this._timeout);
+        this._timer = setTimeout(() => {
+            let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
+            this._resolve(counter.data);
+        }, this._timeout);
     }
 
     public constructor(id: number) {
@@ -95,7 +88,7 @@ class AraTesterAxis {
 
 
 let axis: AraTesterAxis = new AraTesterAxis(0);
-let dir: boolean = true;
+let dir: boolean = false;
 let max: number = 1000000;
 let min: number = 40000;
 let delta: number = 50;
@@ -111,4 +104,4 @@ setTimeout(() => {
     setTimeout(() => {
         axis.resume();
     }, 2000)
-}, 9000);
+}, 12000);
