@@ -4,10 +4,10 @@ import { AraTesterAxis } from './ara-tester-axis';
 
 let axisConfig: AraTesterAxisConfig = {
     id: 0,
-    pulse_width: 5000,
+    pulse_width: 50,
     t_max: 5000000,
-    t_min: 15000,
-    t_delta: 10000,
+    t_min: 50000,
+    t_delta: 1000,
     configured: 6400
 };
 
@@ -21,7 +21,7 @@ let axisConfig: AraTesterAxisConfig = {
 };*/
 
 let axis: AraTesterAxis = new AraTesterAxis(axisConfig);
-axis.movment(true, 1).then((count: number) => {
+axis.movment(false, 20).then((count: number) => {
     console.log("Counter: " + count);
     axis.release();
 }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
@@ -36,7 +36,7 @@ axis.movment(true, 1).then((count: number) => {
 };
 
 let axis: AraTesterAxis = new AraTesterAxis(axisConfig);
-axis.movment(true, 1).then((count: number) => {
+axis.movment(false, 1).then((count: number) => {
     console.log("Counter: " + count);
     axis.movment(true, 1).then((count2: number) => {
         console.log("Counter: " + count2);
