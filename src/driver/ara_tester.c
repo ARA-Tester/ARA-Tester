@@ -54,7 +54,6 @@ if(_ara_tester_axises) { \
     kfree(_ara_tester_axises); \
 } \
 
-
 _ARA_TESTER_AXIS_USING();
 static dev_t numbers;
 static int major = -1;

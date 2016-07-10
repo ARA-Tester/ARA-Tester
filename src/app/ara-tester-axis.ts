@@ -44,7 +44,8 @@ export class AraTesterAxis {
         let total: number = 2 * this._progressive;
         if(this._total < total) {
             if(this._total % 2) {
-                progressive = (this._total + Number(this._last)) / 2;
+                let even: number = this._last ? 1 : -1; 
+                progressive = (this._total + even) / 2;
                 this._last = !this._last;
             } else {
                 progressive = this._total / 2;
