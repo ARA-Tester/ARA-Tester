@@ -78,14 +78,18 @@ static int on_open(struct inode* inode, struct file* file) {
     if(ara_tester_axis->in_use) {
         return -EBUSY;
     } else {
-       ara_tester_axis->in_use = 1; 
+       ara_tester_axis->in_use = 1;
+       ara_tester_axis->pulse_width = 0;
+       ara_tester_axis->t_max = 0;
+       ara_tester_axis->t_min = 0;
+       ara_tester_axis->t_delta = 0; 
     }
     return 0;
 }
 
 static int on_release(struct inode* inode, struct file* file) {
     _ARA_TESTER_AXIS_CURRENT_AXIS(file);
-     ara_tester_axis->in_use = 0; 
+    ara_tester_axis->in_use = 0;
     return 0;
 }
 
@@ -182,7 +186,6 @@ static void on_exit(void) {
         unregister_chrdev_region(numbers, minor_count);
     }
 }
-
 
 module_init(on_init);
 module_exit(on_exit);

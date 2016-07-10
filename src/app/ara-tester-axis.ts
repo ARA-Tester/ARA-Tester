@@ -61,6 +61,8 @@ export class AraTesterAxis {
         progressives = progressive * (this._config.t_max + last) / nanoSecToMilliSec;
         this._total = (2 * progressive) + linear;
         console.log("Total: " + this._total);
+        console.log("Progressive: " + progressive);
+        console.log("Linear: " + linear);
         this._timeout = Math.floor(pulse_widths + linears + progressives + ensureDone);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_DIR, Number(this._dir));
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PROGRESSIVE, progressive);
