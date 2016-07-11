@@ -78,10 +78,10 @@ static int on_open(struct inode* inode, struct file* file) {
         return -EBUSY;
     } else {
        ara_tester_axis->in_use = 1;
-       ara_tester_axis->pulse_width = 0;
+       /*ara_tester_axis->pulse_width = 0;
        ara_tester_axis->t_max = 0;
        ara_tester_axis->t_min = 0;
-       ara_tester_axis->t_delta = 0; 
+       ara_tester_axis->t_delta = 0;*/
     }
     return 0;
 }
@@ -139,16 +139,16 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
             _ARA_TESTER_INPUT(linear);
         }
         case ARA_TESTER_SET_PULSE_WIDTH: {
-            _ARA_TESTER_CONST_INPUT(pulse_width);
+            _ARA_TESTER_INPUT(pulse_width);
         }
         case ARA_TESTER_SET_T_MAX: {
-            _ARA_TESTER_CONST_INPUT(t_max);
+            _ARA_TESTER_INPUT(t_max);
         }
         case ARA_TESTER_SET_T_MIN: {
-            _ARA_TESTER_CONST_INPUT(t_min);
+            _ARA_TESTER_INPUT(t_min);
         }
         case ARA_TESTER_SET_T_DELTA: {
-           _ARA_TESTER_CONST_INPUT(t_delta);
+           _ARA_TESTER_INPUT(t_delta);
         }
         case ARA_TESTER_GET_ACTIVE: {
             _ARA_TESTER_OUTPUT(active);

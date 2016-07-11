@@ -29,19 +29,6 @@ export class AraTesterAxis {
         return progressive - this._even;
     }
 
-    public constructor(config: AraTesterAxisConfig) {
-        this._config = config;
-        this._configured = config.configured / 4;
-        this._progressive = ((config.t_max - config.t_min) / config.t_delta) + 1;
-        this._fd = openIoctlSync('ara_tester_axis' + config.id);
-        this._active = false;
-        this._even = 0;
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulse_width);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.t_max);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.t_min);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.t_delta);
-    }
-
     private _exec(): void {
         let progressive: number = 0;
         let linear: number = 0;
@@ -71,6 +58,23 @@ export class AraTesterAxis {
                 this._resolve(counter.data);
             }
         }, 1000);
+    }
+
+    public constructor(id: number, config: AraTesterAxisConfig) {
+        this._config = config;
+        this._configured = config.configured / 4;
+        this._progressive = ((config.t_max - config.t_min) / config.t_delta) + 1;
+        this._fd = openIoctlSync('ara_tester_axis' + id);
+        this._active = false;
+        this._even = 0;
+        this.configurate(config);
+    }
+
+    public configurate(config: AraTesterAxisConfig): void {
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulse_width);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.t_max);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.t_min);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.t_delta);
     }
 
     public movment(dir: boolean, distance: number): Promise<number> {

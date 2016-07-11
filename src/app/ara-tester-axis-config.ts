@@ -1,5 +1,4 @@
 export interface AraTesterAxisConfig {
-    id: number,
     pulse_width: number,
     t_max: number,
     t_min: number,
