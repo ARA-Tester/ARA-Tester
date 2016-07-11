@@ -1,4 +1,3 @@
-
 import { AraTesterAxisConfig } from './ara-tester-axis-config';
 import { AraTesterAxis } from './ara-tester-axis';
 

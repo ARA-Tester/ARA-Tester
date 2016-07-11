@@ -1,14 +1,19 @@
 __npm_bin__ = ./node_modules/.bin
+__ioctl_enum__ = ARA_TESTER.ts
 
 all: clean
-	g++ -std=c++11 ioctl_export.cc
+	g++ -std=c++11 ./src/ioctl_export.cc
 	./a.out
+	mv __ioctl_enum__ ./src
 	$(__npm_bin__)/tsc
-	node index.js
+	node ./src/index.js
 
 install:
 	npm install
 	$(__npm_bin__)/typings install
 
+client:
+	$(__npm_bin__)/webpack
+	
 clean:
-	rm -f ./a.out *.js ARA_TESTER.*
+	rm -f ./a.out *.js ./src/__ioctl_enum__

@@ -1,16 +1,21 @@
 {
     "compilerOptions": {
+        "outDir": "./dist/",
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "es6",
+        "jsx": "react",
         "noImplicitAny": true,
-        "sourceMap": false
+        "sourceMap": true
     },
     "files": [
         "typings/index.d.ts",
-        "ara-tester-axis",
-        "ara-tester-axis-config",
-        "index.ts"
+        "src/client/AraTesterRoot.tsx",
+        "src/client/AraTesterConfig.tsx",
+        "src/client/index.tsx"
+        /*"src/ara-tester-axis",
+        "src/ara-tester-axis-config",
+        "src/index.ts"*/
     ],
     "exclude": [
         "node_modules"
