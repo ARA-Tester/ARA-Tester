@@ -1,7 +1,7 @@
 import { ioctl, Ioctl } from 'ioctl-ulong';
 import { openIoctlSync } from 'open-ioctl';
 import { closeSync } from 'fs';
-import { AraTesterAxisConfig } from './ara-tester-axis-config';
+import AraTesterAxisConfig from '../share/AraTesterAxisConfig';
 import { ARA_TESTER } from './ARA_TESTER';
 
 const nanoSecToMilliSec = 1000000;
@@ -63,7 +63,7 @@ export class AraTesterAxis {
     public constructor(id: number, config: AraTesterAxisConfig) {
         this._config = config;
         this._configured = config.configured / 4;
-        this._progressive = ((config.t_max - config.t_min) / config.t_delta) + 1;
+        this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
         this._fd = openIoctlSync('ara_tester_axis' + id);
         this._active = false;
         this._even = 0;
@@ -71,10 +71,10 @@ export class AraTesterAxis {
     }
 
     public configurate(config: AraTesterAxisConfig): void {
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulse_width);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.t_max);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.t_min);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.t_delta);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulseWidth);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.tMax);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.tMin);
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.tDelta);
     }
 
     public movment(dir: boolean, distance: number): Promise<number> {
