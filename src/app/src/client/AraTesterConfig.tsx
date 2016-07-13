@@ -2,13 +2,16 @@ import * as React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ContentUndo from 'material-ui/svg-icons/content/undo';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import { red500, green500 } from 'material-ui/styles/colors';
 import AraTesterConfigState from '../share/AraTesterAxisConfig';
-import {fullWhite} from 'material-ui/styles/colors';
+import ConfigButton from './ConfigButton';
+import EventValue from './EventValue';
 const { DOM, Component } = React;
-const { br } = DOM;
+const { br, div } = DOM;
 
-interface AraTesterConfigProps {
+export interface AraTesterConfigProps {
     id: number;
 }
 
@@ -18,14 +21,24 @@ const stylePaper = {
   display: 'inline-block',
 };
 
-export default class AraTesterConfig extends Component<AraTesterConfigProps, AraTesterConfigState> {
+const actionButtonStyle = {
+    marginTop: 5,
+    marginBottom: 0
+};
 
+const actionRevertButtonStyle = Object.assign({}, actionButtonStyle, { marginRight: 15 });
+
+const actionSaveButtonStyle = Object.assign({}, actionButtonStyle, { marginLeft: 15 });
+
+export default class AraTesterConfig extends Component<AraTesterConfigProps, AraTesterConfigState> {
     public onPulseWidthChange: (event: any) => void;
     public onTMaxChange: (event: any) => void;
     public onTMinChange: (event: any) => void;
     public onTDeltaChange: (event: any) => void;
     public onConfiguredChange: (event: any) => void;
-    public onConfigClick: () => void;
+    public onConfigTouchTap: () => void;
+    public onRevertTouchTap: () => void;
+    public onSaveTouchTap: () => void;
 
     private _cloneState(): AraTesterConfigState {
         return {
@@ -35,6 +48,11 @@ export default class AraTesterConfig extends Component<AraTesterConfigProps, Ara
             tDelta: this.state.tDelta,
             configured: this.state.configured
         };
+    }
+
+    private _getEventNumberValue(event: any): number {
+        let eventValue: EventValue<number> = event.target.value as EventValue<number>;
+        return eventValue.target.value;
     }
 
     private _setState(setter: (state: AraTesterConfigState) => void) {
@@ -52,12 +70,14 @@ export default class AraTesterConfig extends Component<AraTesterConfigProps, Ara
             tDelta: 0,
             configured: 0
         };
-        this.onPulseWidthChange = this.pulseWidthChange.bind(this);
-        this.onTMaxChange = this.tMaxChange.bind(this);
-        this.onTMinChange = this.tMinChange.bind(this);
-        this.onTDeltaChange = this.tDeltaChange.bind(this);
-        this.onConfiguredChange = this.configuredChange.bind(this);
-        this.onConfigClick = this.configClick.bind(this);
+        this.onPulseWidthChange = this.handlePulseWidthChange.bind(this);
+        this.onTMaxChange = this.handleTMaxChange.bind(this);
+        this.onTMinChange = this.handleTMinChange.bind(this);
+        this.onTDeltaChange = this.handleTDeltaChange.bind(this);
+        this.onConfiguredChange = this.handleConfiguredChange.bind(this);
+        this.onConfigTouchTap = this.handleConfigTouchTap.bind(this);
+        this.onRevertTouchTap = this.handleRevertTouchTap.bind(this);
+        this.onSaveTouchTap = this.handleSaveTouchTap.bind(this);
     }
 
     public componentDidMount() {
@@ -70,38 +90,46 @@ export default class AraTesterConfig extends Component<AraTesterConfigProps, Ara
         });
     }
 
-    public pulseWidthChange(event: any) {
+    public handlePulseWidthChange(event: any) {
         this._setState((state: AraTesterConfigState) => {
-            state.pulseWidth = event.target.value;
+            state.pulseWidth = this._getEventNumberValue(event);
         });
     }
 
-    public tMaxChange(event: any) {
+    public handleTMaxChange(event: any) {
         this._setState((state: AraTesterConfigState) => {
-            state.tMax = event.target.value;
+            state.tMax = this._getEventNumberValue(event);
         });
     }
 
-    public tMinChange(event: any) {
+    public handleTMinChange(event: any) {
         this._setState((state: AraTesterConfigState) => {
-            state.tMin = event.target.value;
+            state.tMin = this._getEventNumberValue(event);
         });
     }
 
-    public tDeltaChange(event: any) {
+    public handleTDeltaChange(event: any) {
         this._setState((state: AraTesterConfigState) => {
-            state.tDelta = event.target.value;
+            state.tDelta = this._getEventNumberValue(event);
         });
     }
 
-    public configuredChange(event: any) {
+    public handleConfiguredChange(event: any) {
         this._setState((state: AraTesterConfigState) => {
-            state.configured = event.target.value;
+            state.configured = this._getEventNumberValue(event);
         });
     }
 
-    public configClick() {
+    public handleConfigTouchTap() {
         console.log(this.state);
+    }
+
+    public handleRevertTouchTap() {
+        console.log('revert');
+    }
+
+    public handleSaveTouchTap() {
+        console.log('save');
     }
 
     public render() {
@@ -117,8 +145,22 @@ export default class AraTesterConfig extends Component<AraTesterConfigProps, Ara
                 <br />
                 <TextField type="number" floatingLabelText="Configured" value={this.state.configured} onChange={this.onConfiguredChange} />
                 <br />
-                <RaisedButton label="Config" primary={true} icon={<ActionSettings color={fullWhite} />} onClick={this.onConfigClick} />
+                <ConfigButton onTouchTap={this.onConfigTouchTap} />
+                <br />
+                <div style={actionButtonStyle} >
+                    <RaisedButton
+                        label="Revert"
+                        icon={<ContentUndo color={red500} />}
+                        style={actionRevertButtonStyle}
+                        onTouchTap={this.onRevertTouchTap} />
+                    <RaisedButton
+                        label="Save"
+                        labelPosition="before"
+                        icon={<ContentAdd color={green500} />}
+                        style={actionSaveButtonStyle}
+                        onTouchTap={this.onSaveTouchTap} />
+                </div>
             </Paper>
         );
     }
-}
+};
