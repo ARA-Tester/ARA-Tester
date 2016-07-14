@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import Popover from 'material-ui/Popover';
 import ConfigButton from './ConfigButton';
-import {default as AraTesterConfig, AraTesterConfigProps } from './AraTesterConfig';
-const { DOM, Component } = React;
+import { default as AraTesterConfig, AraTesterConfigProps } from './AraTesterConfig';
+const { DOM } = React;
 const { div } = DOM;
 
 interface AraTesterConfigPopoverState {
@@ -10,8 +11,8 @@ interface AraTesterConfigPopoverState {
     anchorEl?: Element;
 }
 
-export default class AraTesterConfigPopover extends Component<AraTesterConfigProps, AraTesterConfigPopoverState> {
-    public onTouchTab: (event: any) => void;
+export default class AraTesterConfigPopover extends React.Component<AraTesterConfigProps, AraTesterConfigPopoverState> {
+    public onTouchTab: TouchTapEventHandler;
     public onRequestClose: () => void;
 
     public constructor(props: AraTesterConfigProps) {
@@ -23,12 +24,11 @@ export default class AraTesterConfigPopover extends Component<AraTesterConfigPro
         this.onRequestClose = this.handleRequestClose.bind(this);
     }
 
-    public handleTouchTab(event: any) {
-        let eventCast: Event = event as Event;
-        eventCast.preventDefault();
+    public handleTouchTab(event: TouchTapEvent) {
+        event.preventDefault();
         this.setState({
             open: true,
-            anchorEl: eventCast.currentTarget as Element
+            anchorEl: event.currentTarget as Element
         });
     }
 
@@ -38,7 +38,7 @@ export default class AraTesterConfigPopover extends Component<AraTesterConfigPro
         });
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <div>
                 <ConfigButton onTouchTap={this.onTouchTab} />

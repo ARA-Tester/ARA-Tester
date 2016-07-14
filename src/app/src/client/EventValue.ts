@@ -1,6 +1,6 @@
 interface EventValue<T> {
     target: {
-        value: T
+        value?: T
     }
 }
 

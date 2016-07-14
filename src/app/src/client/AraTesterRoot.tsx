@@ -1,11 +1,11 @@
 import * as React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AraTesterConfigPopover from './AraTesterConfigPopover';
-const { DOM, Component } = React;
+const { DOM } = React;
 const { div, link } = DOM;
 
-export default class AraTesterRoot extends Component<{}, {}> {
-    render() {
+export default class AraTesterRoot extends React.Component<void, void> {
+    render(): JSX.Element {
         return (
             <MuiThemeProvider>
                 <div>
