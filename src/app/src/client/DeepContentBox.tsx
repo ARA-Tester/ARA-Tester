@@ -8,7 +8,7 @@ const stylePaper = {
 };
 
 export default class DeepContentBox extends React.Component<void, void> {
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return <Paper style={stylePaper} zDepth={5}>{this.props.children}</Paper>;
     }
 };

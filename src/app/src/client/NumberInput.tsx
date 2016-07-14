@@ -24,7 +24,7 @@ export default class NumberInput extends React.Component<NumberInputProps, void>
         this.props.onChange(Number(value));
     }
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return <TextField type="number" floatingLabelText={this.props.label} value={this.props.value} onChange={this.onChange} />;
     }
 };

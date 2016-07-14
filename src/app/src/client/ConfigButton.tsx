@@ -9,7 +9,7 @@ interface ConfigButtonProps {
 }
 
 export default class ConfigButton extends React.Component<ConfigButtonProps, {}> {
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return <RaisedButton
             label="Config"
             labelPosition="before"

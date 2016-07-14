@@ -38,7 +38,7 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
         });
     }
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <div>
                 <ConfigButton onTouchTap={this.onTouchTab} />

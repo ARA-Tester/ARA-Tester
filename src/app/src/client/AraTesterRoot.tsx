@@ -5,7 +5,7 @@ const { DOM } = React;
 const { div, link } = DOM;
 
 export default class AraTesterRoot extends React.Component<void, void> {
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <MuiThemeProvider>
                 <div>
