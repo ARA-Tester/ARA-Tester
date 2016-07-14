@@ -25,6 +25,11 @@ const actionRevertButtonStyle = Object.assign({}, actionButtonStyle, { marginRig
 const actionSaveButtonStyle = Object.assign({}, actionButtonStyle, { marginLeft: 15 });
 
 export default class AraTesterConfig extends React.Component<AraTesterConfigProps, AraTesterConfigState> {
+    private static _copyConfigInfo(info: AraTesterConfigState): AraTesterConfigState {
+        return Object.assign({}, info);
+    }
+
+    private _revertInfo: AraTesterConfigState;
     public onPulseWidthChange: NumberInputValueHandler;
     public onTMaxChange: NumberInputValueHandler;
     public onTMinChange: NumberInputValueHandler;
@@ -34,21 +39,27 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
     public onRevertTouchTap: TouchTapEventHandler;
     public onSaveTouchTap: TouchTapEventHandler;
 
+    private _copyState(): AraTesterConfigState {
+        return AraTesterConfig._copyConfigInfo(this.state);
+    }
+
     private _setState(setter: (state: AraTesterConfigState) => void) {
-        let clone: AraTesterConfigState = Object.assign({}, this.state);
+        let clone: AraTesterConfigState = this._copyState();
         setter(clone);
         this.setState(clone);
     }
 
     public constructor(props: AraTesterConfigProps) {
-        super(props);
-        this.state = {
-            pulseWidth: 50,
-            tMax: 500000,
-            tMin: 5000,
-            tDelta: 100,
-            configured: 6400
+        let initalState: AraTesterConfigState = {
+            pulseWidth: 0,
+            tMax: 0,
+            tMin: 0,
+            tDelta: 0,
+            configured: 0
         };
+        super(props);
+        this.state = AraTesterConfig._copyConfigInfo(initalState);
+        this._revertInfo = AraTesterConfig._copyConfigInfo(initalState);
         this.onPulseWidthChange = this.handlePulseWidthChange.bind(this);
         this.onTMaxChange = this.handleTMaxChange.bind(this);
         this.onTMinChange = this.handleTMinChange.bind(this);
@@ -57,6 +68,18 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
         this.onConfigTouchTap = this.handleConfigTouchTap.bind(this);
         this.onRevertTouchTap = this.handleRevertTouchTap.bind(this);
         this.onSaveTouchTap = this.handleSaveTouchTap.bind(this);
+    }
+
+    public componentDidMount() {
+        let state: AraTesterConfigState = {
+            pulseWidth: 50,
+            tMax: 500000,
+            tMin: 5000,
+            tDelta: 100,
+            configured: 6400
+        };
+        this.setState(state);
+        this._revertInfo = AraTesterConfig._copyConfigInfo(state);
     }
 
     public handlePulseWidthChange(value: number) {
@@ -84,11 +107,11 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
     }
 
     public handleRevertTouchTap(event: TouchTapEvent) {
-        console.log('revert');
+        this.setState(this._revertInfo);
     }
 
     public handleSaveTouchTap(event: TouchTapEvent) {
-        console.log('save');
+        this._revertInfo = this._copyState();
     }
 
     public render(): JSX.Element {
