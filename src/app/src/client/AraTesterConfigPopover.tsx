@@ -3,8 +3,7 @@ import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import Popover from 'material-ui/Popover';
 import ConfigButton from './ConfigButton';
 import { default as AraTesterConfig, AraTesterConfigProps } from './AraTesterConfig';
-const { DOM } = React;
-const { div } = DOM;
+const { div } = React.DOM;
 
 interface AraTesterConfigPopoverState {
     open: boolean;
@@ -40,7 +39,7 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
 
     public render(): JSX.Element {
         return (
-            <div>
+            <div style={this.props.style}>
                 <ConfigButton onTouchTap={this.onTouchTab} />
                 <Popover open={this.state.open} anchorEl={this.state.anchorEl} onRequestClose={this.onRequestClose} >
                     <AraTesterConfig {...this.props} />

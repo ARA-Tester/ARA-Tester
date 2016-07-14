@@ -8,6 +8,7 @@ interface NumberInputProps {
     label: string;
     value: number;
     onChange: NumberInputValueHandler;
+    style?: React.CSSProperties;
 }
 
 export default class NumberInput extends React.Component<NumberInputProps, void> {
@@ -25,6 +26,11 @@ export default class NumberInput extends React.Component<NumberInputProps, void>
     }
 
     public render(): JSX.Element {
-        return <TextField type="number" floatingLabelText={this.props.label} value={this.props.value} onChange={this.onChange} />;
+        return <TextField
+            style={this.props.style}
+            type="number"
+            floatingLabelText={this.props.label}
+            value={this.props.value}
+            onChange={this.onChange} />;
     }
 };

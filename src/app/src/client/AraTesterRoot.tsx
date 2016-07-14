@@ -1,8 +1,7 @@
 import * as React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AraTesterConfigPopover from './AraTesterConfigPopover';
-const { DOM } = React;
-const { div, link } = DOM;
+import AraTesterWrapper from './AraTesterWrapper';
+const { div, link } = React.DOM;
 
 export default class AraTesterRoot extends React.Component<void, void> {
     public render(): JSX.Element {
@@ -10,7 +9,7 @@ export default class AraTesterRoot extends React.Component<void, void> {
             <MuiThemeProvider>
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
-                    <AraTesterConfigPopover id={0} />
+                    <AraTesterWrapper axisId={0} />
                 </div>
             </MuiThemeProvider>
         );

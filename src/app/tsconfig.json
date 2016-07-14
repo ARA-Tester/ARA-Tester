@@ -10,12 +10,14 @@
     },
     "files": [
         "typings/index.d.ts",
-        "src/client/AraTesterRoot.tsx",
         "src/client/DeepContentBox.tsx",
         "src/client/ConfigButton.tsx",
         "src/client/NumberInput.tsx",
         "src/client/AraTesterConfig.tsx",
         "src/client/AraTesterConfigPopover.tsx",
+        "src/client/AraTesterMovment.tsx",
+        "src/client/AraTesterWrapper.tsx",
+        "src/client/AraTesterRoot.tsx",
         "src/client/index.tsx"
         /*"src/ara-tester-axis",
         "src/ara-tester-axis-config",

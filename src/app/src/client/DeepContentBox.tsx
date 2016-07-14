@@ -1,14 +1,18 @@
 import * as React from 'react';
 import Paper from 'material-ui/Paper';
 
-const stylePaper = {
+const stylePaper: React.CSSProperties = {
   padding: 10,
   textAlign: 'center',
   display: 'inline-block',
 };
 
-export default class DeepContentBox extends React.Component<void, void> {
+interface DeepContentBoxProps {
+    style? : React.CSSProperties;
+}
+
+export default class DeepContentBox extends React.Component<DeepContentBoxProps, void> {
     public render(): JSX.Element {
-        return <Paper style={stylePaper} zDepth={5}>{this.props.children}</Paper>;
+        return <Paper style={Object.assign({}, stylePaper, this.props.style)} zDepth={5}>{this.props.children}</Paper>;
     }
 };

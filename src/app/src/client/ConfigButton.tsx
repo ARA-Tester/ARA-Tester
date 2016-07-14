@@ -6,11 +6,13 @@ import {fullWhite} from 'material-ui/styles/colors';
 
 interface ConfigButtonProps {
     onTouchTap: TouchTapEventHandler;
+    style?: React.CSSProperties;
 }
 
 export default class ConfigButton extends React.Component<ConfigButtonProps, {}> {
     public render(): JSX.Element {
         return <RaisedButton
+            style={this.props.style}
             label="Config"
             labelPosition="before"
             primary={true}

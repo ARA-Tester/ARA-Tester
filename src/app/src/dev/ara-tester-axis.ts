@@ -60,11 +60,11 @@ export class AraTesterAxis {
         }, 1000);
     }
 
-    public constructor(id: number, config: AraTesterAxisConfig) {
+    public constructor(axisId: number, config: AraTesterAxisConfig) {
         this._config = config;
         this._configured = config.configured / 4;
         this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
-        this._fd = openIoctlSync('ara_tester_axis' + id);
+        this._fd = openIoctlSync('ara_tester_axis' + axisId);
         this._active = false;
         this._even = 0;
         this.configurate(config);

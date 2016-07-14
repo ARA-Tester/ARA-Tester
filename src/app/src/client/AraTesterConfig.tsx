@@ -8,14 +8,14 @@ import AraTesterConfigState from '../share/AraTesterAxisConfig';
 import DeepContentBox from './DeepContentBox';
 import { default as NumberInput, NumberInputValueHandler } from './NumberInput';
 import ConfigButton from './ConfigButton';
-const { DOM } = React;
-const { br, div } = DOM;
+const { br, div } = React.DOM;
 
 export interface AraTesterConfigProps {
-    id: number;
+    axisId: number;
+    style?: React.CSSProperties; 
 }
 
-const actionButtonStyle = {
+const actionButtonStyle: React.CSSProperties = {
     marginTop: 5,
     marginBottom: 0
 };
@@ -116,7 +116,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
 
     public render(): JSX.Element {
         return (
-            <DeepContentBox>
+            <DeepContentBox style={this.props.style}>
                 <NumberInput label="Pulse Width" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
                 <br />
                 <NumberInput label="T max" value={this.state.tMax} onChange={this.onTMaxChange} />
@@ -129,7 +129,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
                 <br />
                 <ConfigButton onTouchTap={this.onConfigTouchTap} />
                 <br />
-                <div style={actionButtonStyle} >
+                <div style={actionButtonStyle}>
                     <RaisedButton
                         label="Revert"
                         icon={<ContentUndo color={red500} />}
