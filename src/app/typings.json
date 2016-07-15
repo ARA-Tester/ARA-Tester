@@ -1,6 +1,7 @@
 {
   "globalDependencies": {
     "node": "registry:dt/node",
+    "hapi": "registry:dt/hapi",
     "react": "registry:dt/react",
     "react-dom": "registry:dt/react-dom",
     "react-tap-event-plugin": "registry:dt/react-tap-event-plugin",

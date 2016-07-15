@@ -4,17 +4,15 @@ module.exports = {
     entry: "./src/client/index.tsx",
 
     output: {
-        filename: "./dist/bundle.js",
+        path: "./public",
+        filename: "[name].js",
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             title: "React Demo",
-            filename: "./dist/index.html"
         })
     ],
-
-    devtool: "source-map",
 
     resolve: {
         extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
@@ -24,14 +22,5 @@ module.exports = {
         loaders: [
             { test: /\.tsx?$/, loader: "ts-loader" }
         ],
-
-        preLoaders: [
-            { test: /\.js$/, loader: "source-map-loader" }
-        ]
-    },
-
-    /*externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
-    },*/
+    }
 };

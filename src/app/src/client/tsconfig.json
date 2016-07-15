@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "jsx": "react",
+        "noImplicitAny": true
+    },
+    "files": [
+        "../../typings/index.d.ts",
+        "DeepContentBox.tsx",
+        "ConfigButton.tsx",
+        "NumberInput.tsx",
+        "AraTesterConfig.tsx",
+        "AraTesterConfigPopover.tsx",
+        "AraTesterMovment.tsx",
+        "AraTesterWrapper.tsx",
+        "AraTesterRoot.tsx",
+        "index.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

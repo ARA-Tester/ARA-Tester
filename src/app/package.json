@@ -12,6 +12,8 @@
   "author": "Ivo Stratev",
   "license": "GPL-2.0",
   "dependencies": {
+    "hapi": "^13.5.0",
+    "inert": "^4.0.1",
     "ioctl-ulong": "^1.0.1",
     "material-ui": "^0.15.2",
     "open-ioctl": "^1.0.5",

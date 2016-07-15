@@ -13,7 +13,16 @@ install:
 	$(__npm_bin__)/typings install
 
 client:
+	rm -Rf ./public
 	$(__npm_bin__)/webpack
+
+server:
+	rm -Rf ./deploy
+	$(__npm_bin__)/tsc -p ./src/server
+
+start: client server
+	mv ./public ./deploy
+	node deploy/index.js 
 	
 clean:
 	rm -f ./a.out *.js ./src/__ioctl_enum__

@@ -105,6 +105,7 @@ jspm_packages
 typings
 
 
-# Build, Dist
+# Build, Dist, Deploy
 build
 dist
+deploy
