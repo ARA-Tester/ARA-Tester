@@ -62,7 +62,7 @@ export default class AraTesterMovment extends React.Component<AraTesterConfigPro
                 <RaisedButton
                     disabled={this.state.distance === 0}
                     label={this.state.direction ? "Backward" : "Forward"}
-                    labelPosition="before"
+                    labelPosition={this.state.direction ? "after" : "before"}
                     icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
                     onTouchTap={this.onMovmentTouchTap} />
             </div>
