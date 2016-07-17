@@ -77,9 +77,6 @@ export default class AraTesterAxisController {
     public autoConfigurate(): Promise<void> {
         return new Promise<void>((resolve: () => void, reject: (reason: any) => void) => {
             AraTesterAxisController._AraTesterAxisConfigService.findOne(this._id).then((config: AraTesterAxisConfig) => {
-                this._config = config;
-                this._configured = config.configured / 4;
-                this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
                 this.configurate(config);
                 resolve();
             }, reject)
@@ -88,6 +85,9 @@ export default class AraTesterAxisController {
 
     public configurate(config: AraTesterAxisConfig): void {
         if(!this._active) {
+            this._config = config;
+            this._configured = config.configured / 4;
+            this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulseWidth);
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.tMax);
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.tMin);
