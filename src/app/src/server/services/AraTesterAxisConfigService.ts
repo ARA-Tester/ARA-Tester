@@ -5,13 +5,13 @@ import AraTesterAxisConfig from './../../share/AraTesterAxisConfig';
 import DBService from './DBService';
 
 export default class AraTesterAxisConfigService implements DBService<AraTesterAxisId, AraTesterAxisConfig> {
-    private static _instance: AraTesterAxisConfigService;
+    private static _service: AraTesterAxisConfigService;
 
-    public static getInstance() {
-        if(!AraTesterAxisConfigService._instance) {
-            AraTesterAxisConfigService._instance = new AraTesterAxisConfigService();
+    public static getService() {
+        if(!AraTesterAxisConfigService._service) {
+            AraTesterAxisConfigService._service = new AraTesterAxisConfigService();
         }
-        return AraTesterAxisConfigService._instance;
+        return AraTesterAxisConfigService._service;
     }
 
     /*private #uncomment when 2.0 is stable*/ constructor() {

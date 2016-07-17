@@ -8,6 +8,7 @@
     },
     "files": [
         "../../typings/index.d.ts",
+        "../share/nes.d.ts",
         "models/AraTesterAxisInfo/document.ts",
         "models/AraTesterAxisInfo/schema.ts",
         "models/AraTesterAxisInfo/model.ts",

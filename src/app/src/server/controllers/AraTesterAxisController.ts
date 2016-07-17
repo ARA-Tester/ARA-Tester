@@ -10,7 +10,7 @@ import AraTesterAxisConfigService from './../services/AraTesterAxisConfigService
 const nanoSecToMilliSec = 1000000;
 
 export default class AraTesterAxisController {
-    private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getInstance();
+    private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getService();
 
     private _config: AraTesterAxisConfig;
     private _configured: number;
@@ -72,6 +72,10 @@ export default class AraTesterAxisController {
         this._fd = openIoctlSync('ara_tester_axis' + axisId);
         this._active = false;
         this._even = 0;
+    }
+
+    public getConfiguration(): AraTesterAxisConfig {
+        return this._config;
     }
 
     public autoConfigurate(): Promise<void> {

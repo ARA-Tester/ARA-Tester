@@ -17,6 +17,7 @@
     "ioctl-ulong": "^1.0.1",
     "material-ui": "^0.15.2",
     "mongoose": "^4.5.4",
+    "nes": "^6.2.1",
     "open-ioctl": "^1.0.5",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",

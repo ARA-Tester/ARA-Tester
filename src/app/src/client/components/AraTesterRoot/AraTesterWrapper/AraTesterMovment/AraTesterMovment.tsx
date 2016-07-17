@@ -8,10 +8,12 @@ import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
-import AraTesterMovmentState from './../../../../share/AraTesterAxisMovment';
+import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
+import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 const { div, br } = React.DOM;
 
 export default class AraTesterMovment extends React.Component<AraTesterWrapperChildProps, AraTesterMovmentState> {
+    private _AraTesterAxisService: AraTesterAxisService;
     public onDirectionChange: (event: TouchTapEvent, index: number, menuItemValue: boolean) => void;
     public onDistanceChange: NumberInputValueHandler;
     public onMovmentTouchTap: TouchTapEventHandler;
@@ -22,6 +24,7 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
             direction: false,
             distance: 0
         };
+        this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
         this.onDirectionChange = this.handleDirectionChange.bind(this);
         this.onDistanceChange = this.handleDistanceChange.bind(this);
         this.onMovmentTouchTap = this.handleMovmentTouchTap.bind(this);
@@ -42,7 +45,7 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
     }
 
     public handleMovmentTouchTap(event: TouchTapEvent) {
-        console.log('movmnet');
+        this._AraTesterAxisService.movmnet(this.state);
     }
 
     public render(): JSX.Element {

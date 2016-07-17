@@ -5,10 +5,11 @@ import ContentUndo from 'material-ui/svg-icons/content/undo';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { red500, green500 } from 'material-ui/styles/colors';
 import AraTesterWrapperChildProps from './../../AraTesterWrapperChildProps';
-import AraTesterConfigState from './../../../../../share/AraTesterAxisConfig';
+import AraTesterConfigState from './../../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../../DeepContentBox';
 import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
 import ConfigButton from './../../../../ConfigButton';
+import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
 const { br, div } = React.DOM;
 
 const actionButtonStyle: React.CSSProperties = {
@@ -25,6 +26,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
         return Object.assign({}, info);
     }
 
+    private _AraTesterAxisService: AraTesterAxisService;
     private _revertInfo: AraTesterConfigState;
     public onPulseWidthChange: NumberInputValueHandler;
     public onTMaxChange: NumberInputValueHandler;
@@ -55,6 +57,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
         };
         super(props);
         this.state = AraTesterConfig._copyConfigInfo(initalState);
+        this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
         this._revertInfo = AraTesterConfig._copyConfigInfo(initalState);
         this.onPulseWidthChange = this.handlePulseWidthChange.bind(this);
         this.onTMaxChange = this.handleTMaxChange.bind(this);
@@ -67,15 +70,10 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
     }
 
     public componentDidMount() {
-        let state: AraTesterConfigState = {
-            pulseWidth: 50,
-            tMax: 500000,
-            tMin: 5000,
-            tDelta: 100,
-            configured: 6400
-        };
-        this.setState(state);
-        this._revertInfo = AraTesterConfig._copyConfigInfo(state);
+        this._AraTesterAxisService.getConfiguration().then((config: AraTesterConfigState) => {
+            this.setState(config);
+            this._revertInfo = AraTesterConfig._copyConfigInfo(config);
+        })
     }
 
     public handlePulseWidthChange(value: number) {
@@ -99,7 +97,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
     }
 
     public handleConfigTouchTap(event: TouchTapEvent) {
-        console.log(this.state);
+        this._AraTesterAxisService.configurate(this.state);
     }
 
     public handleRevertTouchTap(event: TouchTapEvent) {
@@ -108,6 +106,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
 
     public handleSaveTouchTap(event: TouchTapEvent) {
         this._revertInfo = this._copyState();
+        this._AraTesterAxisService.saveConfiguration(this.state);
     }
 
     public render(): JSX.Element {

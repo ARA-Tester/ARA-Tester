@@ -1,11 +1,14 @@
 import * as Path from 'path';
 import * as Hapi from 'hapi';
 import * as Inert from 'inert';
+import * as Nes from 'nes';
 import * as Mongoose from 'mongoose';
 import AraTesterAxisController from './controllers/AraTesterAxisController';
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect('mongodb://localhost:27017/AraTester');
+
+let axis: AraTesterAxisController = new AraTesterAxisController(0);
 
 let server = new Hapi.Server({
     connections: {
@@ -21,36 +24,84 @@ server.connection({
     port: 3000
 });
 
-server.register(Inert, () => {});
-server.route({
-    method: 'GET',
-    path: '/{file*}',
-    handler: {
-        directory: {
-            path: '.',
+server.register(Inert, () => {
+    server.route({
+        method: 'GET',
+        path: '/{file*}',
+        handler: {
+            directory: {
+                path: '.',
+            }
         }
-    }
+    });
 });
 
-server.start((err: any) => {
-    if (err) {
-        throw err;
+server.register(Nes, (regErr: any) => {
+    if(regErr) {
+        console.log('register err');
+        console.log(regErr);
     } else {
-        console.log('Server running at:', server.info.uri);
+        let wsServer: Nes.Server = server as Nes.Server;
+        wsServer.subscription('/AraTesterAxisOnMovmentStart/{id}');
+        wsServer.subscription('/AraTesterAxisOnMovmentEnd/{id}');
+
+        wsServer.route({
+            method: 'GET',
+            path: '/AraTesterAxisGetConfiguration/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    reply(axis.getConfiguration());
+                }
+            }
+        });
+
+        wsServer.route({
+            method: 'POST',
+            path: '/AraTesterAxisConfigurate/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    axis.configurate(request.payload);
+                    reply({});
+                }
+            }
+        });
+
+        wsServer.route({
+            method: 'PATCH',
+            path: '/AraTesterAxisSaveConfiguration/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    axis.update(request.payload);
+                    reply({});
+                }
+            }
+        });
+
+        wsServer.route({
+            method: 'POST',
+            path: '/AraTesterAxisMovment/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    wsServer.publish(`/AraTesterAxisOnMovmentStart/${request.params['id']}`, {});
+                    axis.movment(request.payload).then((count: number) => {
+                        console.log("Counter: " + count);
+                        wsServer.publish(`/AraTesterAxisOnMovmentEnd/${request.params['id']}`, {});
+                    }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
+                    reply({});
+                }
+            }
+        });
     }
 });
 
-/*
-
-let axis: AraTesterAxisController = new AraTesterAxisController(0);
 axis.autoConfigurate().then(() => {
-    axis.movment({
-        direction: false,
-        distance: 20
-    }).then((count: number) => {
-        console.log("Counter: " + count);
-        axis.release();
-    }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
-}, (err: any) => {
-    throw err;
-});*/
+    server.start((err: any) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('Server running at:', server.info.uri);
+        }
+    });
+}).catch((configErr: any) => {
+    throw configErr;
+});
