@@ -8,7 +8,13 @@
     },
     "files": [
         "../../typings/index.d.ts",
+        "models/AraTesterAxisInfo/document.ts",
+        "models/AraTesterAxisInfo/schema.ts",
+        "models/AraTesterAxisInfo/model.ts",
+        "services/AraTesterAxisConfigService.ts",
+        "services/DBService.ts",
         "inert.d.ts",
+        "setup.ts",
         "index.ts"
     ],
     "exclude": [

@@ -1,6 +1,9 @@
 {
   "globalDependencies": {
     "node": "registry:dt/node",
+    "mongoose": "registry:dt/mongoose",
+    "mongodb": "registry:dt/mongodb",
+    "mpromise": "registry:dt/mpromise",
     "hapi": "registry:dt/hapi",
     "react": "registry:dt/react",
     "react-dom": "registry:dt/react-dom",

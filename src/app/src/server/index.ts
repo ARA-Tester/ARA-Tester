@@ -1,4 +1,4 @@
-import * as Path from 'path';
+/*import * as Path from 'path';
 import * as Hapi from 'hapi';
 import * as Inert from 'inert';
 
@@ -33,4 +33,23 @@ server.start((err: any) => {
     } else {
         console.log('Server running at:', server.info.uri);
     }
+});*/
+
+import * as Mongoose from 'mongoose';
+import AraTesterAxisController from './controllers/AraTesterAxisController';
+
+Mongoose.Promise = global.Promise;
+Mongoose.connect('mongodb://localhost:27017/AraTester');
+
+let axis: AraTesterAxisController = new AraTesterAxisController(0);
+axis.autoConfigurate().then(() => {
+    axis.movment({
+        direction: true,
+        distance: 20
+    }).then((count: number) => {
+        console.log("Counter: " + count);
+        axis.release();
+    }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
+}, (err: any) => {
+    throw err;
 });

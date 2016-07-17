@@ -1,15 +1,17 @@
 import { ioctl, Ioctl } from 'ioctl-ulong';
 import { openIoctlSync } from 'open-ioctl';
 import { closeSync } from 'fs';
-import AraTesterAxisConfig from '../share/AraTesterAxisConfig';
-import AraTesterAxisMovment from './../share/AraTesterAxisMovment';
-import AraTesterAxisId from './../share/AraTesterAxisId';
-import AraTesterAxisInfo from './../share/AraTesterAxisInfo';
-import { ARA_TESTER } from './ARA_TESTER';
+import AraTesterAxisConfig from './../../share/AraTesterAxisConfig';
+import AraTesterAxisMovment from './../../share/AraTesterAxisMovment';
+import AraTesterAxisId from './../../share/AraTesterAxisId';
+import { ARA_TESTER } from './../ARA_TESTER';
+import AraTesterAxisConfigService from './../services/AraTesterAxisConfigService';
 
 const nanoSecToMilliSec = 1000000;
 
-export class AraTesterAxis {
+export default class AraTesterAxisController {
+    private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getInstance();
+
     private _config: AraTesterAxisConfig;
     private _configured: number;
     private _progressive: number;
@@ -58,28 +60,39 @@ export class AraTesterAxis {
             let active: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_ACTIVE);
             if(!active.data) {
                 clearInterval(this._interval);
+                this._active = false;
                 let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
                 this._resolve(counter.data);
             }
         }, 1000);
     }
 
-    public constructor(axisId: number, config: AraTesterAxisConfig) {
-        this._config = config;
-        this._configured = config.configured / 4;
-        this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
+    public constructor(axisId: number) {
         this._id = { axisId: axisId };
         this._fd = openIoctlSync('ara_tester_axis' + axisId);
         this._active = false;
         this._even = 0;
-        this.configurate(config);
+    }
+
+    public autoConfigurate(): Promise<void> {
+        return new Promise<void>((resolve: () => void, reject: (reason: any) => void) => {
+            AraTesterAxisController._AraTesterAxisConfigService.findOne(this._id).then((config: AraTesterAxisConfig) => {
+                this._config = config;
+                this._configured = config.configured / 4;
+                this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
+                this.configurate(config);
+                resolve();
+            }, reject)
+        });
     }
 
     public configurate(config: AraTesterAxisConfig): void {
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulseWidth);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.tMax);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.tMin);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.tDelta);
+        if(!this._active) {
+            ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulseWidth);
+            ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.tMax);
+            ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.tMin);
+            ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.tDelta);
+        }
     }
 
     public movment(movment: AraTesterAxisMovment): Promise<number> {
