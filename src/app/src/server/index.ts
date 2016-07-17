@@ -99,7 +99,8 @@ axis.autoConfigurate().then(() => {
         if (err) {
             throw err;
         } else {
-            console.log('Server running at:', server.info.uri);
+            console.log('Server running at port:', server.info.port);
+            console.log('Visit RPI\'s ip:/port');
         }
     });
 }).catch((configErr: any) => {

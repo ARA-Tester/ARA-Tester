@@ -10,7 +10,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            title: "React Demo",
+            title: "Ara Tester",
         })
     ],
 
