@@ -6,17 +6,17 @@ import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
-import { default as NumberInput, NumberInputValueHandler } from './NumberInput';
-import { AraTesterConfigProps } from './AraTesterConfig';
-import AraTesterMovmentState from './../share/AraTesterAxisMovment';
+import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
+import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
+import AraTesterMovmentState from './../../../../share/AraTesterAxisMovment';
 const { div, br } = React.DOM;
 
-export default class AraTesterMovment extends React.Component<AraTesterConfigProps, AraTesterMovmentState> {
+export default class AraTesterMovment extends React.Component<AraTesterWrapperChildProps, AraTesterMovmentState> {
     public onDirectionChange: (event: TouchTapEvent, index: number, menuItemValue: boolean) => void;
     public onDistanceChange: NumberInputValueHandler;
     public onMovmentTouchTap: TouchTapEventHandler;
 
-    public constructor(props: AraTesterConfigProps) {
+    public constructor(props: AraTesterWrapperChildProps) {
         super(props);
         this.state = {
             direction: false,
@@ -56,7 +56,7 @@ export default class AraTesterMovment extends React.Component<AraTesterConfigPro
                 <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
                 <br />
                 <RaisedButton
-                    disabled={this.state.distance === 0}
+                    disabled={(this.state.distance === 0) || this.props.disabled}
                     label={this.state.direction ? "Backward" : "Forward"}
                     labelPosition={this.state.direction ? "after" : "before"}
                     icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }

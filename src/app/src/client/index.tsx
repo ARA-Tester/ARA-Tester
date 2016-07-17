@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
-import AraTesterRoot from './AraTesterRoot';
+import AraTesterRoot from './AraTesterRoot/AraTesterRoot';
 
 injectTapEventPlugin();
 let bootstrapNode = document.createElement('div');

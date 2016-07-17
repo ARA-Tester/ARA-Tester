@@ -1,12 +1,17 @@
-/*import * as Path from 'path';
+import * as Path from 'path';
 import * as Hapi from 'hapi';
 import * as Inert from 'inert';
+import * as Mongoose from 'mongoose';
+import AraTesterAxisController from './controllers/AraTesterAxisController';
+
+Mongoose.Promise = global.Promise;
+Mongoose.connect('mongodb://localhost:27017/AraTester');
 
 let server = new Hapi.Server({
     connections: {
         routes: {
             files: {
-                relativeTo: Path.join(__dirname, 'public')
+                relativeTo: Path.join(__dirname, '../public')
             }
         }
     }
@@ -33,13 +38,9 @@ server.start((err: any) => {
     } else {
         console.log('Server running at:', server.info.uri);
     }
-});*/
+});
 
-import * as Mongoose from 'mongoose';
-import AraTesterAxisController from './controllers/AraTesterAxisController';
-
-Mongoose.Promise = global.Promise;
-Mongoose.connect('mongodb://localhost:27017/AraTester');
+/*
 
 let axis: AraTesterAxisController = new AraTesterAxisController(0);
 axis.autoConfigurate().then(() => {
@@ -52,4 +53,4 @@ axis.autoConfigurate().then(() => {
     }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
 }, (err: any) => {
     throw err;
-});
+});*/

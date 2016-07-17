@@ -30,7 +30,7 @@ export default class AraTesterAxisConfigService implements DBService<AraTesterAx
         });
     }
     
-    public static update(search: AraTesterAxisId, change: AraTesterAxisConfig): Promise<void> {
+    public update(search: AraTesterAxisId, change: AraTesterAxisConfig): Promise<void> {
         return new Promise<void>((resolve: () => void, reject: (reason: any) => void) => {
             AraTesterAxisInfoModel.findOneAndUpdate(search, change).exec().then((document: AraTesterAxisInfoDocument) => {
                 resolve();

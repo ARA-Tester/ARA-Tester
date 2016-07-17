@@ -1,6 +1,6 @@
 import * as React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AraTesterWrapper from './AraTesterWrapper';
+import AraTesterWrapper from './AraTesterWrapper/AraTesterWrapper';
 const { div, link } = React.DOM;
 
 export default class AraTesterRoot extends React.Component<void, void> {

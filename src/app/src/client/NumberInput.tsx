@@ -1,14 +1,14 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
 import EventValue from './EventValue';
+import OptionalStyleProp from './OptionalStyleProp';;
 
 export type NumberInputValueHandler = (value: number) => void;
 
-interface NumberInputProps {
+export interface NumberInputProps extends OptionalStyleProp {
     label: string;
     value: number;
     onChange: NumberInputValueHandler;
-    style?: React.CSSProperties;
 }
 
 export default class NumberInput extends React.Component<NumberInputProps, void> {

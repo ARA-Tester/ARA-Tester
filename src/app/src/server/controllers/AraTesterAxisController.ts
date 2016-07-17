@@ -95,6 +95,11 @@ export default class AraTesterAxisController {
         }
     }
 
+    public update(config: AraTesterAxisConfig): Promise<void> {
+        this.configurate(config);
+        return AraTesterAxisController._AraTesterAxisConfigService.update(this._id, config);
+    }
+
     public movment(movment: AraTesterAxisMovment): Promise<number> {
         return new Promise<number>((resolve: (value: number) => void, reject: (reason: NodeJS.ErrnoException) => void) => {
             this._resolve = resolve;

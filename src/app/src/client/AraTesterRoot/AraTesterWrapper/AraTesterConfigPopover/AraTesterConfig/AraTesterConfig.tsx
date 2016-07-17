@@ -4,16 +4,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ContentUndo from 'material-ui/svg-icons/content/undo';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { red500, green500 } from 'material-ui/styles/colors';
-import AraTesterConfigState from './../share/AraTesterAxisConfig';
-import AraTesterId from './../share/AraTesterAxisId';
-import DeepContentBox from './DeepContentBox';
-import { default as NumberInput, NumberInputValueHandler } from './NumberInput';
-import ConfigButton from './ConfigButton';
+import AraTesterWrapperChildProps from './../../AraTesterWrapperChildProps';
+import AraTesterConfigState from './../../../../../share/AraTesterAxisConfig';
+import DeepContentBox from './../../../../DeepContentBox';
+import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
+import ConfigButton from './../../../../ConfigButton';
 const { br, div } = React.DOM;
-
-export interface AraTesterConfigProps extends AraTesterId {
-    style?: React.CSSProperties; 
-}
 
 const actionButtonStyle: React.CSSProperties = {
     marginTop: 5,
@@ -24,7 +20,7 @@ const actionRevertButtonStyle = Object.assign({}, actionButtonStyle, { marginRig
 
 const actionSaveButtonStyle = Object.assign({}, actionButtonStyle, { marginLeft: 15 });
 
-export default class AraTesterConfig extends React.Component<AraTesterConfigProps, AraTesterConfigState> {
+export default class AraTesterConfig extends React.Component<AraTesterWrapperChildProps, AraTesterConfigState> {
     private static _copyConfigInfo(info: AraTesterConfigState): AraTesterConfigState {
         return Object.assign({}, info);
     }
@@ -49,7 +45,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
         this.setState(clone);
     }
 
-    public constructor(props: AraTesterConfigProps) {
+    public constructor(props: AraTesterWrapperChildProps) {
         let initalState: AraTesterConfigState = {
             pulseWidth: 0,
             tMax: 0,
@@ -127,19 +123,21 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
                 <br />
                 <NumberInput label="Configured" value={this.state.configured} onChange={this.onConfiguredChange} />
                 <br />
-                <ConfigButton onTouchTap={this.onConfigTouchTap} />
+                <ConfigButton disabled={this.props.disabled} onTouchTap={this.onConfigTouchTap} />
                 <br />
                 <div style={actionButtonStyle}>
                     <RaisedButton
+                        style={actionRevertButtonStyle}
+                        disabled={this.props.disabled}
                         label="Revert"
                         icon={<ContentUndo color={red500} />}
-                        style={actionRevertButtonStyle}
                         onTouchTap={this.onRevertTouchTap} />
                     <RaisedButton
+                        style={actionRevertButtonStyle}
+                        disabled={this.props.disabled}
                         label="Save"
                         labelPosition="before"
                         icon={<ContentAdd color={green500} />}
-                        style={actionSaveButtonStyle}
                         onTouchTap={this.onSaveTouchTap} />
                 </div>
             </DeepContentBox>

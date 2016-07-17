@@ -7,15 +7,19 @@
         "noImplicitAny": true
     },
     "files": [
-        "../../typings/index.d.ts",
+        "./../../typings/index.d.ts",
+        "EventValue.ts",
+        "DisabledProp.ts",
+        "OptionalStyleProp.ts",
         "DeepContentBox.tsx",
         "ConfigButton.tsx",
         "NumberInput.tsx",
-        "AraTesterConfig.tsx",
-        "AraTesterConfigPopover.tsx",
-        "AraTesterMovment.tsx",
-        "AraTesterWrapper.tsx",
-        "AraTesterRoot.tsx",
+        "AraTesterRoot/AraTesterWrapper/AraTesterConfigPopover/AraTesterConfig/AraTesterConfig.tsx",
+        "AraTesterRoot/AraTesterWrapper/AraTesterConfigPopover/AraTesterConfigPopover.tsx",
+        "AraTesterRoot/AraTesterWrapper/AraTesterMovment/AraTesterMovment.tsx",
+        "AraTesterRoot/AraTesterWrapper/AraTesterWrapperChildProps.ts",
+        "AraTesterRoot/AraTesterWrapper/AraTesterWrapper.tsx",
+        "AraTesterRoot/AraTesterRoot.tsx",
         "index.tsx"
     ],
     "exclude": [
