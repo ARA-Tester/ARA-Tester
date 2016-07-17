@@ -2,6 +2,9 @@ import { ioctl, Ioctl } from 'ioctl-ulong';
 import { openIoctlSync } from 'open-ioctl';
 import { closeSync } from 'fs';
 import AraTesterAxisConfig from '../share/AraTesterAxisConfig';
+import AraTesterAxisMovment from './../share/AraTesterAxisMovment';
+import AraTesterAxisId from './../share/AraTesterAxisId';
+import AraTesterAxisInfo from './../share/AraTesterAxisInfo';
 import { ARA_TESTER } from './ARA_TESTER';
 
 const nanoSecToMilliSec = 1000000;
@@ -10,9 +13,10 @@ export class AraTesterAxis {
     private _config: AraTesterAxisConfig;
     private _configured: number;
     private _progressive: number;
+    private _id: AraTesterAxisId;
     private _fd: number;
     private _total: number;
-    private _dir: boolean;
+    private _direction: boolean;
     private _even: number;
     private _active: boolean;
     private _interval: NodeJS.Timer;
@@ -45,7 +49,7 @@ export class AraTesterAxis {
         console.log("Total: " + this._total);
         console.log("Progressive: " + progressive);
         console.log("Linear: " + linear);
-        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_DIR, Number(this._dir));
+        ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_DIRECTION, Number(this._direction));
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_EVEN, this._even);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PROGRESSIVE, progressive);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_LINEAR, linear);
@@ -64,6 +68,7 @@ export class AraTesterAxis {
         this._config = config;
         this._configured = config.configured / 4;
         this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
+        this._id = { axisId: axisId };
         this._fd = openIoctlSync('ara_tester_axis' + axisId);
         this._active = false;
         this._even = 0;
@@ -77,12 +82,12 @@ export class AraTesterAxis {
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_DELTA, config.tDelta);
     }
 
-    public movment(dir: boolean, distance: number): Promise<number> {
+    public movment(movment: AraTesterAxisMovment): Promise<number> {
         return new Promise<number>((resolve: (value: number) => void, reject: (reason: NodeJS.ErrnoException) => void) => {
             this._resolve = resolve;
             this._reject = reject;
-            this._dir = dir;
-            this._total = distance * this._configured;
+            this._direction = movment.direction;
+            this._total = movment.distance * this._configured;
             this._exec();
         });
     }

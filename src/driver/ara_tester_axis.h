@@ -12,7 +12,7 @@ MODULE_LICENSE("GPL v2");
 
 struct ara_tester_axis {
     struct output_pin pulse_pin;
-    struct output_pin dir_pin;
+    struct output_pin direction_pin;
     struct hrtimer timer;
 
     unsigned long t_max;
@@ -29,7 +29,7 @@ struct ara_tester_axis {
     int movment_state;
     int active;
     int even;
-    int dir;
+    int direction;
     int pulse;
     int in_use;
 };
@@ -44,16 +44,16 @@ static inline struct output_pin* __ara_tester_axis_pulse_pin_pointer(struct ara_
     return &(ara_tester_axis->pulse_pin);
 }
 
-static inline struct output_pin* __ara_tester_axis_dir_pin_pointer(struct ara_tester_axis* ara_tester_axis) {
-    return &(ara_tester_axis->dir_pin);
+static inline struct output_pin* __ara_tester_axis_direction_pin_pointer(struct ara_tester_axis* ara_tester_axis) {
+    return &(ara_tester_axis->direction_pin);
 }
 
-static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int dir_pin, hrtimer_function function) {
+static inline struct ara_tester_axis* ara_tester_axis_alloc(int pulse_pin, int direction_pin, hrtimer_function function) {
     struct ara_tester_axis* ara_tester_axis;
     ara_tester_axis = (struct ara_tester_axis*)kmalloc(sizeof(struct ara_tester_axis), GFP_KERNEL);
     if(ara_tester_axis) {
-        if(output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin) || output_pin_init(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), dir_pin)) {
-            printk("Error: can't request one or both of that gpios: %d, %d\n", pulse_pin, dir_pin);
+        if(output_pin_init(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis), pulse_pin) || output_pin_init(__ara_tester_axis_direction_pin_pointer(ara_tester_axis), direction_pin)) {
+            printk("Error: can't request one or both of that gpios: %d, %d\n", pulse_pin, direction_pin);
             kfree(ara_tester_axis);
             return NULL;
         }
@@ -78,7 +78,7 @@ static inline void ara_tester_axis_clean(struct ara_tester_axis* ara_tester_axis
     if(ara_tester_axis) {
         ara_tester_axis_stop(ara_tester_axis);
         output_pin_clean(__ara_tester_axis_pulse_pin_pointer(ara_tester_axis));
-        output_pin_clean(__ara_tester_axis_dir_pin_pointer(ara_tester_axis));
+        output_pin_clean(__ara_tester_axis_direction_pin_pointer(ara_tester_axis));
         kfree(ara_tester_axis);
     }
 }
@@ -90,7 +90,7 @@ static inline void ara_tester_axis_exec(struct ara_tester_axis* ara_tester_axis)
     ara_tester_axis->movment_state = 0;
     ara_tester_axis->t_current = ara_tester_axis->t_max;
     ara_tester_axis->count = ara_tester_axis->progressive;
-    output_pin_set_state(__ara_tester_axis_dir_pin_pointer(ara_tester_axis), ara_tester_axis->dir);
+    output_pin_set_state(__ara_tester_axis_direction_pin_pointer(ara_tester_axis), ara_tester_axis->direction);
     ara_tester_axis->timer.function(__ara_tester_axis_timer_pointer(ara_tester_axis));
 }
 

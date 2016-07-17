@@ -4,14 +4,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ContentUndo from 'material-ui/svg-icons/content/undo';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { red500, green500 } from 'material-ui/styles/colors';
-import AraTesterConfigState from '../share/AraTesterAxisConfig';
+import AraTesterConfigState from './../share/AraTesterAxisConfig';
+import AraTesterId from './../share/AraTesterAxisId';
 import DeepContentBox from './DeepContentBox';
 import { default as NumberInput, NumberInputValueHandler } from './NumberInput';
 import ConfigButton from './ConfigButton';
 const { br, div } = React.DOM;
 
-export interface AraTesterConfigProps {
-    axisId: number;
+export interface AraTesterConfigProps extends AraTesterId {
     style?: React.CSSProperties; 
 }
 

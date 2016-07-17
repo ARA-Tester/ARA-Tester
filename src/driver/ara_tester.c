@@ -126,8 +126,8 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
             ara_tester_axis_stop(ara_tester_axis);
             break;
         }
-        case ARA_TESTER_SET_DIR: {
-            _ARA_TESTER_INPUT(dir);
+        case ARA_TESTER_SET_DIRECTION: {
+            _ARA_TESTER_INPUT(direction);
         }
         case ARA_TESTER_SET_EVEN: {
             _ARA_TESTER_INPUT(even);

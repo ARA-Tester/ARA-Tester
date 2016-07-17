@@ -8,12 +8,8 @@ import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './NumberInput';
 import { AraTesterConfigProps } from './AraTesterConfig';
+import AraTesterMovmentState from './../share/AraTesterAxisMovment';
 const { div, br } = React.DOM;
-
-interface AraTesterMovmentState {
-    direction: boolean;
-    distance: number;
-}
 
 export default class AraTesterMovment extends React.Component<AraTesterConfigProps, AraTesterMovmentState> {
     public onDirectionChange: (event: TouchTapEvent, index: number, menuItemValue: boolean) => void;
