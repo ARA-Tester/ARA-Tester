@@ -44,7 +44,7 @@ Mongoose.connect('mongodb://localhost:27017/AraTester');
 let axis: AraTesterAxisController = new AraTesterAxisController(0);
 axis.autoConfigurate().then(() => {
     axis.movment({
-        direction: true,
+        direction: false,
         distance: 20
     }).then((count: number) => {
         console.log("Counter: " + count);

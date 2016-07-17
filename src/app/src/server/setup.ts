@@ -1,6 +1,6 @@
 import * as Mongoose from 'mongoose';
-import AraTesterAxisInfoDocument from './models/AraTesterAxisInfo/document.ts';
-import AraTesterAxisInfoModel from './models/AraTesterAxisInfo/model.ts';
+import AraTesterAxisInfoDocument from './models/AraTesterAxisInfo/document';
+import AraTesterAxisInfoModel from './models/AraTesterAxisInfo/model';
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect('mongodb://localhost:27017/AraTester');

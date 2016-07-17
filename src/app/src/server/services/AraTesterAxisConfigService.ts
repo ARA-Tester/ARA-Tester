@@ -1,5 +1,5 @@
-import AraTesterAxisInfoModel from './../models/AraTesterAxisInfo/model.ts';
-import AraTesterAxisInfoDocument from './../models/AraTesterAxisInfo/document.ts';
+import AraTesterAxisInfoModel from './../models/AraTesterAxisInfo/model';
+import AraTesterAxisInfoDocument from './../models/AraTesterAxisInfo/document';
 import AraTesterAxisId from './../../share/AraTesterAxisId';
 import AraTesterAxisConfig from './../../share/AraTesterAxisConfig';
 import DBService from './DBService';

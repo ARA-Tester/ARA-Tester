@@ -1,7 +1,7 @@
 __npm_bin__ = ./node_modules/.bin
-__ioctl_enum__ = ARA_TESTER.tsc
+__ioctl_enum__ = ARA_TESTER.ts
 
-all: start
+all: clean start
 
 install:
 	npm install
@@ -16,7 +16,7 @@ server:
 	g++ -std=c++11 ./src/server/exportIoctls.cc
 	./a.out
 	rm ./a.out
-	mv __ioctl_enum__ ./src/server
+	mv $(__ioctl_enum__) ./src/server
 	$(__npm_bin__)/tsc -p ./src/server
 
 start: client server
@@ -24,4 +24,6 @@ start: client server
 	node deploy/server/index.js 
 	
 clean:
-	rm -f ./a.out *.js ./src/__ioctl_enum__
+	rm -f -R ./deploy
+	find ./src -name "*.js" -type f -delete
+	rm -f ./src/server/$(__ioctl_enum__)
