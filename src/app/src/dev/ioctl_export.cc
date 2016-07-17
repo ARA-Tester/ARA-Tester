@@ -1,5 +1,5 @@
 #define IOCTL_ENUM_TS
-#include "node_modules/ioctl-enum/ioctl-enum.h"
+#include "./../../node_modules/ioctl-enum/ioctl-enum.h"
 #include <ara_tester_ioctl.h>
  
 IOCTL_ENUM("ARA_TESTER");

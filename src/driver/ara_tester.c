@@ -102,7 +102,7 @@ static long on_unlocked_ioctl(struct file * file, unsigned int command, unsigned
 		printk("Error: ioctl command exceeds last implemented command\n");
 		return -ENOTTY;
 	}
-    if(ara_tester_axis->active && ((command == ARA_TESTER_SET_DIR) || (command == ARA_TESTER_SET_PROGRESSIVE) || (command == ARA_TESTER_SET_LINEAR) || (command == ARA_TESTER_EXEC))) {
+    if(ara_tester_axis->active && ((command == ARA_TESTER_SET_DIRECTION) || (command == ARA_TESTER_SET_PROGRESSIVE) || (command == ARA_TESTER_SET_LINEAR) || (command == ARA_TESTER_EXEC))) {
         return -EALREADY;
     }
     switch(command) {

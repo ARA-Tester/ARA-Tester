@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outFile": "./test.js",
+	"outDir": "./out",
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "es6",
