@@ -35,7 +35,8 @@ export default class AraTesterAxisController {
         let progressive: number = 0;
         let linear: number = 0;
         console.log("   4        -------------------------------------------------");
-        let total: number = 2 * (this._progressive - (this._progressive % 1));
+        this._progressive += (this._progressive % 1);
+        let total: number = 2 * (this._progressive);
         console.log(total);
         if(this._total < total) {
             this._even = this._total % 2 ? 1 : 0;
