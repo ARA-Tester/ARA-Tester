@@ -39,8 +39,7 @@ server.register(Inert, () => {
 
 server.register(Nes, (regErr: any) => {
     if(regErr) {
-        console.log('register err');
-        console.log(regErr);
+        throw regErr;
     } else {
         let wsServer: Nes.Server = server as Nes.Server;
         wsServer.subscription('/AraTesterAxisOnMovmentStart/{id}');
@@ -72,7 +71,11 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisSaveConfiguration/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    axis.update(request.payload);
+                    axis.update(request.payload).then(() => {
+                        console.log('successful update');
+                    }, (err: any) => {
+                        console.log(err);
+                    });
                     reply({});
                 }
             }

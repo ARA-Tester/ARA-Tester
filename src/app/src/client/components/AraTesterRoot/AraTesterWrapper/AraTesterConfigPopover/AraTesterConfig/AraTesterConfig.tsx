@@ -105,7 +105,6 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
     }
 
     public handleSaveTouchTap(event: TouchTapEvent) {
-        console.log('save');
         this._revertInfo = this._copyState();
         this._AraTesterAxisService.saveConfiguration(this.state);
     }
