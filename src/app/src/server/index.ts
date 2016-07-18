@@ -71,11 +71,7 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisSaveConfiguration/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    axis.update(request.payload).then(() => {
-                        console.log('successful update');
-                    }, (err: any) => {
-                        console.log(err);
-                    });
+                    axis.update(request.payload);
                     reply({});
                 }
             }
