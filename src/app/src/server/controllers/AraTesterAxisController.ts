@@ -43,7 +43,6 @@ export default class AraTesterAxisController {
     }
 
     private _exec(): void {
-        console.log("Progressive: " + this._progressive);
         let progressive: number = 0;
         let linear: number = 0;
         let total: number = 2 * this._progressive;
@@ -60,6 +59,7 @@ export default class AraTesterAxisController {
         console.log("Total: " + this._total);
         console.log("Progressive: " + progressive);
         console.log("Linear: " + linear);
+        console.log("Even: " + this._even);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_DIRECTION, Number(this._direction));
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_EVEN, this._even);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PROGRESSIVE, progressive);
