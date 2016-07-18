@@ -47,6 +47,26 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
         this.setState(clone);
     }
 
+    private _convertFromServer(config: AraTesterConfigState): AraTesterConfigState {
+        return {
+            pulseWidth: config.pulseWidth / 1000,
+            tMax: config.tMax / 1000,
+            tMin: config.tMin / 1000,
+            tDelta: config.tDelta / 1000,
+            configured: config.configured
+        };
+    }
+
+    private _convertToServer(config: AraTesterConfigState): AraTesterConfigState {
+        return {
+            pulseWidth: config.pulseWidth * 1000,
+            tMax: config.tMax * 1000,
+            tMin: config.tMin * 1000,
+            tDelta: config.tDelta * 1000,
+            configured: config.configured
+        };
+    }
+
     public constructor(props: AraTesterWrapperChildProps) {
         let initalState: AraTesterConfigState = {
             pulseWidth: 0,
@@ -71,7 +91,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
 
     public componentDidMount() {
         this._AraTesterAxisService.getConfiguration().then((config: AraTesterConfigState) => {
-            this.setState(config);
+            this.setState(this._convertFromServer(config));
             this._revertInfo = AraTesterConfig._copyConfigInfo(config);
         })
     }
@@ -97,7 +117,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
     }
 
     public handleConfigTouchTap(event: TouchTapEvent) {
-        this._AraTesterAxisService.configurate(this.state);
+        this._AraTesterAxisService.configurate(this._convertToServer(this.state));
     }
 
     public handleRevertTouchTap(event: TouchTapEvent) {
@@ -106,21 +126,21 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
 
     public handleSaveTouchTap(event: TouchTapEvent) {
         this._revertInfo = this._copyState();
-        this._AraTesterAxisService.saveConfiguration(this.state);
+        this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
     }
 
     public render(): JSX.Element {
         return (
             <DeepContentBox style={this.props.style}>
-                <NumberInput label="Pulse Width" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
+                <NumberInput label="Pulse Width (uS)" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
                 <br />
-                <NumberInput label="T max" value={this.state.tMax} onChange={this.onTMaxChange} />
+                <NumberInput label="T max (uS)" value={this.state.tMax} onChange={this.onTMaxChange} />
                 <br />
-                <NumberInput label="T min" value={this.state.tMin} onChange={this.onTMinChange} />
+                <NumberInput label="T min (uS)" value={this.state.tMin} onChange={this.onTMinChange} />
                 <br />
-                <NumberInput label="T delta" value={this.state.tDelta} onChange={this.onTDeltaChange} />
+                <NumberInput label="T delta (uS)" value={this.state.tDelta} onChange={this.onTDeltaChange} />
                 <br />
-                <NumberInput label="Configured" value={this.state.configured} onChange={this.onConfiguredChange} />
+                <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
                 <br />
                 <ConfigButton disabled={this.props.disabled} onTouchTap={this.onConfigTouchTap} />
                 <br />
