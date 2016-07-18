@@ -71,7 +71,7 @@ export default class AraTesterAxisController {
             if(!active.data) {
                 this._resolveWithCounter();
             }
-        }, 100);
+        }, 1);
     }
 
     private _prepareMovment(setup: () => void): Promise<number> {

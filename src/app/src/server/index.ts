@@ -83,8 +83,11 @@ server.register(Nes, (regErr: any) => {
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
                     wsServer.publish(`/AraTesterAxisOnMovmentStart/${request.params['id']}`, {});
+                    let tBefore: Date = new Date();
                     axis.movment(request.payload).then((count: number) => {
                         console.log("Counter: " + count);
+                        console.log("Time elapsed in MS: " + ((new Date()).getTime() - tBefore.getTime()));
+                        console.log("------------------------------------------------------------")
                         wsServer.publish(`/AraTesterAxisOnMovmentEnd/${request.params['id']}`, {});
                     }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
                     reply({});
