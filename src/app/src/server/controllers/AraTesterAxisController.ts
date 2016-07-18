@@ -50,7 +50,7 @@ export default class AraTesterAxisController {
         if(this._total < total) {
             progressive = this._ensureEven(this._total / 2);
         } else {
-            progressive = this._ensureEven(this._progressive);
+            progressive = total / 2;
             if(this._total > total) {
                 linear = this._total - total;
             }
