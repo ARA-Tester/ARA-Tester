@@ -45,6 +45,7 @@ export default class AraTesterAxisController {
     private _exec(): void {
         let progressive: number = 0;
         let linear: number = 0;
+        console.log("   4        -------------------------------------------------");
         let total: number = 2 * this._progressive;
         this._even = 0;
         if(this._total < total) {
@@ -55,11 +56,19 @@ export default class AraTesterAxisController {
                 linear = this._total - total;
             }
         }
+        console.log("   5        -------------------------------------------------");
+        console.log(linear);
+        console.log("   6        -------------------------------------------------");
+        console.log(this._even);
         this._total = (2 * progressive) + linear + this._even;
-        console.log("Total: " + this._total);
-        console.log("Progressive: " + progressive);
-        console.log("Linear: " + linear);
-        console.log("Even: " + this._even);
+        console.log("   (3)      -------------------------------------------------");
+        console.log(this._total);
+        console.log("   (2)      -------------------------------------------------");
+        console.log(progressive);
+        console.log("   (5)      -------------------------------------------------");
+        console.log(linear);
+        console.log("   (6)      -------------------------------------------------");
+        console.log(this._even);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_DIRECTION, Number(this._direction));
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_EVEN, this._even);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PROGRESSIVE, progressive);
@@ -107,8 +116,18 @@ export default class AraTesterAxisController {
     public configurate(config: AraTesterAxisConfig): void {
         if(!this._active) {
             this._config = config;
+            console.log("   input    ------------------------------------------------");
+            console.log(config);
+            console.log("   1        -------------------------------------------------");
             this._configured = config.configured / 4;
-            this._progressive = ((config.tMax - config.tMin) / config.tDelta) + 1;
+            console.log(this._configured);
+            console.log("   2        -------------------------------------------------");
+            let dif: number = config.tMax - config.tMin;
+            console.log(dif);
+            let div: number = dif / config.tDelta;
+            console.log(div);
+            console.log(div + 1);
+            this._progressive = div + 1;
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PULSE_WIDTH, config.pulseWidth);
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MAX, config.tMax);
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_T_MIN, config.tMin);
@@ -125,6 +144,8 @@ export default class AraTesterAxisController {
         return this._prepareMovment((): void => {
             this._direction = movment.direction;
             this._total = movment.distance * this._configured;
+            console.log("   3        -------------------------------------------------");
+            console.log(this._total);
         });
     }
 
