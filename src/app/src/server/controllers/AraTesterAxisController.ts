@@ -32,13 +32,22 @@ export default class AraTesterAxisController {
             return progressive - whole;
         }
         this._even = 0;
-        return progressive - this._even;
+        return progressive;
+    }
+
+    private _resolveWithCounter(): void {
+        clearInterval(this._interval);
+        this._active = false;
+        let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
+        this._resolve(counter.data);
     }
 
     private _exec(): void {
+        console.log("Progressive: " + this._progressive);
         let progressive: number = 0;
         let linear: number = 0;
         let total: number = 2 * this._progressive;
+        this._even = 0;
         if(this._total < total) {
             progressive = this._ensureEven(this._total / 2);
         } else {
@@ -59,12 +68,19 @@ export default class AraTesterAxisController {
         this._interval = setInterval(() => {
             let active: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_ACTIVE);
             if(!active.data) {
-                clearInterval(this._interval);
-                this._active = false;
-                let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
-                this._resolve(counter.data);
+                this._resolveWithCounter();
             }
-        }, 1000);
+        }, this._config.tMin);
+    }
+
+    private _prepareMovment(setup: () => void): Promise<number> {
+        return new Promise<number>((resolve: (value: number) => void, reject: (reason: NodeJS.ErrnoException) => void) => {
+            let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
+            this._resolve = resolve;
+            this._reject = reject;
+            setup();
+            this._exec();
+        });
     }
 
     public constructor(axisId: number) {
@@ -105,33 +121,26 @@ export default class AraTesterAxisController {
     }
 
     public movment(movment: AraTesterAxisMovment): Promise<number> {
-        return new Promise<number>((resolve: (value: number) => void, reject: (reason: NodeJS.ErrnoException) => void) => {
-            this._resolve = resolve;
-            this._reject = reject;
+        return this._prepareMovment((): void => {
             this._direction = movment.direction;
             this._total = movment.distance * this._configured;
-            this._exec();
         });
     }
 
     public stop(): void {
         if(this._active) {
-            this._active = false;
-            clearInterval(this._interval);
             ioctl(this._fd, ARA_TESTER.ARA_TESTER_STOP);
+            this._resolveWithCounter();
         } else {
             throw new Error("No movment is active first call exec before using stop");
         }
     }
 
-    public resume(): void {
-        if(this._resolve) {
+    public resume(): Promise<number> {
+        return this._prepareMovment((): void => {
             let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
             this._total -= counter.data;
-            this._exec();
-        } else {
-            throw new Error("No movment has been stopped first call stop before using resume");
-        }
+        });
     }
 
     public release(): void {

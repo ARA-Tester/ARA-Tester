@@ -5,6 +5,7 @@
     "mongodb": "registry:dt/mongodb",
     "mpromise": "registry:dt/mpromise",
     "hapi": "registry:dt/hapi",
+    "ip": "registry:dt/ip",
     "react": "registry:dt/react",
     "react-dom": "registry:dt/react-dom",
     "react-tap-event-plugin": "registry:dt/react-tap-event-plugin",

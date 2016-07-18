@@ -3,6 +3,7 @@ import * as Hapi from 'hapi';
 import * as Inert from 'inert';
 import * as Nes from 'nes';
 import * as Mongoose from 'mongoose';
+import * as Ip from 'ip';
 import AraTesterAxisController from './controllers/AraTesterAxisController';
 
 Mongoose.Promise = global.Promise;
@@ -99,8 +100,7 @@ axis.autoConfigurate().then(() => {
         if (err) {
             throw err;
         } else {
-            console.log('Server running at port:', server.info.port);
-            console.log('Visit RPI\'s ip:/port');
+            console.log(`Server running at: http://${Ip.address()}:${server.info.port}`);
         }
     });
 }).catch((configErr: any) => {
