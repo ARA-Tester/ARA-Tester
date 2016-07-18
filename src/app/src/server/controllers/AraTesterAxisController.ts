@@ -26,13 +26,11 @@ export default class AraTesterAxisController {
     private _reject: (reason: NodeJS.ErrnoException) => void;
 
     private _ensureEven(progressive: number): number {
-        var whole: number = progressive % 1;
+        let whole: number = progressive % 1;
         if(whole) {
-            this._even = 1;
-            return progressive - whole;
+            this._even++;
         }
-        this._even = 0;
-        return progressive;
+        return progressive - whole;
     }
 
     private _resolveWithCounter(): void {
@@ -45,10 +43,10 @@ export default class AraTesterAxisController {
     private _exec(): void {
         let progressive: number = 0;
         let linear: number = 0;
-        console.log("   4        -------------------------------------------------");
-        let total: number = 2 * this._progressive;
-        console.log(total);
         this._even = 0;
+        console.log("   4        -------------------------------------------------");
+        let total: number = 2 * this._ensureEven(this._progressive);
+        console.log(total);
         if(this._total < total) {
             progressive = this._ensureEven(this._total / 2);
         } else {
