@@ -117,6 +117,8 @@ export default class AraTesterAxisController {
     }
 
     public update(config: AraTesterAxisConfig): Promise<void> {
+        console.log('update');
+        console.log(config);
         this.configurate(config);
         return AraTesterAxisController._AraTesterAxisConfigService.update(this._id, config);
     }

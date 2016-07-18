@@ -51,6 +51,19 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
 
     public render(): JSX.Element {
         let labelPosition: 'after' | 'before' = this.state.direction ? "after" : "before";
+        let movmentActionButton: JSX.Element;
+        if(this.props.disabled) {
+            movmentActionButton = <AraTesterStopButton axisId={this.props.axisId} labelPosition={labelPosition} />;
+        } else {
+            movmentActionButton = (
+                <RaisedButton
+                    disabled={this.state.distance === 0}
+                    label={this.state.direction ? "Backward" : "Forward"}
+                    labelPosition={labelPosition}
+                    icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
+                    onTouchTap={this.onMovmentTouchTap} />
+            );
+        }
         return (
             <div style={this.props.style}>
                 <SelectField value={this.state.direction} onChange={this.onDirectionChange}>
@@ -60,20 +73,7 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
                 <br />
                 <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
                 <br />
-                {((): JSX.Element => {
-                    if(this.props.disabled) {
-                        return <AraTesterStopButton axisId={this.props.axisId} labelPosition={labelPosition} />
-                    } else {
-                        return (
-                            <RaisedButton
-                                disabled={this.state.distance === 0}
-                                label={this.state.direction ? "Backward" : "Forward"}
-                                labelPosition={labelPosition}
-                                icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
-                                onTouchTap={this.onMovmentTouchTap} />
-                        );
-                    }
-                })()} 
+                {movmentActionButton}
             </div>
         );
     }
