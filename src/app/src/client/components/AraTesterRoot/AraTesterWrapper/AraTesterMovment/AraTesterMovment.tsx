@@ -7,6 +7,7 @@ import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
+import AraTesterStopButton from './../../AraTesterStopButton';
 import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
 import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
@@ -49,6 +50,7 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
     }
 
     public render(): JSX.Element {
+        let labelPosition: 'after' | 'before' = this.state.direction ? "after" : "before";
         return (
             <div style={this.props.style}>
                 <SelectField value={this.state.direction} onChange={this.onDirectionChange}>
@@ -58,12 +60,16 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
                 <br />
                 <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
                 <br />
-                <RaisedButton
-                    disabled={(this.state.distance === 0) || this.props.disabled}
-                    label={this.state.direction ? "Backward" : "Forward"}
-                    labelPosition={this.state.direction ? "after" : "before"}
-                    icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
-                    onTouchTap={this.onMovmentTouchTap} />
+                if(this.props.disabled) {
+                    <AraTesterStopButton axisId={this.props.axisId} labelPosition={labelPosition} />
+                } else {
+                    <RaisedButton
+                        disabled={this.state.distance === 0}
+                        label={this.state.direction ? "Backward" : "Forward"}
+                        labelPosition={labelPosition}
+                        icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
+                        onTouchTap={this.onMovmentTouchTap} />
+                }
             </div>
         );
     }

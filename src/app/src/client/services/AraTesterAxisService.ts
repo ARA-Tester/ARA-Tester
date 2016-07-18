@@ -43,4 +43,8 @@ export default class AraTesterAxisService {
     public movmnet(info: AraTesterAxisMovment):  Promise<void> {
         return AraTesterAxisService._AppSocket.request<AraTesterAxisMovment, void>('post', `/AraTesterAxisMovment/${this._axisId}`, info);
     }
+
+    public stop(): Promise<void> {
+        return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStop/${this._axisId}`);
+    }
 }

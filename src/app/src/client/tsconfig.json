@@ -20,6 +20,7 @@
         "components/AraTesterRoot/AraTesterWrapper/AraTesterMovment/AraTesterMovment.tsx",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterWrapperChildProps.ts",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterWrapper.tsx",
+        "components/AraTesterRoot/AraTesterStopButton.tsx",
         "components/AraTesterRoot/AraTesterRoot.tsx",
         "services/AppSocket.ts",
         "services/AraTesterAxisService.ts",
