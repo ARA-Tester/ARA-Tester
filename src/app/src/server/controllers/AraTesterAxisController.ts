@@ -11,7 +11,6 @@ const nanoSecToMilliSec = 1000000;
 
 export default class AraTesterAxisController {
     private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getService();
-
     private _config: AraTesterAxisConfig;
     private _configured: number;
     private _progressive: number;
@@ -25,14 +24,6 @@ export default class AraTesterAxisController {
     private _resolve: (value: number) => void;
     private _reject: (reason: NodeJS.ErrnoException) => void;
 
-    private _ensureEven(progressive: number): number {
-        let whole: number = progressive % 1;
-        if(whole) {
-            this._even++;
-        }
-        return progressive - whole;
-    }
-
     private _resolveWithCounter(): void {
         clearInterval(this._interval);
         this._active = false;
@@ -43,12 +34,12 @@ export default class AraTesterAxisController {
     private _exec(): void {
         let progressive: number = 0;
         let linear: number = 0;
-        this._even = 0;
         console.log("   4        -------------------------------------------------");
-        let total: number = 2 * this._ensureEven(this._progressive);
+        let total: number = 2 * (this._progressive - (this._progressive % 1));
         console.log(total);
         if(this._total < total) {
-            progressive = this._ensureEven(this._total / 2);
+            this._even = this._total % 2 ? 1 : 0;
+            progressive = (this._total - this._even) / 2;
         } else {
             progressive = total / 2;
             if(this._total > total) {
