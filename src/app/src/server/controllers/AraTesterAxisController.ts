@@ -65,6 +65,7 @@ export default class AraTesterAxisController {
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_PROGRESSIVE, progressive);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_SET_LINEAR, linear);
         ioctl(this._fd, ARA_TESTER.ARA_TESTER_EXEC);
+        this._active = true;
         this._interval = setInterval(() => {
             let active: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_ACTIVE);
             if(!active.data) {

@@ -60,16 +60,20 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
                 <br />
                 <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
                 <br />
-                if(this.props.disabled) {
-                    <AraTesterStopButton axisId={this.props.axisId} labelPosition={labelPosition} />
-                } else {
-                    <RaisedButton
-                        disabled={this.state.distance === 0}
-                        label={this.state.direction ? "Backward" : "Forward"}
-                        labelPosition={labelPosition}
-                        icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
-                        onTouchTap={this.onMovmentTouchTap} />
-                }
+                {((): JSX.Element => {
+                    if(this.props.disabled) {
+                        return <AraTesterStopButton axisId={this.props.axisId} labelPosition={labelPosition} />
+                    } else {
+                        return (
+                            <RaisedButton
+                                disabled={this.state.distance === 0}
+                                label={this.state.direction ? "Backward" : "Forward"}
+                                labelPosition={labelPosition}
+                                icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
+                                onTouchTap={this.onMovmentTouchTap} />
+                        );
+                    }
+                })()} 
             </div>
         );
     }
