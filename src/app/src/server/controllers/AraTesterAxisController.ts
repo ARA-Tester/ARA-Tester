@@ -47,6 +47,7 @@ export default class AraTesterAxisController {
         let linear: number = 0;
         console.log("   4        -------------------------------------------------");
         let total: number = 2 * this._progressive;
+        console.log(total);
         this._even = 0;
         if(this._total < total) {
             progressive = this._ensureEven(this._total / 2);
