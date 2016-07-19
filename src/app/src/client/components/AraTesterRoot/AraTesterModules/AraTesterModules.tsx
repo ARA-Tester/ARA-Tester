@@ -10,10 +10,10 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
             <DeepContentBox style={this.props.style}>
                 <AraTesterAutoMovmentButton
                     axisId={0}
-                    movment="right" />
+                    movment="left" />
                 <AraTesterAutoMovmentButton
                     axisId={0}
-                    movment="left" />
+                    movment="right" />
             </DeepContentBox>
         );
     }
