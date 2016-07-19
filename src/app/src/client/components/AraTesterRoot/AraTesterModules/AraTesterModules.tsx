@@ -51,6 +51,8 @@ export default class AraTesterModules extends React.Component<void, void> {
         return (
             <MovmentButton
                 movment="rotate left"
+                onTouchStart={this.onTouchStart}
+                onTouchEnd={this.onTouchEnd}
                 onMouseDown={this.onMouseDown} 
                 onMouseUp={this.onMouseUp} />
         );
