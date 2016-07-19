@@ -1,37 +1,20 @@
 import * as React from 'react';
-import AraTesterAxisService from './../../../services/AraTesterAxisService';
-import { default as MovmentButton, SyntheticEventHandler } from './../../MovmentButton';
+import AraTesterAutoMovmentButton from './AraTesterAutoMovmentButton';
+import DeepContentBox from './../../DeepContentBox';
+import OptionalStyleProp from './../../OptionalStyleProp';
 
-export default class AraTesterModules extends React.Component<void, void> {
-    private _AraTesterAxisService: AraTesterAxisService;
-    public onButtonPress: SyntheticEventHandler;
-    public onButtonRelease: SyntheticEventHandler;
-
-    public constructor() {
-        super();
-        this.onButtonPress = this.handleButtonPress.bind(this);
-        this.onButtonRelease = this.handleButtonRelease.bind(this);
-        this._AraTesterAxisService = new AraTesterAxisService(0);
-    }
-
-    public handleButtonPress(event: React.SyntheticEvent): void {
-        event.preventDefault();
-        event.stopPropagation();
-        this._AraTesterAxisService.moveAuto({ direction: false });
-    }
-
-    public handleButtonRelease(event: React.SyntheticEvent): void {
-        event.preventDefault();
-        event.stopPropagation();
-        this._AraTesterAxisService.stopAuto();
-    }
+export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
 
     public render(): JSX.Element {
         return (
-            <MovmentButton
-                movment="rotate left"
-                onButtonPress={this.onButtonPress}
-                onButtonRelease={this.onButtonRelease} />
+            <DeepContentBox style={this.props.style}>
+                <AraTesterAutoMovmentButton
+                    axisId={0}
+                    movment="right" />
+                <AraTesterAutoMovmentButton
+                    axisId={0}
+                    movment="left" />
+            </DeepContentBox>
         );
     }
 }
