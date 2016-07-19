@@ -1,7 +1,6 @@
 import * as React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
@@ -9,6 +8,7 @@ import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import AraTesterStopButton from './../../AraTesterStopButton';
 import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
+import MovmentButton from './../../../MovmentButton';
 import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 const { div, br } = React.DOM;
@@ -55,10 +55,9 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
             movmentActionButton = <AraTesterStopButton axisId={this.props.axisId} />;
         } else {
             movmentActionButton = (
-                <RaisedButton
+                <MovmentButton
                     disabled={this.state.distance === 0}
-                    label={this.state.direction ? "Backward" : "Forward"}
-                    icon={this.state.direction ? <ArrowBack color={yellow500} /> : <ArrowForward color={yellow500} /> }
+                    movment={this.state.direction ? "backward" : "forward"}
                     onTouchTap={this.onMovmentTouchTap} />
             );
         }

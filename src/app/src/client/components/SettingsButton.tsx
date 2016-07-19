@@ -3,14 +3,9 @@ import { TouchTapEventHandler } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import { fullWhite } from 'material-ui/styles/colors';
-import DisabledProp from './DisabledProp';
-import OptionalStyleProp from './OptionalStyleProp';
+import BasicButtonProps from './BasicButtonProps';
 
-export interface SettingsButtonProps extends DisabledProp, OptionalStyleProp {
-    onTouchTap: TouchTapEventHandler;
-}
-
-export default class SettingsButton extends React.Component<SettingsButtonProps, void> {
+export default class SettingsButton extends React.Component<BasicButtonProps, void> {
     public render(): JSX.Element {
         return <RaisedButton
             style={this.props.style}
