@@ -91,7 +91,7 @@ export default class AraTesterAxisController {
     private _prepareMovment(setup: () => void): Promise<number> {
         return new Promise<number>((resolve: (value: number) => void, reject: (reason: NodeJS.ErrnoException) => void) => {
             if(this._active) {
-                resolve(0);
+                reject(new Error('Another movment is active'));
             } else {
                 this._resolve = resolve;
                 this._reject = reject;
