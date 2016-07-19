@@ -20,6 +20,7 @@ export default class AraTesterAxisController {
     private _direction: boolean;
     private _even: number;
     private _active: boolean;
+    private _auto: boolean;
     private _interval: NodeJS.Timer;
     private _resolve: (value: number) => void;
     private _reject: (reason: NodeJS.ErrnoException) => void;
@@ -97,10 +98,22 @@ export default class AraTesterAxisController {
         });
     }
 
+    private _automatic(direction: boolean) {
+        this.movment({
+            direction: direction,
+            distance: 1
+        }).then(() => {
+            if(this._auto) {
+                this._automatic(direction);
+            }
+        });
+    }
+
     public constructor(axisId: number) {
         this._id = { axisId: axisId };
         this._fd = openIoctlSync('ara_tester_axis' + axisId);
         this._active = false;
+        this._auto = false;
         this._even = 0;
     }
 
@@ -167,6 +180,15 @@ export default class AraTesterAxisController {
             let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
             this._total -= counter.data;
         });
+    }
+
+    public moveAuto(direction: boolean): void {
+        this._auto = true;
+        this._automatic(direction);
+    }
+
+    public stopAuto(): void {
+        this._auto = false;
     }
 
     public release(): void {

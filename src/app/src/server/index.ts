@@ -93,6 +93,28 @@ server.register(Nes, (regErr: any) => {
                 }
             }
         });
+
+        wsServer.route({
+            method: 'POST',
+            path: '/AraTesterAxisMoveAuto/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    axis.moveAuto(request.payload.direction);
+                    reply({});
+                }
+            }
+        });
+
+        wsServer.route({
+            method: 'GET',
+            path: '/AraTesterAxisStopAuto/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    axis.stopAuto();
+                    reply({});
+                }
+            }
+        });
     }
 });
 

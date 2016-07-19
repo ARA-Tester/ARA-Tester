@@ -1,7 +1,9 @@
 import * as React from 'react';
+import AraTesterAxisService from './../../../services/AraTesterAxisService';
 import { default as MovmentButton, SyntheticEventHandler } from './../../MovmentButton';
 
 export default class AraTesterModules extends React.Component<void, void> {
+    private _AraTesterAxisService: AraTesterAxisService;
     public onButtonPress: SyntheticEventHandler;
     public onButtonRelease: SyntheticEventHandler;
 
@@ -9,20 +11,19 @@ export default class AraTesterModules extends React.Component<void, void> {
         super();
         this.onButtonPress = this.handleButtonPress.bind(this);
         this.onButtonRelease = this.handleButtonRelease.bind(this);
+        this._AraTesterAxisService = new AraTesterAxisService(0);
     }
 
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        console.log('pres');
-        console.log(new Date());
+        this._AraTesterAxisService.moveAuto({ direction: false });
     }
 
     public handleButtonRelease(event: React.SyntheticEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        console.log('release');
-        console.log(new Date());
+        this._AraTesterAxisService.stopAuto();
     }
 
     public render(): JSX.Element {

@@ -1,6 +1,7 @@
 import AppSocket from './AppSocket';
 import AraTesterAxisConfig from './../../share/AraTesterAxisConfig';
 import AraTesterAxisMovment from './../../share/AraTesterAxisMovment';
+import AraTesterAxisDirection from './../../share/AraTesterAxisDirection';
 
 export default class AraTesterAxisService {
     private static _AppSocket: AppSocket;
@@ -42,5 +43,13 @@ export default class AraTesterAxisService {
 
     public stop(): Promise<void> {
         return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStop/${this._axisId}`);
+    }
+
+    public moveAuto(direction: AraTesterAxisDirection) {
+        return AraTesterAxisService._AppSocket.request<AraTesterAxisDirection, void>('post', `/AraTesterAxisMoveAuto/${this._axisId}`, direction);
+    }
+
+    public stopAuto(): Promise<void> {
+        return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStopAuto/${this._axisId}`);
     }
 }
