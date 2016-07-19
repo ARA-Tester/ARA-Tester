@@ -7,14 +7,14 @@ import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import AraTesterStopButton from './../../AraTesterStopButton';
-import { AraTesterWrapperProps } from './../AraTesterWrapper';
+import { AraTesterConfigWrapperProps } from './../AraTesterConfigWrapper';
 import DisabledProp from './../../../DisabledProp';
 import MovmentButton from './../../../MovmentButton';
 import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 const { div, br } = React.DOM;
 
-interface AraTesterMovmentProps extends AraTesterWrapperProps, DisabledProp {
+interface AraTesterMovmentProps extends AraTesterConfigWrapperProps, DisabledProp {
 
 }
 

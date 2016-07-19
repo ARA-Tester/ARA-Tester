@@ -1,5 +1,5 @@
 interface DisabledProp {
-    disabled: boolean;
+    disabled?: boolean;
 }
 
 export default DisabledProp;

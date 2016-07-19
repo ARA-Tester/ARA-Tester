@@ -55,7 +55,9 @@ export default class SettingsButton extends React.Component<MovmentButtonProps, 
                 disabled={this.props.disabled}
                 icon={icon}
                 primary={true}
-                onTouchTap={this.props.onTouchTap} />
+                onTouchTap={this.props.onTouchTap}
+                onTouchStart={this.props.onTouchStart}
+                onTouchEnd={this.props.onTouchEnd} />
         );
     }
 };

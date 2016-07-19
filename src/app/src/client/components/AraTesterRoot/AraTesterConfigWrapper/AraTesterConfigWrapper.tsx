@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AraTesterWrapperState from './../../DisabledProp';
+import AraTesterConfigWrapperState from './../../DisabledProp';
 import OptionalStyleProp from './../../OptionalStyleProp';
 import AraTesterAxisId from './../../../../share/AraTesterAxisId';
 import DeepContentBox from './../../DeepContentBox';
@@ -8,7 +8,7 @@ import AraTesterMovment from './AraTesterMovment/AraTesterMovment';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
 import { PositiveMovment, NegativeMovment } from './../../MovmentButton';
 
-export interface AraTesterWrapperProps extends AraTesterAxisId, OptionalStyleProp {
+export interface AraTesterConfigWrapperProps extends AraTesterAxisId, OptionalStyleProp {
     positive: PositiveMovment;
     negative: NegativeMovment;
 }
@@ -18,10 +18,10 @@ const spaceStyle: React.CSSProperties = {
     marginBottom: 10
 };
 
-export default class AraTesterWrapper extends React.Component<AraTesterWrapperProps, AraTesterWrapperState> {
+export default class AraTesterConfigWrapper extends React.Component<AraTesterConfigWrapperProps, AraTesterConfigWrapperState> {
     private _AraTesterAxisService: AraTesterAxisService;
 
-    public constructor(props: AraTesterWrapperProps) {
+    public constructor(props: AraTesterConfigWrapperProps) {
         super(props);
         this.state = { disabled: false };
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
