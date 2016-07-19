@@ -15,7 +15,7 @@ export default class SettingsButton extends React.Component<SettingsButtonProps,
         return <RaisedButton
             style={this.props.style}
             disabled={this.props.disabled}
-            label="Settings"
+            label="settings"
             primary={true}
             icon={<ActionSettings color={fullWhite} />}
             onTouchTap={this.props.onTouchTap} />;

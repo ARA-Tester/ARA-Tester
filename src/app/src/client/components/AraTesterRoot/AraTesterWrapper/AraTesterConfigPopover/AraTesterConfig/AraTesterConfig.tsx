@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
 import AraTesterWrapperChildProps from './../../AraTesterWrapperChildProps';
 import AraTesterConfigState from './../../../../../../share/AraTesterAxisConfig';
@@ -117,8 +117,8 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
                 <br />
                 <RaisedButton
                         disabled={this.props.disabled}
-                        label="Save"
-                        icon={<ContentAdd color={green500} />}
+                        label="save"
+                        icon={<ContentSave color={green500} />}
                         onTouchTap={this.onSaveTouchTap} />
             </DeepContentBox>
         );
