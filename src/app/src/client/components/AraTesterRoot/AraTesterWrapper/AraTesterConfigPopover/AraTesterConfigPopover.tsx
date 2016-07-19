@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import Popover from 'material-ui/Popover';
-import ConfigButton from './../../../ConfigButton';
+import SettingsButton from './../../../SettingsButton';
 import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
 import AraTesterConfig from './AraTesterConfig/AraTesterConfig';
 const { div } = React.DOM;
@@ -41,7 +41,7 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterWra
     public render(): JSX.Element {
         return (
             <div style={this.props.style}>
-                <ConfigButton disabled={this.props.disabled} onTouchTap={this.onTouchTab} />
+                <SettingsButton disabled={this.props.disabled} onTouchTap={this.onTouchTab} />
                 <Popover open={this.state.open} anchorEl={this.state.anchorEl} onRequestClose={this.onRequestClose} >
                     <AraTesterConfig {...this.props} />
                 </Popover>

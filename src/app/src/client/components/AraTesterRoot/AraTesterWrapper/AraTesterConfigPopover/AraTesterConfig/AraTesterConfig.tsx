@@ -1,25 +1,14 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import ContentUndo from 'material-ui/svg-icons/content/undo';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { red500, green500 } from 'material-ui/styles/colors';
+import { green500 } from 'material-ui/styles/colors';
 import AraTesterWrapperChildProps from './../../AraTesterWrapperChildProps';
 import AraTesterConfigState from './../../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../../DeepContentBox';
 import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
-import ConfigButton from './../../../../ConfigButton';
 import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
 const { br, div } = React.DOM;
-
-const actionButtonStyle: React.CSSProperties = {
-    marginTop: 5,
-    marginBottom: 0
-};
-
-const actionRevertButtonStyle = Object.assign({}, actionButtonStyle, { marginRight: 15 });
-
-const actionSaveButtonStyle = Object.assign({}, actionButtonStyle, { marginLeft: 15 });
 
 export default class AraTesterConfig extends React.Component<AraTesterWrapperChildProps, AraTesterConfigState> {
     private static _copyConfigInfo(info: AraTesterConfigState): AraTesterConfigState {
@@ -27,14 +16,11 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
     }
 
     private _AraTesterAxisService: AraTesterAxisService;
-    private _revertInfo: AraTesterConfigState;
     public onPulseWidthChange: NumberInputValueHandler;
     public onTMaxChange: NumberInputValueHandler;
     public onTMinChange: NumberInputValueHandler;
     public onTDeltaChange: NumberInputValueHandler;
     public onConfiguredChange: NumberInputValueHandler;
-    public onConfigTouchTap: TouchTapEventHandler;
-    public onRevertTouchTap: TouchTapEventHandler;
     public onSaveTouchTap: TouchTapEventHandler;
 
     private _copyState(): AraTesterConfigState {
@@ -78,21 +64,17 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
         super(props);
         this.state = AraTesterConfig._copyConfigInfo(initalState);
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
-        this._revertInfo = AraTesterConfig._copyConfigInfo(initalState);
         this.onPulseWidthChange = this.handlePulseWidthChange.bind(this);
         this.onTMaxChange = this.handleTMaxChange.bind(this);
         this.onTMinChange = this.handleTMinChange.bind(this);
         this.onTDeltaChange = this.handleTDeltaChange.bind(this);
         this.onConfiguredChange = this.handleConfiguredChange.bind(this);
-        this.onConfigTouchTap = this.handleConfigTouchTap.bind(this);
-        this.onRevertTouchTap = this.handleRevertTouchTap.bind(this);
         this.onSaveTouchTap = this.handleSaveTouchTap.bind(this);
     }
 
     public componentDidMount() {
         this._AraTesterAxisService.getConfiguration().then((config: AraTesterConfigState) => {
-            this.setState(this._convertFromServer(config));
-            this._revertInfo = AraTesterConfig._copyConfigInfo(config);
+            this.setState(this._convertFromServer(config));;
         })
     }
 
@@ -116,16 +98,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
         this._setState((state: AraTesterConfigState) => { state.configured = value; });
     }
 
-    public handleConfigTouchTap(event: TouchTapEvent) {
-        this._AraTesterAxisService.configurate(this._convertToServer(this.state));
-    }
-
-    public handleRevertTouchTap(event: TouchTapEvent) {
-        this.setState(this._revertInfo);
-    }
-
-    public handleSaveTouchTap(event: TouchTapEvent) {
-        this._revertInfo = this._copyState();
+    public handleSaveTouchTap(event: TouchTapEvent) {;
         this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
     }
 
@@ -142,23 +115,11 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
                 <br />
                 <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
                 <br />
-                <ConfigButton disabled={this.props.disabled} onTouchTap={this.onConfigTouchTap} />
-                <br />
-                <div style={actionButtonStyle}>
-                    <RaisedButton
-                        style={actionRevertButtonStyle}
-                        disabled={this.props.disabled}
-                        label="Revert"
-                        icon={<ContentUndo color={red500} />}
-                        onTouchTap={this.onRevertTouchTap} />
-                    <RaisedButton
-                        style={actionRevertButtonStyle}
+                <RaisedButton
                         disabled={this.props.disabled}
                         label="Save"
-                        labelPosition="before"
                         icon={<ContentAdd color={green500} />}
                         onTouchTap={this.onSaveTouchTap} />
-                </div>
             </DeepContentBox>
         );
     }

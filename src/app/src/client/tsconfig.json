@@ -13,7 +13,7 @@
         "components/DisabledProp.ts",
         "components/OptionalStyleProp.ts",
         "components/DeepContentBox.tsx",
-        "components/ConfigButton.tsx",
+        "components/SettingsButton.tsx",
         "components/NumberInput.tsx",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterConfigPopover/AraTesterConfig/AraTesterConfig.tsx",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterConfigPopover/AraTesterConfigPopover.tsx",

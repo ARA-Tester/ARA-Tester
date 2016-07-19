@@ -32,10 +32,6 @@ export default class AraTesterAxisService {
         return AraTesterAxisService._AppSocket.request<void, AraTesterAxisConfig>('get', `/AraTesterAxisGetConfiguration/${this._axisId}`);
     }
 
-    public configurate(config: AraTesterAxisConfig): Promise<void> {
-        return AraTesterAxisService._AppSocket.request<AraTesterAxisConfig, void>('post', `/AraTesterAxisConfigurate/${this._axisId}`, config);
-    }
-
     public saveConfiguration(config: AraTesterAxisConfig): Promise<void> {
         return AraTesterAxisService._AppSocket.request<AraTesterAxisConfig, void>('patch', `/AraTesterAxisSaveConfiguration/${this._axisId}`, config);
     }

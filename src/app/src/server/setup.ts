@@ -7,11 +7,11 @@ Mongoose.connect('mongodb://localhost:27017/AraTester');
 
 AraTesterAxisInfoModel.create({
     axisId: 0,
-    pulseWidth: 50,
-    tMax: 5000000,
-    tMin: 50000,
-    tDelta: 1000,
-    configured: 6400
+    pulseWidth: 2000,
+    tMax: 800000,
+    tMin: 40000,
+    tDelta: 500,
+    configured: 3200
 }).then((created: AraTesterAxisInfoDocument) => {
     console.log(created);
 }, (err: any) => {

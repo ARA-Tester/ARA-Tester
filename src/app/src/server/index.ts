@@ -56,17 +56,6 @@ server.register(Nes, (regErr: any) => {
         });
 
         wsServer.route({
-            method: 'POST',
-            path: '/AraTesterAxisConfigurate/{id}',
-            config: {
-                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    axis.configurate(request.payload);
-                    reply({});
-                }
-            }
-        });
-
-        wsServer.route({
             method: 'PATCH',
             path: '/AraTesterAxisSaveConfiguration/{id}',
             config: {
