@@ -16,21 +16,29 @@ export default class AraTesterModules extends React.Component<void, void> {
     }
 
     public handleTouchStart(event: React.TouchEvent): void {
+        event.preventDefault();
+        console.log(event);
         console.log('start');
         console.log(new Date());
     }
 
     public handleTouchEnd(event: React.TouchEvent): void {
+        event.preventDefault();
+        console.log(event);
         console.log('end');
         console.log(new Date());
     }
 
     public handleMouseDown(event: React.MouseEvent): void {
+        event.preventDefault();
+        console.log(event);
         console.log('down');
         console.log(new Date());
     }
 
     public handleMouseUp(event: React.MouseEvent): void {
+        event.preventDefault();
+        console.log(event);
         console.log('up');
         console.log(new Date());
     }
