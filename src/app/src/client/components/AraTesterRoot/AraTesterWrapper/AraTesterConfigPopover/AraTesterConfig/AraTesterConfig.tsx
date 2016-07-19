@@ -3,14 +3,14 @@ import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
-import AraTesterWrapperChildProps from './../../AraTesterWrapperChildProps';
+import { AraTesterConfigPopoverProps } from './../AraTesterConfigPopover';
 import AraTesterConfigState from './../../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../../DeepContentBox';
 import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
 import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
 const { br, div } = React.DOM;
 
-export default class AraTesterConfig extends React.Component<AraTesterWrapperChildProps, AraTesterConfigState> {
+export default class AraTesterConfig extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigState> {
     private static _copyConfigInfo(info: AraTesterConfigState): AraTesterConfigState {
         return Object.assign({}, info);
     }
@@ -53,7 +53,7 @@ export default class AraTesterConfig extends React.Component<AraTesterWrapperChi
         };
     }
 
-    public constructor(props: AraTesterWrapperChildProps) {
+    public constructor(props: AraTesterConfigPopoverProps) {
         let initalState: AraTesterConfigState = {
             pulseWidth: 0,
             tMax: 0,

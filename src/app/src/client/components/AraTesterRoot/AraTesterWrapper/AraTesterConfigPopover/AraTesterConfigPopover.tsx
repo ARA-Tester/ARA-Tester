@@ -2,20 +2,27 @@ import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import Popover from 'material-ui/Popover';
 import SettingsButton from './../../../SettingsButton';
-import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
+import AraTesterWrapperState from './../../../DisabledProp';
+import OptionalStyleProp from './../../../OptionalStyleProp';
+import AraTesterAxisId from './../../../../../share/AraTesterAxisId';
+import DisabledProp from './../../../DisabledProp';
 import AraTesterConfig from './AraTesterConfig/AraTesterConfig';
 const { div } = React.DOM;
+
+export interface AraTesterConfigPopoverProps extends AraTesterAxisId, OptionalStyleProp, DisabledProp {
+
+}
 
 export interface AraTesterConfigPopoverState {
     open: boolean;
     anchorEl?: Element;
 }
 
-export default class AraTesterConfigPopover extends React.Component<AraTesterWrapperChildProps, AraTesterConfigPopoverState> {
+export default class AraTesterConfigPopover extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigPopoverState> {
     public onTouchTab: TouchTapEventHandler;
     public onRequestClose: () => void;
 
-    public constructor(props: AraTesterWrapperChildProps) {
+    public constructor(props: AraTesterConfigPopoverProps) {
         super(props);
         this.state = {
             open: false

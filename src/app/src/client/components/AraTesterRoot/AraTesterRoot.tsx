@@ -9,7 +9,7 @@ export default class AraTesterRoot extends React.Component<void, void> {
             <MuiThemeProvider>
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
-                    <AraTesterWrapper axisId={0} />
+                    <AraTesterWrapper axisId={0} positive="right" negative="left" />
                 </div>
             </MuiThemeProvider>
         );

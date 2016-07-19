@@ -20,7 +20,6 @@
         "components/AraTesterRoot/AraTesterWrapper/AraTesterConfigPopover/AraTesterConfig/AraTesterConfig.tsx",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterConfigPopover/AraTesterConfigPopover.tsx",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterMovment/AraTesterMovment.tsx",
-        "components/AraTesterRoot/AraTesterWrapper/AraTesterWrapperChildProps.ts",
         "components/AraTesterRoot/AraTesterWrapper/AraTesterWrapper.tsx",
         "components/AraTesterRoot/AraTesterStopButton.tsx",
         "components/AraTesterRoot/AraTesterRoot.tsx",

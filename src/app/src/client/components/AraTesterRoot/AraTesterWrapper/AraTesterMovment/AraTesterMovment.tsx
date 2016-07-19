@@ -7,19 +7,24 @@ import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import AraTesterStopButton from './../../AraTesterStopButton';
-import AraTesterWrapperChildProps from './../AraTesterWrapperChildProps';
+import { AraTesterWrapperProps } from './../AraTesterWrapper';
+import DisabledProp from './../../../DisabledProp';
 import MovmentButton from './../../../MovmentButton';
 import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 const { div, br } = React.DOM;
 
-export default class AraTesterMovment extends React.Component<AraTesterWrapperChildProps, AraTesterMovmentState> {
+interface AraTesterMovmentProps extends AraTesterWrapperProps, DisabledProp {
+
+}
+
+export default class AraTesterMovment extends React.Component<AraTesterMovmentProps, AraTesterMovmentState> {
     private _AraTesterAxisService: AraTesterAxisService;
     public onDirectionChange: (event: TouchTapEvent, index: number, menuItemValue: boolean) => void;
     public onDistanceChange: NumberInputValueHandler;
     public onMovmentTouchTap: TouchTapEventHandler;
 
-    public constructor(props: AraTesterWrapperChildProps) {
+    public constructor(props: AraTesterMovmentProps) {
         super(props);
         this.state = {
             direction: false,
@@ -57,15 +62,15 @@ export default class AraTesterMovment extends React.Component<AraTesterWrapperCh
             movmentActionButton = (
                 <MovmentButton
                     disabled={this.state.distance === 0}
-                    movment={this.state.direction ? "backward" : "forward"}
+                    movment={this.state.direction ? this.props.negative : this.props.positive}
                     onTouchTap={this.onMovmentTouchTap} />
             );
         }
         return (
             <div style={this.props.style}>
                 <SelectField value={this.state.direction} onChange={this.onDirectionChange}>
-                    <MenuItem value={false} primaryText="Forward" />
-                    <MenuItem value={true} primaryText="Backward" />
+                    <MenuItem value={false} primaryText={this.props.positive} />
+                    <MenuItem value={true} primaryText={this.props.negative} />
                 </SelectField>
                 <br />
                 <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />

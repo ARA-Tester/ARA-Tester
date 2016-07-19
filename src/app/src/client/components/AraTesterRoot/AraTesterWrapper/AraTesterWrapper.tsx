@@ -6,9 +6,11 @@ import DeepContentBox from './../../DeepContentBox';
 import AraTesterConfigPopover from './AraTesterConfigPopover/AraTesterConfigPopover';
 import AraTesterMovment from './AraTesterMovment/AraTesterMovment';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
+import { PositiveMovment, NegativeMovment } from './../../MovmentButton';
 
 export interface AraTesterWrapperProps extends AraTesterAxisId, OptionalStyleProp {
-
+    positive: PositiveMovment;
+    negative: NegativeMovment;
 }
 
 const spaceStyle: React.CSSProperties = {
@@ -41,7 +43,7 @@ export default class AraTesterWrapper extends React.Component<AraTesterWrapperPr
     public render(): JSX.Element {
         return (
             <DeepContentBox style={this.props.style}>
-                <AraTesterConfigPopover style={spaceStyle} {...this.props} disabled={this.state.disabled} />
+                <AraTesterConfigPopover style={spaceStyle} axisId={this.props.axisId} disabled={this.state.disabled} />
                 <AraTesterMovment style={spaceStyle} {...this.props} disabled={this.state.disabled} />
             </DeepContentBox>
         );

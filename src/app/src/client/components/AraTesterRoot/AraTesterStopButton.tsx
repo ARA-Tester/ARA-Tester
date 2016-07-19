@@ -3,14 +3,19 @@ import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionPause from 'material-ui/svg-icons/av/pause';
 import { fullWhite, red500 } from 'material-ui/styles/colors';
-import { AraTesterWrapperProps } from './AraTesterWrapper/AraTesterWrapper';
+import OptionalStyleProp from './../OptionalStyleProp';
+import AraTesterAxisId from './../../../share/AraTesterAxisId';
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 
-export default class AraTesterStopButton extends React.Component<AraTesterWrapperProps, void> {
+export interface AraTesterStopButtonProps extends AraTesterAxisId, OptionalStyleProp {
+
+}
+
+export default class AraTesterStopButton extends React.Component<AraTesterStopButtonProps, void> {
     private _AraTesterAxisService: AraTesterAxisService;
     public onTouchTap: TouchTapEventHandler;
 
-    public constructor(props: AraTesterWrapperProps) {
+    public constructor(props: AraTesterStopButtonProps) {
         super(props);
         this.onTouchTap = this.handleTouchTap.bind(this);
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);

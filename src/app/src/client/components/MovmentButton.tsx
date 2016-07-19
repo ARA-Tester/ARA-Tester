@@ -12,8 +12,12 @@ import RotateLeft from 'material-ui/svg-icons/av/replay';
 import RotateRight from 'material-ui/svg-icons/navigation/refresh';
 import BasicButtonProps from './BasicButtonProps';
 
-interface MovmentButtonProps extends BasicButtonProps {
-    movment: 'forward' | 'backward' | 'up' | 'down' | 'left' | 'right' | 'rotate left' | 'rotate right';
+export type PositiveMovment = 'forward' | 'right' | 'up' | 'rotate right';
+
+export type NegativeMovment = 'bacward' | 'left' | 'down' | 'rotate left';
+
+export interface MovmentButtonProps extends BasicButtonProps {
+    movment: PositiveMovment | NegativeMovment;
 }
 
 export default class SettingsButton extends React.Component<MovmentButtonProps, void> {
