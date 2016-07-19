@@ -17,6 +17,7 @@ export default class AraTesterModules extends React.Component<void, void> {
 
     public handleTouchStart(event: React.TouchEvent): void {
         event.preventDefault();
+        event.stopPropagation();
         console.log(event);
         console.log('start');
         console.log(new Date());
@@ -24,6 +25,7 @@ export default class AraTesterModules extends React.Component<void, void> {
 
     public handleTouchEnd(event: React.TouchEvent): void {
         event.preventDefault();
+        event.stopPropagation();
         console.log(event);
         console.log('end');
         console.log(new Date());
@@ -31,6 +33,7 @@ export default class AraTesterModules extends React.Component<void, void> {
 
     public handleMouseDown(event: React.MouseEvent): void {
         event.preventDefault();
+        event.stopPropagation();
         console.log(event);
         console.log('down');
         console.log(new Date());
@@ -38,6 +41,7 @@ export default class AraTesterModules extends React.Component<void, void> {
 
     public handleMouseUp(event: React.MouseEvent): void {
         event.preventDefault();
+        event.stopPropagation();
         console.log(event);
         console.log('up');
         console.log(new Date());
@@ -47,8 +51,6 @@ export default class AraTesterModules extends React.Component<void, void> {
         return (
             <MovmentButton
                 movment="rotate left"
-                onTouchStart={this.onTouchStart}
-                onTouchEnd={this.onTouchEnd}
                 onMouseDown={this.onMouseDown} 
                 onMouseUp={this.onMouseUp} />
         );
