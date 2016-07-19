@@ -90,11 +90,14 @@ export default class AraTesterAxisController {
 
     private _prepareMovment(setup: () => void): Promise<number> {
         return new Promise<number>((resolve: (value: number) => void, reject: (reason: NodeJS.ErrnoException) => void) => {
-            let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
-            this._resolve = resolve;
-            this._reject = reject;
-            setup();
-            this._exec();
+            if(this._active) {
+                resolve(0);
+            } else {
+                this._resolve = resolve;
+                this._reject = reject;
+                setup();
+                this._exec();
+            }
         });
     }
 
