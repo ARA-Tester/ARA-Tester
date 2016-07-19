@@ -16,8 +16,12 @@ export type PositiveMovment = 'forward' | 'right' | 'up' | 'rotate right';
 
 export type NegativeMovment = 'bacward' | 'left' | 'down' | 'rotate left';
 
+export type SyntheticEventHandler = React.EventHandler<React.SyntheticEvent>;
+
 export interface MovmentButtonProps extends BasicButtonProps {
     movment: PositiveMovment | NegativeMovment;
+    onButtonPress?: SyntheticEventHandler;
+    onButtonRelease?: SyntheticEventHandler;
 }
 
 export default class SettingsButton extends React.Component<MovmentButtonProps, void> {
@@ -56,10 +60,10 @@ export default class SettingsButton extends React.Component<MovmentButtonProps, 
                 icon={icon}
                 primary={true}
                 onTouchTap={this.props.onTouchTap}
-                onTouchStart={this.props.onTouchStart}
-                onTouchEnd={this.props.onTouchEnd}
-                onMouseDown={this.props.onMouseDown}
-                onMouseUp={this.props.onMouseUp} />
+                onTouchStart={this.props.onButtonPress}
+                onTouchEnd={this.props.onButtonRelease}
+                onMouseDown={this.props.onButtonPress}
+                onMouseUp={this.props.onButtonRelease} />
         );
     }
 };
