@@ -10,11 +10,6 @@ export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, Ar
 
 }
 
-const disabledStyle: React.CSSProperties = {
-    backgroundColor: purple500,
-    color: pink500
-};
-
 export default class AraTesterAxisCurrentPosition extends React.Component<AraTesterAxisCurrentPositionProps, AraTesterAxisCurrentPositionState> {
     private _AraTesterAxisService: AraTesterAxisService;
 
@@ -42,7 +37,7 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
     public render(): JSX.Element {
         return (
             <RaisedButton
-                style={Object.assign({}, disabledStyle, this.props.style)}
+                style={this.props.style}
                 disabled={true}
                 label={String(this.state.distance)} />
         );

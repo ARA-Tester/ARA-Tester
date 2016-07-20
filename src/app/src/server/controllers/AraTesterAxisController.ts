@@ -11,7 +11,7 @@ import AraTesterAxisDistanceService from './../services/AraTesterAxisDistanceSer
 
 const nanoSecToMilliSec = 1000000;
 
-export type OnPositionChangeFactory = (id: AraTesterAxisId, position: number) => void;
+export type OnPositionChangeFactory = (id: AraTesterAxisId, position: AraTesterAxisDistance) => void;
 
 export default class AraTesterAxisController {
     private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getService();
@@ -36,7 +36,9 @@ export default class AraTesterAxisController {
         clearInterval(this._interval);
         this._active = false;
         let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
-        AraTesterAxisController.onPositionChangeFactory(this._id, this._position);
+        let position: AraTesterAxisDistance = { distance: this._position };
+        AraTesterAxisController._AraTesterAxisDistanceService.update(this._id, position);
+        AraTesterAxisController.onPositionChangeFactory(this._id, position);
         this._resolve(counter.data);
     }
 
@@ -192,6 +194,9 @@ export default class AraTesterAxisController {
                 movment.distance -= (this._position - 172);
                 this._position = 172;
             }
+        }
+        if(!movment.distance) {
+            return Promise.resolve(0);
         }
         return this._prepareMovment((): void => {
             this._direction = movment.direction;

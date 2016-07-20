@@ -6,6 +6,7 @@ import * as Mongoose from 'mongoose';
 import * as Ip from 'ip';
 import AraTesterAxisController from './controllers/AraTesterAxisController';
 import AraTesterAxisId from './../share/AraTesterAxisId';
+import AraTesterAxisDistance from './../share/AraTesterAxisDistance';
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect('mongodb://localhost:27017/AraTester');
@@ -47,8 +48,8 @@ server.register(Nes, (regErr: any) => {
         wsServer.subscription('/AraTesterAxisOnMovmentEnd/{id}');
         wsServer.subscription('/AraTesterAxisOnPositionChange/{id}');
 
-        AraTesterAxisController.onPositionChangeFactory = (id: AraTesterAxisId, position: number): void => {
-            wsServer.publish(`/AraTesterAxisOnPositionChange/${id.axisId}`, { distance: position });
+        AraTesterAxisController.onPositionChangeFactory = (id: AraTesterAxisId, position: AraTesterAxisDistance): void => {
+            wsServer.publish(`/AraTesterAxisOnPositionChange/${id.axisId}`, position);
         };
 
         wsServer.route({
@@ -127,6 +128,7 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisGetPosition/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    console.log('POSTIION');
                     reply(axis.getPosition());
                 }
             }
