@@ -5,6 +5,7 @@ import * as Nes from 'nes';
 import * as Mongoose from 'mongoose';
 import * as Ip from 'ip';
 import AraTesterAxisController from './controllers/AraTesterAxisController';
+import AraTesterAxisId from './../share/AraTesterAxisId';
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect('mongodb://localhost:27017/AraTester');
@@ -44,6 +45,11 @@ server.register(Nes, (regErr: any) => {
         let wsServer: Nes.Server = server as Nes.Server;
         wsServer.subscription('/AraTesterAxisOnMovmentStart/{id}');
         wsServer.subscription('/AraTesterAxisOnMovmentEnd/{id}');
+        wsServer.subscription('/AraTesterAxisOnPositionChange/{id}');
+
+        AraTesterAxisController.onPositionChangeFactory = (id: AraTesterAxisId, position: number): void => {
+            wsServer.publish(`/AraTesterAxisOnPositionChange/${id.axisId}`, { distance: position });
+        };
 
         wsServer.route({
             method: 'GET',
@@ -112,6 +118,16 @@ server.register(Nes, (regErr: any) => {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
                     axis.stopAuto();
                     reply({});
+                }
+            }
+        });
+
+        wsServer.route({
+            method: 'GET',
+            path: '/AraTesterAxisGetPosition/{id}',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    reply(axis.getPosition());
                 }
             }
         });

@@ -2,15 +2,21 @@ import { ioctl, Ioctl } from 'ioctl-ulong';
 import { openIoctlSync } from 'open-ioctl';
 import { closeSync } from 'fs';
 import AraTesterAxisConfig from './../../share/AraTesterAxisConfig';
+import AraTesterAxisDistance from './../../share/AraTesterAxisDistance';
 import AraTesterAxisMovment from './../../share/AraTesterAxisMovment';
 import AraTesterAxisId from './../../share/AraTesterAxisId';
 import { ARA_TESTER } from './../ARA_TESTER';
 import AraTesterAxisConfigService from './../services/AraTesterAxisConfigService';
+import AraTesterAxisDistanceService from './../services/AraTesterAxisDistanceService';
 
 const nanoSecToMilliSec = 1000000;
 
+export type OnPositionChangeFactory = (id: AraTesterAxisId, position: number) => void;
+
 export default class AraTesterAxisController {
     private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getService();
+    private static _AraTesterAxisDistanceService: AraTesterAxisDistanceService = AraTesterAxisDistanceService.getService();
+    public static onPositionChangeFactory: OnPositionChangeFactory;
     private _config: AraTesterAxisConfig;
     private _configured: number;
     private _progressive: number;
@@ -19,6 +25,7 @@ export default class AraTesterAxisController {
     private _total: number;
     private _direction: boolean;
     private _even: number;
+    private _position: number;
     private _active: boolean;
     private _auto: boolean;
     private _interval: NodeJS.Timer;
@@ -29,6 +36,7 @@ export default class AraTesterAxisController {
         clearInterval(this._interval);
         this._active = false;
         let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
+        AraTesterAxisController.onPositionChangeFactory(this._id, this._position);
         this._resolve(counter.data);
     }
 
@@ -124,13 +132,24 @@ export default class AraTesterAxisController {
         return this._config;
     }
 
-    public autoConfigurate(): Promise<void> {
-        return new Promise<void>((resolve: () => void, reject: (reason: any) => void) => {
+    public getPosition(): AraTesterAxisDistance {
+        return { distance: this._position };
+    }
+
+    public autoConfigurate(): Promise<Array<void>> {
+        let configPromise: Promise<void> = new Promise<void>((resolve: () => void, reject: (reason: any) => void) => {
             AraTesterAxisController._AraTesterAxisConfigService.findOne(this._id).then((config: AraTesterAxisConfig) => {
                 this.configurate(config);
                 resolve();
             }, reject)
         });
+        let positionPromise: Promise<void> = new Promise<void>((resolve: () => void, reject: (reason: any) => void) => {
+            AraTesterAxisController._AraTesterAxisDistanceService.findOne(this._id).then((position: AraTesterAxisDistance) => {
+                this._position = position.distance;
+                resolve();
+            }, reject)
+        });
+        return Promise.all([configPromise, positionPromise]);
     }
 
     public configurate(config: AraTesterAxisConfig): void {
@@ -161,6 +180,19 @@ export default class AraTesterAxisController {
     }
 
     public movment(movment: AraTesterAxisMovment): Promise<number> {
+        if(movment.direction) {
+            this._position -= movment.distance;
+            if(this._position < 0) {
+                movment.distance += this._position;
+                this._position = 0;
+            }
+        } else {
+            this._position += movment.distance;
+            if(this._position > 172) {
+                movment.distance -= (this._position - 172);
+                this._position = 172;
+            }
+        }
         return this._prepareMovment((): void => {
             this._direction = movment.direction;
             this._total = movment.distance * this._configured;

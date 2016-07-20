@@ -37,7 +37,8 @@ export default class AraTesterConfigWrapper extends React.Component<AraTesterCon
     }
 
     public componentWillUnmount(): void {
-        this._AraTesterAxisService.removeHandlers();
+        this._AraTesterAxisService.removeMovmentStart();
+        this._AraTesterAxisService.removeMovmentEnd();
     }
 
     public render(): JSX.Element {
