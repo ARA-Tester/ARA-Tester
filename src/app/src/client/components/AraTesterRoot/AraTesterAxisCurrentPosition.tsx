@@ -10,6 +10,11 @@ export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, Ar
 
 }
 
+const disabledStyle: React.CSSProperties = {
+    backgroundColor: purple500,
+    color: pink500
+};
+
 export default class AraTesterAxisCurrentPosition extends React.Component<AraTesterAxisCurrentPositionProps, AraTesterAxisCurrentPositionState> {
     private _AraTesterAxisService: AraTesterAxisService;
 
@@ -22,6 +27,8 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
     public componentDidMount(): void {
         this._AraTesterAxisService.getPosition().then((position: AraTesterAxisCurrentPositionState) => {
             this.setState(position);
+        }, (err: any) => {
+            console.log(err);
         });
         this._AraTesterAxisService.onPositionChange((position: AraTesterAxisCurrentPositionState) => {
             this.setState(position);
@@ -35,11 +42,9 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
     public render(): JSX.Element {
         return (
             <RaisedButton
-                style={this.props.style}
+                style={Object.assign({}, disabledStyle, this.props.style)}
                 disabled={true}
-                label={String(this.state.distance)}
-                disabledBackgroundColor={purple500}
-                disabledLabelColor={pink500} />
+                label={String(this.state.distance)} />
         );
     }
 }
