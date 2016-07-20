@@ -7,8 +7,7 @@
         "noImplicitAny": true
     },
     "files": [
-        "./../../typings/index.d.ts",
-        "../share/nes.d.ts",
+        "./../share/typings.d.ts",
         "components/EventValue.ts",
         "components/DisabledProp.ts",
         "components/OptionalStyleProp.ts",
