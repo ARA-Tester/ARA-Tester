@@ -4,31 +4,27 @@ import AraTesterAxisDistance from './../../share/AraTesterAxisDistance';
 import AraTesterAxisMovment from './../../share/AraTesterAxisMovment';
 import AraTesterAxisDirection from './../../share/AraTesterAxisDirection';
 
+export type MovmentEventHandler = (position: AraTesterAxisDistance) => void;
+
 export default class AraTesterAxisService {
     private static _AppSocket: AppSocket;
     private _axisId: number;
-    private _onMovmentStart: () => void;
-    private _onMovmentEnd: () => void;
-    private _onPositionChange: (position: AraTesterAxisDistance) => void;
+    private _onMovmentStart: MovmentEventHandler;
+    private _onMovmentEnd: MovmentEventHandler;
 
     public constructor(axisId: number) {
         this._axisId = axisId;
         AraTesterAxisService._AppSocket = AppSocket.getSocket();
     }
 
-    public onMovmentStart(handler: () => void): void {
+    public onMovmentStart(handler: MovmentEventHandler): void {
         this._onMovmentStart = handler;
         AraTesterAxisService._AppSocket.subscribe(`/AraTesterAxisOnMovmentStart/${this._axisId}`, handler);
     }
 
-    public onMovmentEnd(handler: () => void): void {
+    public onMovmentEnd(handler: MovmentEventHandler): void {
         this._onMovmentEnd = handler;
         AraTesterAxisService._AppSocket.subscribe(`/AraTesterAxisOnMovmentEnd/${this._axisId}`, handler);
-    }
-
-    public onPositionChange(handler: (position: AraTesterAxisDistance) => void): void {
-        this._onPositionChange = handler;
-        AraTesterAxisService._AppSocket.subscribe(`/AraTesterAxisOnPositionChange/${this._axisId}`, handler);
     }
 
     public removeMovmentStart(): void {
@@ -37,10 +33,6 @@ export default class AraTesterAxisService {
 
     public removeMovmentEnd(): void {
         AraTesterAxisService._AppSocket.unsubscribe(`/AraTesterAxisOnMovmentEnd/${this._axisId}`, this._onMovmentEnd);
-    }
-
-    public removePositionChange(): void {
-        AraTesterAxisService._AppSocket.unsubscribe(`/AraTesterAxisOnPositionChange/${this._axisId}`, this._onPositionChange);
     }
 
     public getConfiguration(): Promise<AraTesterAxisConfig> {

@@ -11,12 +11,13 @@ import AraTesterAxisDistanceService from './../services/AraTesterAxisDistanceSer
 
 const nanoSecToMilliSec = 1000000;
 
-export type OnPositionChangeFactory = (id: AraTesterAxisId, position: AraTesterAxisDistance) => void;
+export type MovmentEventHandler = (id: AraTesterAxisId, position: AraTesterAxisDistance) => void;
 
 export default class AraTesterAxisController {
     private static _AraTesterAxisConfigService: AraTesterAxisConfigService = AraTesterAxisConfigService.getService();
     private static _AraTesterAxisDistanceService: AraTesterAxisDistanceService = AraTesterAxisDistanceService.getService();
-    public static onPositionChangeFactory: OnPositionChangeFactory;
+    public static onMovmentStart: MovmentEventHandler;
+    public static onMovmentEnd: MovmentEventHandler;
     private _config: AraTesterAxisConfig;
     private _configured: number;
     private _progressive: number;
@@ -38,7 +39,7 @@ export default class AraTesterAxisController {
         let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
         let position: AraTesterAxisDistance = { distance: this._position };
         AraTesterAxisController._AraTesterAxisDistanceService.update(this._id, position);
-        AraTesterAxisController.onPositionChangeFactory(this._id, position);
+        AraTesterAxisController.onMovmentEnd(this._id, position);
         this._resolve(counter.data);
     }
 
@@ -199,6 +200,7 @@ export default class AraTesterAxisController {
             return Promise.reject(new Error('Distance must be positive number')) ;
         }
         return this._prepareMovment((): void => {
+            AraTesterAxisController.onMovmentStart(this._id, { distance: movment.distance });
             this._direction = movment.direction;
             this._total = movment.distance * this._configured;
             console.log("   3        -------------------------------------------------");

@@ -25,13 +25,13 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
         }, (err: any) => {
             console.log(err);
         });
-        this._AraTesterAxisService.onPositionChange((position: AraTesterAxisCurrentPositionState) => {
+        this._AraTesterAxisService.onMovmentEnd((position: AraTesterAxisCurrentPositionState) => {
             this.setState(position);
         });
     }
 
     public componentWillUnmount(): void {
-        this._AraTesterAxisService.removePositionChange();
+        this._AraTesterAxisService.removeMovmentEnd();
     }
 
     public render(): JSX.Element {

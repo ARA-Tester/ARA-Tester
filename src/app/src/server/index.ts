@@ -46,10 +46,13 @@ server.register(Nes, (regErr: any) => {
         let wsServer: Nes.Server = server as Nes.Server;
         wsServer.subscription('/AraTesterAxisOnMovmentStart/{id}');
         wsServer.subscription('/AraTesterAxisOnMovmentEnd/{id}');
-        wsServer.subscription('/AraTesterAxisOnPositionChange/{id}');
 
-        AraTesterAxisController.onPositionChangeFactory = (id: AraTesterAxisId, position: AraTesterAxisDistance): void => {
-            wsServer.publish(`/AraTesterAxisOnPositionChange/${id.axisId}`, position);
+        AraTesterAxisController.onMovmentStart = (id: AraTesterAxisId, position: AraTesterAxisDistance): void => {
+            wsServer.publish(`/AraTesterAxisOnMovmentStart/${id.axisId}`, position);
+        };
+
+        AraTesterAxisController.onMovmentEnd = (id: AraTesterAxisId, position: AraTesterAxisDistance): void => {
+            wsServer.publish(`/AraTesterAxisOnMovmentEnd/${id.axisId}`, position);
         };
 
         wsServer.route({
@@ -57,7 +60,6 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisGetConfiguration/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    console.log('Config');
                     reply(axis.getConfiguration());
                 }
             }
@@ -79,14 +81,11 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisMovment/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    wsServer.publish(`/AraTesterAxisOnMovmentStart/${request.params['id']}`, {});
                     let tBefore: Date = new Date();
                     axis.movment(request.payload).then((count: number) => {
                         console.log("Time elapsed in MS: " + ((new Date()).getTime() - tBefore.getTime()));
                         console.log("------------------------------------------------------------");
-                        wsServer.publish(`/AraTesterAxisOnMovmentEnd/${request.params['id']}`, {});
                     }).catch((err: NodeJS.ErrnoException) => {
-                        wsServer.publish(`/AraTesterAxisOnMovmentEnd/${request.params['id']}`, {});
                         console.log("Error: " + JSON.stringify(err));
                     });
                     reply({});
@@ -132,7 +131,6 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisGetPosition/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    console.log('POSTIION');
                     reply(axis.getPosition());
                 }
             }
