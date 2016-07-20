@@ -57,6 +57,7 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisGetConfiguration/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    console.log('Config');
                     reply(axis.getConfiguration());
                 }
             }
@@ -84,7 +85,10 @@ server.register(Nes, (regErr: any) => {
                         console.log("Time elapsed in MS: " + ((new Date()).getTime() - tBefore.getTime()));
                         console.log("------------------------------------------------------------");
                         wsServer.publish(`/AraTesterAxisOnMovmentEnd/${request.params['id']}`, {});
-                    }).catch((err: NodeJS.ErrnoException) => console.log("Error: " + JSON.stringify(err)));
+                    }).catch((err: NodeJS.ErrnoException) => {
+                        wsServer.publish(`/AraTesterAxisOnMovmentEnd/${request.params['id']}`, {});
+                        console.log("Error: " + JSON.stringify(err));
+                    });
                     reply({});
                 }
             }

@@ -181,7 +181,7 @@ export default class AraTesterAxisController {
         return AraTesterAxisController._AraTesterAxisConfigService.update(this._id, config);
     }
 
-    public movment(movment: AraTesterAxisMovment): Promise<number> {
+    public movment(movment: AraTesterAxisMovment): Promise<number | void>  {
         if(movment.direction) {
             this._position -= movment.distance;
             if(this._position < 0) {
@@ -196,7 +196,7 @@ export default class AraTesterAxisController {
             }
         }
         if(!movment.distance) {
-            return Promise.resolve(0);
+            return Promise.reject(new Error('Distance must be positive number')) ;
         }
         return this._prepareMovment((): void => {
             this._direction = movment.direction;
