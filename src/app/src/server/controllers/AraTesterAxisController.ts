@@ -63,6 +63,9 @@ export default class AraTesterAxisController {
     }
 
     private _exec(): void {
+        if(this._active) {
+            this._reject(new Error('Another movment is active'));
+        }
         let progressive: number = 0;
         let linear: number = 0;
         console.log("   4        -------------------------------------------------");
@@ -190,6 +193,9 @@ export default class AraTesterAxisController {
     }
 
     public movment(movment: AraTesterAxisMovment): Promise<number | void>  {
+        if(this._active) {
+            return Promise.reject(new Error('Another movment is active'));
+        }
         if(movment.direction) {
             this._position -= movment.distance;
             if(this._position < 0) {
@@ -224,7 +230,7 @@ export default class AraTesterAxisController {
         }
     }
 
-    public resume(): Promise<number> {
+    public resume(): Promise<number | void> {
         return this._prepareMovment((): void => {
             let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
             this._total -= counter.data;
@@ -232,12 +238,16 @@ export default class AraTesterAxisController {
     }
 
     public moveAuto(direction: boolean): void {
-        this._auto = true;
-        this._automatic(direction);
+        if(!this._active) {
+            this._auto = true;
+            this._automatic(direction);
+        }
     }
 
     public stopAuto(): void {
-        this._auto = false;
+        if(!this._active) {
+            this._auto = false;
+        }
     }
 
     public goToPosition(position: number): Promise<number> {
