@@ -147,11 +147,16 @@ server.register(Nes, (regErr: any) => {
                         125,
                         60,
                         87,
-                        75
+                        75,
+                        172,
+                        10,
+                        2
                     ]
 
                     function goToNextPosition(): void {
-                        axis.goToPosition(positions.shift()).then(goToNextPosition);
+                        if(positions.length) {
+                            axis.goToPosition(positions.shift()).then(goToNextPosition);
+                        }
                     }
 
                     goToNextPosition();
