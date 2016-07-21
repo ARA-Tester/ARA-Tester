@@ -5,6 +5,7 @@ import AraTesterAxisCurrentPositionState from './../../../share/AraTesterAxisDis
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 import RaisedButton from 'material-ui/RaisedButton';
 import { purple500, pink500 } from 'material-ui/styles/colors';
+const { div } = React.DOM;
 
 export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, AraTesterAxisId {
 
@@ -22,8 +23,6 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
     public componentDidMount(): void {
         this._AraTesterAxisService.getPosition().then((position: AraTesterAxisCurrentPositionState) => {
             this.setState(position);
-        }, (err: any) => {
-            console.log(err);
         });
         this._AraTesterAxisService.onMovmentEnd((position: AraTesterAxisCurrentPositionState) => {
             this.setState(position);
@@ -36,10 +35,17 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
 
     public render(): JSX.Element {
         return (
-            <RaisedButton
-                style={this.props.style}
-                disabled={true}
-                label={String(this.state.distance)} />
+            <div>
+                <RaisedButton
+                    style={this.props.style}
+                    disabled={true}
+                    label={String(this.state.distance)} />
+                <RaisedButton
+                    label="test"
+                    onTouchTap={() => {
+                        this._AraTesterAxisService.test();
+                    }} />
+            </div>
         );
     }
 }

@@ -135,6 +135,30 @@ server.register(Nes, (regErr: any) => {
                 }
             }
         });
+
+        wsServer.route({
+            method: 'GET',
+            path: '/test',
+            config: {
+                handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+                    let positions: Array<number> = [
+                        130,
+                        40,
+                        125,
+                        60,
+                        87,
+                        75
+                    ]
+
+                    function goToNextPosition(): void {
+                        axis.goToPosition(positions.shift()).then(goToNextPosition);
+                    }
+
+                    goToNextPosition();
+                    reply({});
+                }
+            }
+        });
     }
 });
 

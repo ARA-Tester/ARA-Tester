@@ -62,4 +62,8 @@ export default class AraTesterAxisService {
     public stopAuto(): Promise<void> {
         return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStopAuto/${this._axisId}`);
     }
+
+    public test(): Promise<void> {
+        return AraTesterAxisService._AppSocket.request<void, void>('get', `/test`);
+    }
 }

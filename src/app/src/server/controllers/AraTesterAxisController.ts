@@ -233,6 +233,23 @@ export default class AraTesterAxisController {
         this._auto = false;
     }
 
+    public goToPosition(position: number): Promise<number> {
+        let movment: AraTesterAxisMovment;
+        let distance: number = position - this._position;
+        if(distance > 0) {
+            movment = {
+                direction: false,
+                distance: distance
+            };
+        } else {
+            movment = {
+                direction: true,
+                distance: -distance
+            };
+        }
+        return this.movment(movment);
+    }
+
     public release(): void {
         closeSync(this._fd);
     }
