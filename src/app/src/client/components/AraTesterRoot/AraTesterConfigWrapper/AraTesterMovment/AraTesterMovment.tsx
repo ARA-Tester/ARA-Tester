@@ -10,9 +10,11 @@ import AraTesterStopButton from './../../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './../AraTesterConfigWrapper';
 import DisabledProp from './../../../DisabledProp';
 import MovmentButton from './../../../MovmentButton';
+import { Flex, Item } from 'react-flex';
+import 'react-flex/index.css';
 import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
-const { div, br } = React.DOM;
+const { div } = React.DOM;
 
 interface AraTesterMovmentProps extends AraTesterConfigWrapperProps, DisabledProp {
 
@@ -68,14 +70,20 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         }
         return (
             <div style={this.props.style}>
-                <SelectField value={this.state.direction} onChange={this.onDirectionChange}>
-                    <MenuItem value={false} primaryText={this.props.positive} />
-                    <MenuItem value={true} primaryText={this.props.negative} />
-                </SelectField>
-                <br />
-                <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
-                <br />
-                {movmentActionButton}
+                <Flex column justifyContent="center" alignContent="center" alignItems="center">
+                    <Item flex>
+                        <SelectField value={this.state.direction} onChange={this.onDirectionChange}>
+                            <MenuItem value={false} primaryText={this.props.positive} />
+                            <MenuItem value={true} primaryText={this.props.negative} />
+                        </SelectField>
+                    </Item>
+                    <Item flex>
+                        <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
+                    </Item>
+                    <Item flex>
+                        {movmentActionButton}
+                    </Item>
+                </Flex>
             </div>
         );
     }

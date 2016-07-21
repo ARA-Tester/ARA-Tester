@@ -10,7 +10,6 @@ import { Flex, Item } from 'react-flex';
 import 'react-flex/index.css';
 import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
 import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
-const { br, div } = React.DOM;
 
 export default class AraTesterConfig extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigState> {
     private static _copyConfigInfo(info: AraTesterConfigState): AraTesterConfigState {
