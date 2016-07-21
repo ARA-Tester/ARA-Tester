@@ -142,15 +142,15 @@ server.register(Nes, (regErr: any) => {
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
                     let positions: Array<number> = [
-                        130,
-                        40,
-                        125,
-                        60,
-                        87,
-                        75,
-                        172,
-                        10,
-                        2
+                        130.23,
+                        40.34,
+                        125.56,
+                        60.45,
+                        87.23,
+                        75.16,
+                        172.90,
+                        10.11,
+                        2.00
                     ]
 
                     function goToNextPosition(): void {
