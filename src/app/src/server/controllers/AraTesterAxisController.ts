@@ -57,8 +57,8 @@ export default class AraTesterAxisController {
         console.log(total);
         if(this._total < total) {
             if(this._total % 2) {
-                ++this._even;
                 progressive = (this._total - 1) / 2;
+                ++this._even;
             } else {
                 progressive = (this._total) / 2;
             }
@@ -66,10 +66,15 @@ export default class AraTesterAxisController {
             progressive = total / 2;
             if(this._total > total) {
                 linear = this._total - total;
+                whole = linear % 1;
+                if(whole) {
+                    linear -= whole;
+                     ++this._even;;
+                }
             }
         }
-        if(this._even === 2) {
-            this._even = 0;
+        if(this._even > 1) {
+            this._even -= 2;
             ++progressive;
         }
         console.log("   5        -------------------------------------------------");
