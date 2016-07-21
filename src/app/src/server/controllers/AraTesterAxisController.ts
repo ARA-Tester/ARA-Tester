@@ -59,8 +59,8 @@ export default class AraTesterAxisController {
         }
         if(this._even >= 0.45) {
             this._even = 1;
-            return progressive;
         }
+        return progressive;
     }
 
     private _exec(): void {
