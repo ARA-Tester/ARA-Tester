@@ -7,43 +7,47 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Flex, Item } from 'react-flex';
 import 'react-flex/index.css';
 
+const movmentButtonStyle: React.CSSProperties = {
+    margin: 5
+};
+
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
 
     public render(): JSX.Element {
         return (
             <DeepContentBox style={this.props.style}>
-                <Flex column justifyContent="space-between" alignContent="space-betwee" alignItems="center">
-                    <Flex row justifyContent="space-between" alignContent="space-betwee" alignItems="center">
+                <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
+                    <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
                         <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="rotate left" />
+                            <AraTesterAutoMovmentButton axisId={0} movment="rotate left" style={movmentButtonStyle} />
                         </Item>
                         <Item flex>
-                             <AraTesterAutoMovmentButton axisId={0} movment="forward" />
+                             <AraTesterAutoMovmentButton axisId={0} movment="forward" style={movmentButtonStyle} />
                         </Item>
                         <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="up" />
-                        </Item>
-                    </Flex>
-                    <Flex row justifyContent="space-between" alignContent="space-betwee" alignItems="center">
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="left" />
-                        </Item>
-                        <Item flex>
-                             <RaisedButton disabled={true} icon={<MovmentIcon />} />
-                        </Item>
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="right" />
+                            <AraTesterAutoMovmentButton axisId={0} movment="up" style={movmentButtonStyle} />
                         </Item>
                     </Flex>
-                    <Flex row justifyContent="space-between" alignContent="space-betwee" alignItems="center">
+                    <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
                         <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="down" />
+                            <AraTesterAutoMovmentButton axisId={0} movment="left" style={movmentButtonStyle} />
                         </Item>
                         <Item flex>
-                             <AraTesterAutoMovmentButton axisId={0} movment="backward" />
+                             <RaisedButton disabled={true} icon={<MovmentIcon />} style={movmentButtonStyle} />
                         </Item>
                         <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="rotate right" />
+                            <AraTesterAutoMovmentButton axisId={0} movment="right" style={movmentButtonStyle} />
+                        </Item>
+                    </Flex>
+                    <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
+                        <Item flex>
+                            <AraTesterAutoMovmentButton axisId={0} movment="down" style={movmentButtonStyle} />
+                        </Item>
+                        <Item flex>
+                             <AraTesterAutoMovmentButton axisId={0} movment="backward" style={movmentButtonStyle} />
+                        </Item>
+                        <Item flex>
+                            <AraTesterAutoMovmentButton axisId={0} movment="rotate right" style={movmentButtonStyle} />
                         </Item>
                     </Flex>
                 </Flex>
