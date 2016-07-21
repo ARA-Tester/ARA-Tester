@@ -49,17 +49,16 @@ export default class AraTesterAxisController {
         return value - whole;
     }
 
+    private _calculateEven(comapre: number): void {
+        this._even = this._even >= comapre ? 1 : 0;
+    }
+
     private _proceedEven(progressive: number): number {
         if(this._even >= 1.45) {
-            if(this._even >= 2.45) {
-                 this._even = 1;
-            }
+            this._calculateEven(2.45);
             return progressive + 1;
         }
-        if(this._even >= 0.45) {
-            this._even = 1;
-        }
-        this._even = 0;
+        this._calculateEven(0.45);
         return progressive;
     }
 
