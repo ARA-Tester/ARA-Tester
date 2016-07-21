@@ -245,9 +245,7 @@ export default class AraTesterAxisController {
     }
 
     public stopAuto(): void {
-        if(!this._active) {
-            this._auto = false;
-        }
+        this._auto = false;
     }
 
     public goToPosition(position: number): Promise<number> {
