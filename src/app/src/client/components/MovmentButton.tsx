@@ -14,7 +14,7 @@ import BasicButtonProps from './BasicButtonProps';
 
 export type PositiveMovment = 'forward' | 'right' | 'up' | 'rotate right';
 
-export type NegativeMovment = 'bacward' | 'left' | 'down' | 'rotate left';
+export type NegativeMovment = 'backward' | 'left' | 'down' | 'rotate left';
 
 export type SyntheticEventHandler = React.EventHandler<React.SyntheticEvent>;
 
