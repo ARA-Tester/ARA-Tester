@@ -49,6 +49,20 @@ export default class AraTesterAxisController {
         return value - whole;
     }
 
+    private _proceedEven(progressive: number): number {
+        if(this._even >= 1.45) {
+            if(this._even >= 2.45) {
+                 this._even = 1;
+            }
+            this._even = 1;
+            return progressive + 1;
+        }
+        if(this._even >= 0.45) {
+            this._even = 1;
+            return progressive;
+        }
+    }
+
     private _exec(): void {
         let progressive: number = 0;
         let linear: number = 0;
@@ -66,17 +80,7 @@ export default class AraTesterAxisController {
             }
         }
         console.log(`----- EVEN ----  ${this._even}  --------------------------------`);
-        if(this._even > 3) {
-            this._even = 1;
-            ++progressive;
-        }
-        if(this._even > 2) {
-            this._even = 0;
-            ++progressive;
-        }
-        if(this._even > 1) {
-            this._even = 1;
-        }
+        progressive = this._proceedEven(progressive);
         console.log("   5        -------------------------------------------------");
         console.log(linear);
         console.log("   6        -------------------------------------------------");
