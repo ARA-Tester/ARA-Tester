@@ -17,39 +17,45 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
         return (
             <DeepContentBox style={this.props.style}>
                 <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
-                    <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="rotate left" style={movmentButtonStyle} />
-                        </Item>
-                        <Item flex>
-                             <AraTesterAutoMovmentButton axisId={0} movment="forward" style={movmentButtonStyle} />
-                        </Item>
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="up" style={movmentButtonStyle} />
-                        </Item>
-                    </Flex>
-                    <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="left" style={movmentButtonStyle} />
-                        </Item>
-                        <Item flex>
-                             <RaisedButton disabled={true} icon={<MovmentIcon />} style={movmentButtonStyle} />
-                        </Item>
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="right" style={movmentButtonStyle} />
-                        </Item>
-                    </Flex>
-                    <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="down" style={movmentButtonStyle} />
-                        </Item>
-                        <Item flex>
-                             <AraTesterAutoMovmentButton axisId={0} movment="backward" style={movmentButtonStyle} />
-                        </Item>
-                        <Item flex>
-                            <AraTesterAutoMovmentButton axisId={0} movment="rotate right" style={movmentButtonStyle} />
-                        </Item>
-                    </Flex>
+                    <Item flex>
+                        <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="rotate left" style={movmentButtonStyle} />
+                            </Item>
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="forward" style={movmentButtonStyle} />
+                            </Item>
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="up" style={movmentButtonStyle} />
+                            </Item>
+                        </Flex>
+                    </Item>
+                    <Item flex>
+                        <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="left" style={movmentButtonStyle} />
+                            </Item>
+                            <Item flex>
+                                <RaisedButton disabled={true} icon={<MovmentIcon />} style={movmentButtonStyle} />
+                            </Item>
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="right" style={movmentButtonStyle} />
+                            </Item>
+                        </Flex>
+                    </Item>
+                    <Item flex>
+                        <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="down" style={movmentButtonStyle} />
+                            </Item>
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="backward" style={movmentButtonStyle} />
+                            </Item>
+                            <Item flex>
+                                <AraTesterAutoMovmentButton axisId={0} movment="rotate right" style={movmentButtonStyle} />
+                            </Item>
+                        </Flex>
+                    </Item>
                 </Flex>
             </DeepContentBox>
         );
