@@ -22,7 +22,8 @@
     "open-ioctl": "^1.0.5",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "react-tap-event-plugin": "^1.0.0"
+    "react-tap-event-plugin": "^1.0.0",
+    "react-flex": "^2.2.7"
   },
   "devDependencies": {
     "html-webpack-plugin": "^2.22.0",

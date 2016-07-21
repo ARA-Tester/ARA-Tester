@@ -10,6 +10,7 @@
     "react": "registry:dt/react",
     "react-dom": "registry:dt/react-dom",
     "react-tap-event-plugin": "registry:dt/react-tap-event-plugin",
-    "material-ui": "registry:dt/material-ui"
+    "material-ui": "registry:dt/material-ui",
+    "react-flex": "registry:dt/react-flex"
   }
 }
