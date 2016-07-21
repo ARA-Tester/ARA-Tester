@@ -43,39 +43,39 @@ export default class AraTesterAxisController {
         this._resolve(counter.data);
     }
 
+    private _ensureWhole(value: number): number {
+        let whole: number = value % 1;
+        this._even += whole;
+        return value - whole;
+    }
+
     private _exec(): void {
         let progressive: number = 0;
         let linear: number = 0;
         console.log("   4        -------------------------------------------------");
-        let whole: number = this._progressive % 1;
         this._even = 0;
-        if(whole) {
-            this._progressive -= whole;
-            this._even = 1;
-        }
+        this._progressive = this._ensureWhole(this._progressive);
         let total: number = 2 * (this._progressive);
         console.log(total);
         if(this._total < total) {
-            if(this._total % 2) {
-                progressive = (this._total - 1) / 2;
-                ++this._even;
-            } else {
-                progressive = (this._total) / 2;
-            }
+            progressive = this._ensureWhole(this._total / 2);
         } else {
             progressive = total / 2;
             if(this._total > total) {
-                linear = this._total - total;
-                whole = linear % 1;
-                if(whole) {
-                    linear -= whole;
-                     ++this._even;;
-                }
+                linear = this._ensureWhole(this._total - total);
             }
         }
-        if(this._even > 1) {
-            this._even -= 2;
+        console.log(`----- EVEN ----  ${this._even}  --------------------------------`);
+        if(this._even > 3) {
+            this._even = 1;
             ++progressive;
+        }
+        if(this._even > 2) {
+            this._even = 0;
+            ++progressive;
+        }
+        if(this._even > 1) {
+            this._even = 1;
         }
         console.log("   5        -------------------------------------------------");
         console.log(linear);
