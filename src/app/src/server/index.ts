@@ -83,6 +83,7 @@ server.register(Nes, (regErr: any) => {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
                     let tBefore: Date = new Date();
                     axis.movment(request.payload).then((count: number) => {
+                        console.log("Counter: " + count);
                         console.log("Time elapsed in MS: " + ((new Date()).getTime() - tBefore.getTime()));
                         console.log("------------------------------------------------------------");
                     }).catch((err: NodeJS.ErrnoException) => {
