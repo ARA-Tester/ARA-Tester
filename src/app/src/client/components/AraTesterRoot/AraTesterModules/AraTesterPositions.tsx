@@ -8,23 +8,25 @@ import AraTesterAxisCurrentPosition from './../AraTesterAxisCurrentPosition';
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
     public render(): JSX.Element {
         return (
-            <List style={this.props.style}>
-                <ListItem>
-                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                </ListItem>
-            </List>
+            <DeepContentBox style={this.props.style}>
+                <List>
+                    <ListItem disabled>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </ListItem>
+                    <Divider />
+                    <ListItem disabled>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </ListItem>
+                    <Divider />
+                    <ListItem disabled>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </ListItem>
+                    <Divider />
+                    <ListItem disabled>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </ListItem>
+                </List>
+            </DeepContentBox>
         );
     }
 }
