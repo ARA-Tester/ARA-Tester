@@ -21,7 +21,7 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     private _move(): Promise<void> {
         return this._AraTesterAxisService.movment({
             direction: !this.props.movment.match(/(forward)|(right)|(up)|(rotate right)/),
-           distance: this.props.distance
+            distance: this.props.distance
         });
     }
 
@@ -48,10 +48,8 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        this._move()
-        setTimeout(() => {
-            this.setState({ keepMoving: true });
-        }, 100);
+        this.setState({ keepMoving: true });
+        this._move();
     }
 
     public handleButtonRelease(event: React.SyntheticEvent): void {
