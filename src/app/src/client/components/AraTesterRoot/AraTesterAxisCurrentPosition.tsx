@@ -35,17 +35,12 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
 
     public render(): JSX.Element {
         return (
-            <div>
-                <RaisedButton
-                    style={this.props.style}
-                    disabled={true}
-                    label={String(this.state.distance)} />
-                <RaisedButton
-                    label="test"
-                    onTouchTap={() => {
-                        this._AraTesterAxisService.test();
-                    }} />
-            </div>
+            <RaisedButton
+                style={this.props.style}
+                disabled={true}
+                disabledBackgroundColor={purple500}
+                disabledLabelColor={pink500}
+                label={String(this.state.distance)} />
         );
     }
 }

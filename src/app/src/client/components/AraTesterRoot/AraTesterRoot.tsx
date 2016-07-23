@@ -5,7 +5,6 @@ import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionViewQuilt from 'material-ui/svg-icons/action/view-quilt';
 import AraTesterModules from './AraTesterModules/AraTesterModules';
 import AraTesterConfigWrapper from './AraTesterConfigWrapper/AraTesterConfigWrapper';
-import AraTesterAxisCurrentPosition from './AraTesterAxisCurrentPosition';
 const { div, link } = React.DOM;
 
 export default class AraTesterRoot extends React.Component<void, void> {
@@ -14,7 +13,6 @@ export default class AraTesterRoot extends React.Component<void, void> {
             <MuiThemeProvider>
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
-                    <AraTesterAxisCurrentPosition axisId={0} />
                     <Tabs>
                         <Tab icon={<ActionViewQuilt />} label="Modules">
                             <AraTesterModules />

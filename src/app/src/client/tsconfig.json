@@ -21,6 +21,8 @@
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterMovment/AraTesterMovment.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterConfigWrapper.tsx",
         "components/AraTesterRoot/AraTesterModules/AraTesterAutoMovmentButton.tsx",
+        "components/AraTesterRoot/AraTesterModules/AraTesterControlls.tsx",
+        "components/AraTesterRoot/AraTesterModules/AraTesterPositions.tsx",
         "components/AraTesterRoot/AraTesterModules/AraTesterModules.tsx",
         "components/AraTesterRoot/AraTesterAxisCurrentPosition.tsx",
         "components/AraTesterRoot/AraTesterStopButton.tsx",
