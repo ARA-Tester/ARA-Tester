@@ -4,3 +4,4 @@
 /// <reference path="./../../typings/globals/react-dom/index.d.ts" />
 /// <reference path="./../../typings/globals/react-flex/index.d.ts" />
 /// <reference path="./../../typings/globals/react-tap-event-plugin/index.d.ts" />
+/// <reference path="./../../typings/globals/hapi/index.d.ts" />
