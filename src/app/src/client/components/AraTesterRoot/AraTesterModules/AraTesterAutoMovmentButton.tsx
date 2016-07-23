@@ -1,9 +1,10 @@
 import * as React from 'react';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
 import AraTesterAxisId from './../../../../share/AraTesterAxisId';
+import AraTesterAxisDistance from './../../../../share/AraTesterAxisDistance';
 import { default as MovmentButton, SyntheticEventHandler, MovmentButtonProps } from './../../MovmentButton';
 
-export interface AraTesterAutoMovmentButtonProps extends MovmentButtonProps, AraTesterAxisId {
+export interface AraTesterAutoMovmentButtonProps extends MovmentButtonProps, AraTesterAxisId, AraTesterAxisDistance {
 
 }
 
@@ -23,7 +24,8 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         event.preventDefault();
         event.stopPropagation();
         this._AraTesterAxisService.moveAuto({
-            direction: !this.props.movment.match(/(forward)|(right)|(up)|(rotate right)/)
+            direction: !this.props.movment.match(/(forward)|(right)|(up)|(rotate right)/),
+            distance: this.props.distance
         });
     }
 

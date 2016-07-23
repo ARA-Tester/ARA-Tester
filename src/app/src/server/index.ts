@@ -110,7 +110,7 @@ server.register(Nes, (regErr: any) => {
             path: '/AraTesterAxisMoveAuto/{id}',
             config: {
                 handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-                    axis.moveAuto(request.payload.direction);
+                    axis.moveAuto(request.payload);
                     reply({});
                 }
             }

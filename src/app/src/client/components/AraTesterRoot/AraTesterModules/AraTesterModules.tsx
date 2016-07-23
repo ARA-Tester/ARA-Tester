@@ -7,7 +7,7 @@ import AraTesterPositions from './AraTesterPositions';
 const { div } = React.DOM;
 
 const topSpaceStyle: React.CSSProperties = {
-    marginTop: 25
+    marginTop: 30
 }
 
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {

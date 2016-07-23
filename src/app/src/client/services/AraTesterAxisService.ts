@@ -2,7 +2,6 @@ import AppSocket from './AppSocket';
 import AraTesterAxisConfig from './../../share/AraTesterAxisConfig';
 import AraTesterAxisDistance from './../../share/AraTesterAxisDistance';
 import AraTesterAxisMovment from './../../share/AraTesterAxisMovment';
-import AraTesterAxisDirection from './../../share/AraTesterAxisDirection';
 
 export type MovmentEventHandler = (position: AraTesterAxisDistance) => void;
 
@@ -47,16 +46,16 @@ export default class AraTesterAxisService {
         return AraTesterAxisService._AppSocket.request<AraTesterAxisConfig, void>('patch', `/AraTesterAxisSaveConfiguration/${this._axisId}`, config);
     }
 
-    public movmnet(info: AraTesterAxisMovment):  Promise<void> {
-        return AraTesterAxisService._AppSocket.request<AraTesterAxisMovment, void>('post', `/AraTesterAxisMovment/${this._axisId}`, info);
+    public movmnet(movment: AraTesterAxisMovment):  Promise<void> {
+        return AraTesterAxisService._AppSocket.request<AraTesterAxisMovment, void>('post', `/AraTesterAxisMovment/${this._axisId}`, movment);
     }
 
     public stop(): Promise<void> {
         return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStop/${this._axisId}`);
     }
 
-    public moveAuto(direction: AraTesterAxisDirection) {
-        return AraTesterAxisService._AppSocket.request<AraTesterAxisDirection, void>('post', `/AraTesterAxisMoveAuto/${this._axisId}`, direction);
+    public moveAuto(movment: AraTesterAxisMovment) {
+        return AraTesterAxisService._AppSocket.request<AraTesterAxisMovment, void>('post', `/AraTesterAxisMoveAuto/${this._axisId}`, movment);
     }
 
     public stopAuto(): Promise<void> {

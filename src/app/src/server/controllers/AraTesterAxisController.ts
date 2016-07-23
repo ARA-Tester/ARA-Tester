@@ -122,13 +122,10 @@ export default class AraTesterAxisController {
         });
     }
 
-    private _automatic(direction: boolean) {
-        this.movment({
-            direction: direction,
-            distance: 1
-        }).then(() => {
+    private _automatic(movment: AraTesterAxisMovment) {
+        this.movment(movment).then(() => {
             if(this._auto) {
-                this._automatic(direction);
+                this._automatic(movment);
             }
         });
     }
@@ -237,10 +234,10 @@ export default class AraTesterAxisController {
         });
     }
 
-    public moveAuto(direction: boolean): void {
+    public moveAuto(movment: AraTesterAxisMovment): void {
         if(!this._active) {
             this._auto = true;
-            this._automatic(direction);
+            this._automatic(movment);
         }
     }
 
