@@ -33,6 +33,10 @@ export default class AraTesterAxisController {
     private _resolve: (value: number) => void;
     private _reject: (reason: NodeJS.ErrnoException) => void;
 
+    private static _ensurePrecision(value: number): number {
+        return Number(value.toFixed(2));
+    }
+
     private _resolveWithCounter(): void {
         clearInterval(this._interval);
         this._active = false;
@@ -193,8 +197,6 @@ export default class AraTesterAxisController {
         if(this._active) {
             return Promise.reject(new Error('Another movment is active'));
         }
-        console.log(movment);
-        console.log(this._position);
         if(movment.direction) {
             this._position -= movment.distance;
             if(this._position < 0) {
@@ -208,8 +210,8 @@ export default class AraTesterAxisController {
                 this._position = 172;
             }
         }
-        console.log(movment);
-        console.log(this._position);
+        movment.distance = AraTesterAxisController._ensurePrecision(movment.distance);
+        this._position = AraTesterAxisController._ensurePrecision(this._position);
         if(!movment.distance) {
             return Promise.reject(new Error('Distance must be positive number')) ;
         }
