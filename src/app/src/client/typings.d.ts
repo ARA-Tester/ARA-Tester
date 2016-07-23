@@ -1,0 +1,5 @@
+/// <reference path="./../../typings/globals/material-ui/index.d.ts" />
+/// <reference path="./../../typings/globals/react/index.d.ts" />
+/// <reference path="./../../typings/globals/react-dom/index.d.ts" />
+/// <reference path="./../../typings/globals/react-flex/index.d.ts" />
+/// <reference path="./../../typings/globals/react-tap-event-plugin/index.d.ts" />

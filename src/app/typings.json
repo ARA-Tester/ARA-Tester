@@ -3,7 +3,6 @@
     "node": "registry:dt/node",
     "mongoose": "registry:dt/mongoose",
     "mongodb": "registry:dt/mongodb",
-    "mpromise": "registry:dt/mpromise",
     "hapi": "registry:dt/hapi",
     "nes": "registry:dt/nes",
     "ip": "registry:dt/ip",

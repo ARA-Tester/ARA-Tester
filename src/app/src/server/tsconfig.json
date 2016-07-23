@@ -7,7 +7,7 @@
         "noImplicitAny": true
     },
     "files": [
-        "./../share/typings.d.ts",
+        "./typings.d.ts",
         "models/AraTesterAxisInfo/document.ts",
         "models/AraTesterAxisInfo/schema.ts",
         "models/AraTesterAxisInfo/model.ts",
