@@ -13,6 +13,15 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
                     <Item flex>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </Item>
+                    <Item flex>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </Item>
+                    <Item flex>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </Item>
+                    <Item flex>
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                    </Item>
                 </Flex>
             </DeepContentBox>
         );
