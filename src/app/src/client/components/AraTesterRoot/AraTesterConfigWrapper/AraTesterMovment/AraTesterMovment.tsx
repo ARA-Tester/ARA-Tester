@@ -72,9 +72,12 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
             <div style={this.props.style}>
                 <Flex column justifyContent="center" alignContent="center" alignItems="center">
                     <Item flex>
-                        <SelectField value={this.state.direction} onChange={this.onDirectionChange}>
-                            <MenuItem value={false} primaryText={this.props.positive} />
-                            <MenuItem value={true} primaryText={this.props.negative} />
+                        <SelectField
+                            floatingLabelText="Select movment direction"
+                            value={this.state.direction}
+                            onChange={this.onDirectionChange}>
+                                <MenuItem value={false} primaryText={this.props.positive} />
+                                <MenuItem value={true} primaryText={this.props.negative} />
                         </SelectField>
                     </Item>
                     <Item flex>

@@ -20,7 +20,7 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
 
     public constructor(props: AraTesterControllsProps) {
         super(props);
-        this.state = { distance: 0 };
+        this.state = { distance: 0.05 };
         this.onDistanceChange = this.handleDistanceChange.bind(this);
     }
 
@@ -33,10 +33,14 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
             <DeepContentBox style={this.props.style}>
                 <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
                     <Item flex>
-                        <SelectField value={this.state.distance} onChange={this.onDistanceChange} style={movmentButtonStyle}>
-                            <MenuItem value={5} primaryText="long" />
-                            <MenuItem value={0.5} primaryText="medium" />
-                            <MenuItem value={0.05} primaryText="short" />
+                        <SelectField
+                            floatingLabelText="Select movment distance step"
+                            value={this.state.distance}
+                            onChange={this.onDistanceChange}
+                            style={movmentButtonStyle}>
+                                <MenuItem value={5} primaryText="long" />
+                                <MenuItem value={0.5} primaryText="medium" />
+                                <MenuItem value={0.05} primaryText="short" />
                         </SelectField>
                     </Item>
                     <Item flex>
