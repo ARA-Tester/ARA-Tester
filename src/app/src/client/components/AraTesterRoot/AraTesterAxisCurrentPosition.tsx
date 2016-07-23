@@ -5,7 +5,9 @@ import AraTesterAxisCurrentPositionState from './../../../share/AraTesterAxisDis
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
-import { teal500, amber500 } from 'material-ui/styles/colors';
+import { indigo500, lime500 } from 'material-ui/styles/colors';
+import { Flex, Item } from 'react-flex';
+import 'react-flex/index.css';
 const { div } = React.DOM;
 
 export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, AraTesterAxisId {
@@ -36,14 +38,26 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
 
     public render(): JSX.Element {
         return (
-            <Badge badgeContent={`Axis: ${this.props.axisName}`} primary={true}>
-                <RaisedButton
-                    style={this.props.style}
-                    disabled={true}
-                    disabledBackgroundColor={teal500}
-                    disabledLabelColor={amber500}
-                    label={String(this.state.distance)} />
-            </Badge>
+            <div style={this.props.style}>
+                <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
+                    <Item flex>
+                        <RaisedButton
+                            style={this.props.style}
+                            disabled={true}
+                            disabledBackgroundColor={indigo500}
+                            disabledLabelColor={lime500}
+                            label={String(this.state.distance)} />
+                    </Item>
+                    <Item flex>
+                        <RaisedButton
+                            style={this.props.style}
+                            disabled={true}
+                            disabledBackgroundColor={indigo500}
+                            disabledLabelColor={lime500}
+                            label={`Axis ${this.props.axisName}`} />
+                    </Item>
+                </Flex>
+            </div>
         );
     }
 }
