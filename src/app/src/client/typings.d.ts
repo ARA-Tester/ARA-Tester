@@ -1,5 +1,6 @@
 /// <reference path="./../../typings/globals/material-ui/index.d.ts" />
 /// <reference path="./../../typings/globals/nes/index.d.ts" />
+/// <reference path="./../../typings/globals/node/index.d.ts" />
 /// <reference path="./../../typings/globals/react/index.d.ts" />
 /// <reference path="./../../typings/globals/react-dom/index.d.ts" />
 /// <reference path="./../../typings/globals/react-flex/index.d.ts" />
