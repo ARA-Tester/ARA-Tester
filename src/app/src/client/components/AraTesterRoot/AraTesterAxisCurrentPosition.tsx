@@ -4,10 +4,9 @@ import AraTesterAxisId from './../../../share/AraTesterAxisId';;
 import AraTesterAxisCurrentPositionState from './../../../share/AraTesterAxisDistance';
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 import FlatButton from 'material-ui/FlatButton';
-import Badge from 'material-ui/Badge';
+import DeepContentBox from './../DeepContentBox'
 import { Flex, Item } from 'react-flex';
 import 'react-flex/index.css';
-const { div } = React.DOM;
 
 export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, AraTesterAxisId {
     axisName: string
@@ -37,7 +36,7 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
 
     public render(): JSX.Element {
         return (
-            <div style={this.props.style}>
+            <DeepContentBox style={this.props.style}>
                 <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
                     <Item flex>
                         <FlatButton
@@ -50,7 +49,7 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
                             label={String(this.state.distance)} />
                     </Item>
                 </Flex>
-            </div>
+            </DeepContentBox>
         );
     }
 }
