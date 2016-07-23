@@ -28,7 +28,6 @@ export default class AraTesterAxisController {
     private _even: number;
     private _position: number;
     private _active: boolean;
-    private _auto: boolean;
     private _interval: NodeJS.Timer;
     private _resolve: (value: number) => void;
     private _reject: (reason: NodeJS.ErrnoException) => void;
@@ -122,14 +121,6 @@ export default class AraTesterAxisController {
                 this._reject = reject;
                 setup();
                 this._exec();
-            }
-        });
-    }
-
-    private _automatic(movment: AraTesterAxisMovment) {
-        this.movment(movment).then(() => {
-            if(this._auto) {
-                this._automatic(movment);
             }
         });
     }
@@ -238,17 +229,6 @@ export default class AraTesterAxisController {
             let counter: Ioctl = ioctl(this._fd, ARA_TESTER.ARA_TESTER_GET_COUNTER);
             this._total -= counter.data;
         });
-    }
-
-    public moveAuto(movment: AraTesterAxisMovment): void {
-        if(!this._active) {
-            this._auto = true;
-            this._automatic(movment);
-        }
-    }
-
-    public stopAuto(): void {
-        this._auto = false;
     }
 
     public goToPosition(position: number): Promise<number> {

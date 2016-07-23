@@ -53,7 +53,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
     }
 
     public handleMovmentTouchTap(event: TouchTapEvent) {
-        this._AraTesterAxisService.movmnet(this.state);
+        this._AraTesterAxisService.movment(this.state);
     }
 
     public render(): JSX.Element {

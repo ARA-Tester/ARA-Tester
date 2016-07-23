@@ -46,20 +46,12 @@ export default class AraTesterAxisService {
         return AraTesterAxisService._AppSocket.request<AraTesterAxisConfig, void>('patch', `/AraTesterAxisSaveConfiguration/${this._axisId}`, config);
     }
 
-    public movmnet(movment: AraTesterAxisMovment):  Promise<void> {
+    public movment(movment: AraTesterAxisMovment):  Promise<void> {
         return AraTesterAxisService._AppSocket.request<AraTesterAxisMovment, void>('post', `/AraTesterAxisMovment/${this._axisId}`, movment);
     }
 
     public stop(): Promise<void> {
         return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStop/${this._axisId}`);
-    }
-
-    public moveAuto(movment: AraTesterAxisMovment) {
-        return AraTesterAxisService._AppSocket.request<AraTesterAxisMovment, void>('post', `/AraTesterAxisMoveAuto/${this._axisId}`, movment);
-    }
-
-    public stopAuto(): Promise<void> {
-        return AraTesterAxisService._AppSocket.request<void, void>('get', `/AraTesterAxisStopAuto/${this._axisId}`);
     }
 
     public test(): Promise<void> {
