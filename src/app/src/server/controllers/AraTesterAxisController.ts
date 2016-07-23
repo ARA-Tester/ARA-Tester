@@ -129,7 +129,6 @@ export default class AraTesterAxisController {
         this._id = { axisId: axisId };
         this._fd = openIoctlSync('ara_tester_axis' + axisId);
         this._active = false;
-        this._auto = false;
         this._even = 0;
     }
 
