@@ -2,32 +2,29 @@ import * as React from 'react';
 import OptionalStyleProp from './../../OptionalStyleProp';
 import DeepContentBox from './../../DeepContentBox';
 import Divider from 'material-ui/Divider';
-import { Flex, Item } from 'react-flex';
-import 'react-flex/index.css';
+import {List, ListItem} from 'material-ui/List';
 import AraTesterAxisCurrentPosition from './../AraTesterAxisCurrentPosition';
 
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
     public render(): JSX.Element {
         return (
-            <DeepContentBox style={this.props.style}>
-                <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
-                    <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </Item>
-                    <Divider />
-                    <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </Item>
-                    <Divider />
-                    <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </Item>
-                    <Divider />
-                    <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </Item>
-                </Flex>
-            </DeepContentBox>
+            <List style={this.props.style}>
+                <ListItem>
+                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
+                </ListItem>
+            </List
         );
     }
 }
