@@ -15,12 +15,16 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
     public render(): JSX.Element {
         return (
             <div style={Object.assign({}, fillSpaceStyle, this.props.style)}>
-                <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center" wrap={false}>
+                <Flex row justifyContent="center" alignContent="center" alignItems="center">
                     <Item flex flexBasis="auto">
-                        <AraTesterControlls />
-                    </Item>
-                    <Item flex flexBasis="auto">
-                        <AraTesterPositions />
+                        <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
+                            <Item flex flexBasis="auto">
+                                <AraTesterControlls />
+                            </Item>
+                            <Item flex flexBasis="auto">
+                                <AraTesterPositions />
+                            </Item>
+                        </Flex>
                     </Item>
                 </Flex>
             </div>
