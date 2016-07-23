@@ -51,6 +51,7 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         event.stopPropagation();
         this._timeout = window.setTimeout(() => {
             this.setState({ keepMoving: true });
+            this._move();
         }, 100);
         this._move();
     }
