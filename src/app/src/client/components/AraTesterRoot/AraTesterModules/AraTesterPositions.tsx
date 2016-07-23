@@ -24,7 +24,7 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
                 <ListItem>
                     <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                 </ListItem>
-            </List
+            </List>
         );
     }
 }
