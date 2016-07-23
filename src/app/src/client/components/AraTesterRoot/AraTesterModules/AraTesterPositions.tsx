@@ -1,6 +1,7 @@
 import * as React from 'react';
 import OptionalStyleProp from './../../OptionalStyleProp';
 import DeepContentBox from './../../DeepContentBox';
+import Divider from 'material-ui/Divider';
 import { Flex, Item } from 'react-flex';
 import 'react-flex/index.css';
 import AraTesterAxisCurrentPosition from './../AraTesterAxisCurrentPosition';
@@ -13,12 +14,15 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
                     <Item flex>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </Item>
+                    <Divider />
                     <Item flex>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </Item>
+                    <Divider />
                     <Item flex>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </Item>
+                    <Divider />
                     <Item flex>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </Item>
