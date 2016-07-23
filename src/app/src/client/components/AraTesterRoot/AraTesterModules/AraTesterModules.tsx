@@ -6,20 +6,20 @@ import AraTesterControlls from './AraTesterControlls';
 import AraTesterPositions from './AraTesterPositions';
 const { div } = React.DOM;
 
-const topSpaceStyle: React.CSSProperties = {
-    marginTop: 30
+const childSpaceStyle: React.CSSProperties = {
+    margin: 30
 }
 
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
     public render(): JSX.Element {
         return (
-            <div style={Object.assign({}, topSpaceStyle, this.props.style)}>
-                <Flex column justifyContent="center" alignContent="center" alignItems="center">
+            <div style={Object.assign({}, childSpaceStyle, this.props.style)}>
+                <Flex row justifyContent="center" alignContent="center" alignItems="center">
                     <Item flex>
-                        <AraTesterControlls />
+                        <AraTesterPositions style={childSpaceStyle} />
                     </Item>
                     <Item flex>
-                        <AraTesterPositions style={topSpaceStyle} />
+                        <AraTesterControlls style={childSpaceStyle} />
                     </Item>
                 </Flex>
             </div>
