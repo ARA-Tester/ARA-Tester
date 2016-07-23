@@ -3,9 +3,8 @@ import OptionalStyleProp from './../OptionalStyleProp';
 import AraTesterAxisId from './../../../share/AraTesterAxisId';;
 import AraTesterAxisCurrentPositionState from './../../../share/AraTesterAxisDistance';
 import AraTesterAxisService from './../../services/AraTesterAxisService';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import Badge from 'material-ui/Badge';
-import { indigo500, lime500 } from 'material-ui/styles/colors';
 import { Flex, Item } from 'react-flex';
 import 'react-flex/index.css';
 const { div } = React.DOM;
@@ -17,8 +16,8 @@ export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, Ar
 export default class AraTesterAxisCurrentPosition extends React.Component<AraTesterAxisCurrentPositionProps, AraTesterAxisCurrentPositionState> {
     private _AraTesterAxisService: AraTesterAxisService;
 
-    public constructor(props: AraTesterAxisCurrentPositionProps) {
-        super(props);
+    public constructor(props: AraTesterAxisCurrentPositionProps, context: any) {
+        super(props, context);
         this.state = { distance: 0 };
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
     }
@@ -41,20 +40,14 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
             <div style={this.props.style}>
                 <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
                     <Item flex>
-                        <RaisedButton
-                            style={this.props.style}
+                        <FlatButton
                             disabled={true}
-                            disabledBackgroundColor={indigo500}
-                            disabledLabelColor={lime500}
-                            label={String(this.state.distance)} />
+                            label={`Axis ${this.props.axisName}`} />
                     </Item>
                     <Item flex>
-                        <RaisedButton
-                            style={this.props.style}
+                        <FlatButton
                             disabled={true}
-                            disabledBackgroundColor={indigo500}
-                            disabledLabelColor={lime500}
-                            label={`Axis ${this.props.axisName}`} />
+                            label={String(this.state.distance)} />
                     </Item>
                 </Flex>
             </div>
