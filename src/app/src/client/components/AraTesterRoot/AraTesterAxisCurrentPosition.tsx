@@ -4,11 +4,12 @@ import AraTesterAxisId from './../../../share/AraTesterAxisId';;
 import AraTesterAxisCurrentPositionState from './../../../share/AraTesterAxisDistance';
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 import RaisedButton from 'material-ui/RaisedButton';
-import { purple500, pink500 } from 'material-ui/styles/colors';
+import Badge from 'material-ui/Badge';
+import { teal500, amber500 } from 'material-ui/styles/colors';
 const { div } = React.DOM;
 
 export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, AraTesterAxisId {
-
+    axisName: string
 }
 
 export default class AraTesterAxisCurrentPosition extends React.Component<AraTesterAxisCurrentPositionProps, AraTesterAxisCurrentPositionState> {
@@ -35,12 +36,14 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
 
     public render(): JSX.Element {
         return (
-            <RaisedButton
-                style={this.props.style}
-                disabled={true}
-                disabledBackgroundColor={purple500}
-                disabledLabelColor={pink500}
-                label={String(this.state.distance)} />
+            <Badge badgeContent={`Axis: ${this.props.axisName}`} primary={true}>
+                <RaisedButton
+                    style={this.props.style}
+                    disabled={true}
+                    disabledBackgroundColor={teal500}
+                    disabledLabelColor={amber500}
+                    label={String(this.state.distance)} />
+            </Badge>
         );
     }
 }

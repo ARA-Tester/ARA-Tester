@@ -11,17 +11,8 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
             <DeepContentBox style={this.props.style}>
                 <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
                     <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} />
+                        <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </Item>
-                    /*<Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} />
-                    </Item>
-                    <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} />
-                    </Item>
-                    <Item flex>
-                        <AraTesterAxisCurrentPosition axisId={0} />
-                    </Item>*/
                 </Flex>
             </DeepContentBox>
         );
