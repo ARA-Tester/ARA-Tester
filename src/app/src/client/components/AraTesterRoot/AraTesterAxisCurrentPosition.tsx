@@ -37,7 +37,7 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
     public render(): JSX.Element {
         return (
             <div style={this.props.style}>
-                <Flex row justifyContent="space-around" alignContent="space-around" alignItems="center">
+                <Flex row justifyContent="center" alignContent="center" alignItems="center" wrap={false}>
                     <Item flex>
                         <FlatButton
                             disabled={true}

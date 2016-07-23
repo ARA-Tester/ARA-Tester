@@ -7,7 +7,7 @@ import AraTesterPositions from './AraTesterPositions';
 const { div } = React.DOM;
 
 const childSpaceStyle: React.CSSProperties = {
-    margin: 'auto',
+    margin: 30,
     width: '100%',
     height: '100%'
 };
@@ -16,19 +16,13 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
     public render(): JSX.Element {
         return (
             <div style={Object.assign({}, childSpaceStyle, this.props.style)}>
-                <Flex column justifyContent="around" alignContent="around" alignItems="center" wrap={false}>
+                <Flex row justifyContent="around" alignContent="around" alignItems="center" wrap={false}>
                     <Item flex />
                     <Item flex>
-                        <Flex row justifyContent="around" alignContent="around" alignItems="center" wrap={false}>
-                            <Item flex />
-                            <Item flex>
-                                <AraTesterPositions />
-                            </Item>
-                            <Item flex>
-                                <AraTesterControlls />
-                            </Item>
-                            <Item flex />
-                        </Flex>
+                        <AraTesterPositions />
+                    </Item>
+                    <Item flex>
+                        <AraTesterControlls />
                     </Item>
                     <Item flex />
                 </Flex>
