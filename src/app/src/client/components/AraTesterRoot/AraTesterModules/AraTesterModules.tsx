@@ -5,15 +5,19 @@ import 'react-flex/index.css';
 import AraTesterControlls from './AraTesterControlls';
 import AraTesterPositions from './AraTesterPositions';
 
+const topSpacingStyle: React.CSSProperties = {
+    marginTop: 10
+};
+
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
     public render(): JSX.Element {
         return (
             <Flex column justifyContent="space-around" alignContent="space-around" alignItems="center">
                 <Item flex>
-                    <AraTesterControlls />
+                    <AraTesterControlls style={topSpacingStyle} />
                 </Item>
                 <Item flex>
-                    <AraTesterPositions />
+                    <AraTesterPositions style={topSpacingStyle} />
                 </Item>
             </Flex>
         );
