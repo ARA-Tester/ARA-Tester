@@ -8,7 +8,6 @@ const spacingStyle: React.CSSProperties = {
     margin: 30,
 };
 
-
 const childSpaceStyle: React.CSSProperties = Object.assign({
     width: '100%',
     height: '100%'

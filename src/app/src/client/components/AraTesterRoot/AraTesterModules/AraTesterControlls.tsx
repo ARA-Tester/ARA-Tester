@@ -11,7 +11,9 @@ import { TouchTapEvent } from 'material-ui';
 import { List, ListItem } from 'material-ui/List';
 
 const movmentButtonStyle: React.CSSProperties = {
-    margin: 5
+    marginTop: 5,
+    marginLeft: 5,
+    marginRight: 5
 };
 
 export default class AraTesterControlls extends React.Component<AraTesterControllsProps, AraTesterControllsState> {
