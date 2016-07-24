@@ -1,5 +1,6 @@
 import * as React from 'react';
 import SelectField from 'material-ui/SelectField';
+import { List, ListItem } from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
@@ -10,8 +11,7 @@ import AraTesterStopButton from './../../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './../AraTesterConfigWrapper';
 import DisabledProp from './../../../DisabledProp';
 import MovmentButton from './../../../MovmentButton';
-import { Flex, Item } from 'react-flex';
-import 'react-flex/index.css';
+
 import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 const { div } = React.DOM;
@@ -69,25 +69,23 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
             );
         }
         return (
-            <div style={this.props.style}>
-                <Flex column justifyContent="center" alignContent="center" alignItems="center">
-                    <Item flex>
-                        <SelectField
-                            floatingLabelText="Select movment direction"
-                            value={this.state.direction}
-                            onChange={this.onDirectionChange}>
-                                <MenuItem value={false} primaryText={this.props.positive} />
-                                <MenuItem value={true} primaryText={this.props.negative} />
-                        </SelectField>
-                    </Item>
-                    <Item flex>
-                        <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
-                    </Item>
-                    <Item flex>
-                        {movmentActionButton}
-                    </Item>
-                </Flex>
-            </div>
+            <List style={this.props.style}>
+                <ListItem disabled>
+                    <SelectField
+                        floatingLabelText="Select movment direction"
+                        value={this.state.direction}
+                        onChange={this.onDirectionChange}>
+                            <MenuItem value={false} primaryText={this.props.positive} />
+                            <MenuItem value={true} primaryText={this.props.negative} />
+                    </SelectField>
+                </ListItem>
+                <ListItem disabled>
+                    <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
+                </ListItem>
+                 <ListItem disabled>
+                    {movmentActionButton}
+                </ListItem>
+            </List>
         );
     }
 }

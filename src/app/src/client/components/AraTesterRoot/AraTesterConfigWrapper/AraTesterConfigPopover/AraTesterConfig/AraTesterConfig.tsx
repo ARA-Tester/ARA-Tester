@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
+import { List, ListItem } from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
 import { AraTesterConfigPopoverProps } from './../AraTesterConfigPopover';
 import AraTesterConfigState from './../../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../../DeepContentBox';
-import { Flex, Item } from 'react-flex';
-import 'react-flex/index.css';
 import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
 import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
 
@@ -106,30 +105,30 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     public render(): JSX.Element {
         return (
             <DeepContentBox style={this.props.style}>
-                <Flex column justifyContent="center" alignContent="center" alignItems="center"> 
-                    <Item flex>
+                <List> 
+                    <ListItem disabled>
                         <NumberInput label="Pulse Width (uS)" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
-                    </Item>
-                    <Item flex>
+                    </ListItem>
+                    <ListItem disabled>
                         <NumberInput label="T max (uS)" value={this.state.tMax} onChange={this.onTMaxChange} />
-                    </Item>
-                    <Item flex>
+                    </ListItem>
+                    <ListItem disabled>
                         <NumberInput label="T min (uS)" value={this.state.tMin} onChange={this.onTMinChange} />
-                    </Item>
-                    <Item flex>
+                    </ListItem>
+                    <ListItem disabled>
                         <NumberInput label="T delta (uS)" value={this.state.tDelta} onChange={this.onTDeltaChange} />
-                    </Item>
-                    <Item flex>
+                    </ListItem>
+                    <ListItem disabled>
                         <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
-                    </Item> 
-                    <Item flex>
+                    </ListItem> 
+                    <ListItem disabled>
                         <RaisedButton
                             disabled={this.props.disabled}
                             label="save"
                             icon={<ContentSave color={green500} />}
                             onTouchTap={this.onSaveTouchTap} />
-                    </Item>
-                </Flex>
+                    </ListItem>
+                </List>
             </DeepContentBox>
         );
     }
