@@ -4,14 +4,10 @@ import AraTesterControlls from './AraTesterControlls';
 import AraTesterPositions from './AraTesterPositions';
 const { div } = React.DOM;
 
-const spacingStyle: React.CSSProperties = {
-    margin: 30,
-};
-
 const centerStyle: React.CSSProperties = {
     display: 'block',
     margin: 'auto',
-    width: '60%'
+    width: '40%'
 };
 
 
@@ -19,8 +15,8 @@ export default class AraTesterModules extends React.Component<OptionalStyleProp,
     public render(): JSX.Element {
         return (
             <div style={Object.assign({}, centerStyle, this.props.style)}>
-                <AraTesterPositions style={spacingStyle} />
-                <AraTesterControlls style={spacingStyle} />
+                <AraTesterPositions />
+                <AraTesterControlls />
             </div>
         );
     }
