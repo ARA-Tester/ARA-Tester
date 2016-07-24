@@ -11,7 +11,8 @@ import { TouchTapEvent } from 'material-ui';
 import { List, ListItem } from 'material-ui/List';
 
 const movmentButtonStyle: React.CSSProperties = {
-    marginTop: 5,
+    marginTop: 0,
+    marginBottom: 0,
     marginLeft: 5,
     marginRight: 5
 };
