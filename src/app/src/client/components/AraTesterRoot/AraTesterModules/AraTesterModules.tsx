@@ -8,16 +8,19 @@ const centerStyle: React.CSSProperties = {
     display: 'block',
     margin: 'auto',
     padding: 'auto',
-    width: 600
+    width: 625
 };
 
+const childSpacingStyle: React.CSSProperties = {
+    margin: 20
+};
 
 export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
     public render(): JSX.Element {
         return (
             <div style={Object.assign({}, centerStyle, this.props.style)}>
-                <AraTesterPositions />
-                <AraTesterControlls />
+                <AraTesterPositions style={childSpacingStyle} />
+                <AraTesterControlls style={childSpacingStyle} />
             </div>
         );
     }
