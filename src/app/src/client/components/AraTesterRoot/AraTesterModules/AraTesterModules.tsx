@@ -7,7 +7,8 @@ const { div } = React.DOM;
 const centerStyle: React.CSSProperties = {
     display: 'block',
     margin: 'auto',
-    width: '40%'
+    padding: 'auto',
+    width: 600
 };
 
 
