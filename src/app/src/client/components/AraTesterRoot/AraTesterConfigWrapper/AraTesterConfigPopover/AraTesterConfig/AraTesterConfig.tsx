@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import { List, ListItem } from 'material-ui/List';
+import List from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
 import { AraTesterConfigPopoverProps } from './../AraTesterConfigPopover';
@@ -106,28 +106,16 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         return (
             <DeepContentBox style={this.props.style}>
                 <List> 
-                    <ListItem disabled>
-                        <NumberInput label="Pulse Width (uS)" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
-                    </ListItem>
-                    <ListItem disabled>
-                        <NumberInput label="T max (uS)" value={this.state.tMax} onChange={this.onTMaxChange} />
-                    </ListItem>
-                    <ListItem disabled>
-                        <NumberInput label="T min (uS)" value={this.state.tMin} onChange={this.onTMinChange} />
-                    </ListItem>
-                    <ListItem disabled>
-                        <NumberInput label="T delta (uS)" value={this.state.tDelta} onChange={this.onTDeltaChange} />
-                    </ListItem>
-                    <ListItem disabled>
-                        <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
-                    </ListItem> 
-                    <ListItem disabled>
-                        <RaisedButton
-                            disabled={this.props.disabled}
-                            label="save"
-                            icon={<ContentSave color={green500} />}
-                            onTouchTap={this.onSaveTouchTap} />
-                    </ListItem>
+                    <NumberInput label="Pulse Width (uS)" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
+                    <NumberInput label="T max (uS)" value={this.state.tMax} onChange={this.onTMaxChange} />
+                    <NumberInput label="T min (uS)" value={this.state.tMin} onChange={this.onTMinChange} />
+                    <NumberInput label="T delta (uS)" value={this.state.tDelta} onChange={this.onTDeltaChange} />
+                    <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
+                    <RaisedButton
+                        disabled={this.props.disabled}
+                        label="save"
+                        icon={<ContentSave color={green500} />}
+                        onTouchTap={this.onSaveTouchTap} />
                 </List>
             </DeepContentBox>
         );

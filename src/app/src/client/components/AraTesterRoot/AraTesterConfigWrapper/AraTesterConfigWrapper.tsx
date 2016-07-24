@@ -18,6 +18,13 @@ const spaceStyle: React.CSSProperties = {
     marginBottom: 10
 };
 
+const centerStyle: React.CSSProperties = {
+    display: 'block',
+    margin: 'auto',
+    padding: 'auto',
+    width: 300
+};
+
 export default class AraTesterConfigWrapper extends React.Component<AraTesterConfigWrapperProps, AraTesterConfigWrapperState> {
     private _AraTesterAxisService: AraTesterAxisService;
 
@@ -43,7 +50,7 @@ export default class AraTesterConfigWrapper extends React.Component<AraTesterCon
 
     public render(): JSX.Element {
         return (
-            <DeepContentBox style={this.props.style}>
+            <DeepContentBox style={Object.assign({}, centerStyle, this.props.style)}>
                 <AraTesterConfigPopover style={spaceStyle} axisId={this.props.axisId} disabled={this.state.disabled} />
                 <AraTesterMovment style={spaceStyle} {...this.props} disabled={this.state.disabled} />
             </DeepContentBox>

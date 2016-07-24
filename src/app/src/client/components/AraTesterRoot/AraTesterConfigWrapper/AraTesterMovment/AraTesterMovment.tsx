@@ -1,6 +1,6 @@
 import * as React from 'react';
 import SelectField from 'material-ui/SelectField';
-import { List, ListItem } from 'material-ui/List';
+import List  from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
@@ -70,21 +70,15 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         }
         return (
             <List style={this.props.style}>
-                <ListItem disabled>
-                    <SelectField
-                        floatingLabelText="Select movment direction"
-                        value={this.state.direction}
-                        onChange={this.onDirectionChange}>
-                            <MenuItem value={false} primaryText={this.props.positive} />
-                            <MenuItem value={true} primaryText={this.props.negative} />
-                    </SelectField>
-                </ListItem>
-                <ListItem disabled>
-                    <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
-                </ListItem>
-                 <ListItem disabled>
-                    {movmentActionButton}
-                </ListItem>
+                <SelectField
+                    floatingLabelText="Select movment direction"
+                    value={this.state.direction}
+                    onChange={this.onDirectionChange}>
+                        <MenuItem value={false} primaryText={this.props.positive} />
+                        <MenuItem value={true} primaryText={this.props.negative} />
+                </SelectField>
+                <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
+                {movmentActionButton}
             </List>
         );
     }
