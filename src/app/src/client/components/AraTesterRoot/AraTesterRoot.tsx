@@ -13,7 +13,14 @@ export default class AraTesterRoot extends React.Component<void, void> {
             <MuiThemeProvider>
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
-                    <AraTesterModules />
+                    <Tabs>
+                        <Tab icon={<ActionViewQuilt />} label="Modules">
+                            <AraTesterModules />
+                        </Tab>
+                        <Tab icon={<ActionSettings />} label="Configurate">
+                            <AraTesterConfigWrapper axisId={0} positive="right" negative="left" />
+                        </Tab>
+                    </Tabs>
                 </div>
             </MuiThemeProvider>
         );
