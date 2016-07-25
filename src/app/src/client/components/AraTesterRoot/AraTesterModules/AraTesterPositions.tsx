@@ -1,8 +1,9 @@
 import * as React from 'react';
 import OptionalStyleProp from './../../OptionalStyleProp';
 import DeepContentBox from './../../DeepContentBox';
+import SimpleListItem from './../../SimpleListItem';
 import Divider from 'material-ui/Divider';
-import {List, ListItem} from 'material-ui/List';
+import List from 'material-ui/List';
 import AraTesterAxisCurrentPosition from './../AraTesterAxisCurrentPosition';
 
 export default class AraTesterPositions extends React.Component<OptionalStyleProp, void> {
@@ -10,21 +11,21 @@ export default class AraTesterPositions extends React.Component<OptionalStylePro
         return (
             <DeepContentBox style={this.props.style}>
                 <List>
-                    <ListItem disabled>
+                    <SimpleListItem>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </ListItem>
+                    </SimpleListItem>
                     <Divider />
-                    <ListItem disabled>
+                    <SimpleListItem>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </ListItem>
+                    </SimpleListItem>
                     <Divider />
-                    <ListItem disabled>
+                    <SimpleListItem>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </ListItem>
+                    </SimpleListItem>
                     <Divider />
-                    <ListItem disabled>
+                    <SimpleListItem>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </ListItem>
+                    </SimpleListItem>
                 </List>
             </DeepContentBox>
         );

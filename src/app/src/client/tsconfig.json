@@ -16,6 +16,7 @@
         "components/SettingsButton.tsx",
         "components/MovmentButton.tsx",
         "components/NumberInput.tsx",
+        "components/SimpleListItem.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterConfigPopover/AraTesterConfig/AraTesterConfig.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterConfigPopover/AraTesterConfigPopover.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterMovment/AraTesterMovment.tsx",

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AraTesterAutoMovmentButton from './AraTesterAutoMovmentButton';
 import DeepContentBox from './../../DeepContentBox';
+import SimpleListItem from './../../SimpleListItem';
 import AraTesterControllsProps from './../../OptionalStyleProp';
 import AraTesterControllsState from './../../../../share/AraTesterAxisDistance';
 import MovmentIcon from 'material-ui/svg-icons/action/open-with';
@@ -8,8 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { TouchTapEvent } from 'material-ui';
-import { List, ListItem } from 'material-ui/List';
-const { div } = React.DOM;
+import List from 'material-ui/List';
 
 const movmentButtonStyle: React.CSSProperties = {
     margin: 5
@@ -32,7 +32,7 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
         return (
             <DeepContentBox style={this.props.style}>
                <List>
-                    <div>
+                    <SimpleListItem>
                         <SelectField
                             floatingLabelText="Select movment distance step"
                             value={this.state.distance}
@@ -42,22 +42,22 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
                                 <MenuItem value={0.5} primaryText="medium" />
                                 <MenuItem value={0.05} primaryText="short" />
                         </SelectField>
-                    </div>
-                    <div>
+                    </SimpleListItem>
+                    <SimpleListItem>
                         <AraTesterAutoMovmentButton axisId={0} movment="rotate left" distance={this.state.distance} style={movmentButtonStyle} />
                         <AraTesterAutoMovmentButton axisId={0} movment="forward" distance={this.state.distance} style={movmentButtonStyle} />
                         <AraTesterAutoMovmentButton axisId={0} movment="up" distance={this.state.distance} style={movmentButtonStyle} />
-                    </div>
-                    <div>
+                    </SimpleListItem>
+                    <SimpleListItem>
                         <AraTesterAutoMovmentButton axisId={0} movment="left" distance={this.state.distance} style={movmentButtonStyle} />
                         <RaisedButton disabled={true} icon={<MovmentIcon />} style={movmentButtonStyle} />
                         <AraTesterAutoMovmentButton axisId={0} movment="right" distance={this.state.distance} style={movmentButtonStyle} />
-                    </div>
-                    <div>
+                    </SimpleListItem>
+                    <SimpleListItem>
                         <AraTesterAutoMovmentButton axisId={0} movment="down" distance={this.state.distance} style={movmentButtonStyle} />
                         <AraTesterAutoMovmentButton axisId={0} movment="backward" distance={this.state.distance} style={movmentButtonStyle} />
                         <AraTesterAutoMovmentButton axisId={0} movment="rotate right" distance={this.state.distance} style={movmentButtonStyle} />
-                    </div>
+                    </SimpleListItem>
                 </List>
             </DeepContentBox>
         );

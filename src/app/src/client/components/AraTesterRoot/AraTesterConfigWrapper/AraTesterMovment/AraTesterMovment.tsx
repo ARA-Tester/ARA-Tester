@@ -9,6 +9,7 @@ import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import AraTesterStopButton from './../../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './../AraTesterConfigWrapper';
+import SimpleListItem from './../../../SimpleListItem';
 import DisabledProp from './../../../DisabledProp';
 import MovmentButton from './../../../MovmentButton';
 
@@ -70,15 +71,19 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         }
         return (
             <List style={this.props.style}>
-                <SelectField
-                    floatingLabelText="Select movment direction"
-                    value={this.state.direction}
-                    onChange={this.onDirectionChange}>
-                        <MenuItem value={false} primaryText={this.props.positive} />
-                        <MenuItem value={true} primaryText={this.props.negative} />
-                </SelectField>
-                <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
-                {movmentActionButton}
+                <SimpleListItem>
+                    <SelectField
+                        floatingLabelText="Select movment direction"
+                        value={this.state.direction}
+                        onChange={this.onDirectionChange}>
+                            <MenuItem value={false} primaryText={this.props.positive} />
+                            <MenuItem value={true} primaryText={this.props.negative} />
+                    </SelectField>
+                </SimpleListItem>
+                <SimpleListItem>
+                    <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
+                </SimpleListItem>
+                <SimpleListItem>{movmentActionButton}</SimpleListItem>
             </List>
         );
     }
