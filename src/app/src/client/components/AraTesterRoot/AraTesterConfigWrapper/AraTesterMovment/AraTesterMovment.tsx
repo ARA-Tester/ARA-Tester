@@ -1,12 +1,11 @@
 import * as React from 'react';
-import SelectField from 'material-ui/SelectField';
 import List  from 'material-ui/List';
-import MenuItem from 'material-ui/MenuItem';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
 import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
+import { ButtonSelect, SelectableButton, SelectHandler } from './../../../ButtonSelect/ButtonSelect';
 import AraTesterStopButton from './../../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './../AraTesterConfigWrapper';
 import SimpleListItem from './../../../SimpleListItem';
@@ -21,9 +20,11 @@ interface AraTesterMovmentProps extends AraTesterConfigWrapperProps, DisabledPro
 
 }
 
+const selectablesSpacing: React.CSSProperties = { margin: 5 };
+
 export default class AraTesterMovment extends React.Component<AraTesterMovmentProps, AraTesterMovmentState> {
     private _AraTesterAxisService: AraTesterAxisService;
-    public onDirectionChange: (event: TouchTapEvent, index: number, menuItemValue: boolean) => void;
+    public onDirectionSelect: SelectHandler;
     public onDistanceChange: NumberInputValueHandler;
     public onMovmentTouchTap: TouchTapEventHandler;
 
@@ -34,26 +35,26 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
             distance: 0
         };
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
-        this.onDirectionChange = this.handleDirectionChange.bind(this);
+        this.onDirectionSelect = this.handleDirectionSelect.bind(this);
         this.onDistanceChange = this.handleDistanceChange.bind(this);
         this.onMovmentTouchTap = this.handleMovmentTouchTap.bind(this);
     }
 
-    public handleDirectionChange(event: TouchTapEvent, index: number, menuItemValue: boolean) {
+    public handleDirectionSelect(select: string): void {
         this.setState({
-            direction: menuItemValue,
+            direction: select === this.props.negative,
             distance: this.state.distance       
         });
     }
 
-    public handleDistanceChange(value: number) {
+    public handleDistanceChange(value: number): void {
          this.setState({
             direction: this.state.direction,
             distance: value       
         });
     }
 
-    public handleMovmentTouchTap(event: TouchTapEvent) {
+    public handleMovmentTouchTap(event: TouchTapEvent): void {
         this._AraTesterAxisService.movment(this.state);
     }
 
@@ -72,13 +73,13 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         return (
             <List style={this.props.style}>
                 <SimpleListItem>
-                    <SelectField
-                        floatingLabelText="Select movment direction"
-                        value={this.state.direction}
-                        onChange={this.onDirectionChange}>
-                            <MenuItem value={false} primaryText={this.props.positive} />
-                            <MenuItem value={true} primaryText={this.props.negative} />
-                    </SelectField>
+                    <ButtonSelect
+                        default={this.state.direction ? this.props.negative : this.props.positive}
+                        buttonStyle={selectablesSpacing}
+                        onSelect={this.onDirectionSelect} >
+                            <SelectableButton value={this.props.positive} label={this.props.positive} />
+                            <SelectableButton value={this.props.negative} label={this.props.negative} />
+                    </ButtonSelect>
                 </SimpleListItem>
                 <SimpleListItem>
                     <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
