@@ -7,7 +7,7 @@ export { SelectableButton, SelectHandler };
 export interface ButtonSelectProps extends OptionalStyleProp {
     default?: string;
     onSelect?: SelectHandler;
-    spacing?: number;
+    buttonStyle?: React.CSSProperties;
 };
 
 export interface ButtonSelectState {
@@ -17,7 +17,6 @@ export interface ButtonSelectState {
 export { ButtonSelect } ;
 
 export default class ButtonSelect extends React.Component<ButtonSelectProps, ButtonSelectState> {
-    public static defaultProps: ButtonSelectProps = { spacing: 5 }; 
     public onSelect: SelectHandler;
 
     public constructor(props: ButtonSelectProps) {
@@ -37,10 +36,10 @@ export default class ButtonSelect extends React.Component<ButtonSelectProps, But
 
     public render(): JSX.Element {
         const options: Array<JSX.Element> = React.Children.map(this.props.children, (option: JSX.Element): JSX.Element => {
-            const { value, label, spacing } = option.props;
+            const { value, label } = option.props;
             return (
                 <SelectableButton
-                    style={{margin: spacing}}
+                    style={this.props.buttonStyle}
                     value={value}
                     label={label}
                     selected={this.state.selected === value}

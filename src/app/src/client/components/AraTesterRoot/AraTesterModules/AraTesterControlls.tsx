@@ -30,10 +30,14 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
             <DeepContentBox style={this.props.style}>
                <List>
                     <SimpleListItem>
-                        <ButtonSelect default={String(this.state.distance)} onSelect={this.onDistanceSelect} style={movmentButtonStyle}>
-                            <SelectableButton value="5" label="long" />
-                            <SelectableButton value="0.5" label="medium" />
-                            <SelectableButton value="0.05" label="short" />
+                        <ButtonSelect
+                            default={String(this.state.distance)}
+                            onSelect={this.onDistanceSelect}
+                            buttonStyle={movmentButtonStyle}
+                            style={movmentButtonStyle} >
+                                <SelectableButton value="5" label="long" />
+                                <SelectableButton value="0.5" label="medium" />
+                                <SelectableButton value="0.05" label="short" />
                         </ButtonSelect>
                     </SimpleListItem>
                     <SimpleListItem>
