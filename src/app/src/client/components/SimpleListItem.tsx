@@ -14,6 +14,13 @@ const SimpleListItemInnerDivStyle: React.CSSProperties = {
 
 export default class SimpleListItem extends React.Component<SimpleListItemProps, void> {
     public render(): JSX.Element {
-        return <ListItem innerDivStyle={SimpleListItemInnerDivStyle} disabled>{this.props.children}</ListItem>;
+        return (
+            <ListItem
+                style={this.props.style}
+                innerDivStyle={SimpleListItemInnerDivStyle}
+                disabled>
+                    {this.props.children}
+            </ListItem>
+        );
     }
 }

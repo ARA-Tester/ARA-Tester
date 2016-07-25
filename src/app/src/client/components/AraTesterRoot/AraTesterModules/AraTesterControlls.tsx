@@ -5,27 +5,24 @@ import SimpleListItem from './../../SimpleListItem';
 import AraTesterControllsProps from './../../OptionalStyleProp';
 import AraTesterControllsState from './../../../../share/AraTesterAxisDistance';
 import MovmentIcon from 'material-ui/svg-icons/action/open-with';
+import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import { TouchTapEvent } from 'material-ui';
 import List from 'material-ui/List';
 
-const movmentButtonStyle: React.CSSProperties = {
-    margin: 5
-};
+const movmentButtonStyle: React.CSSProperties = { margin: 5 };
 
 export default class AraTesterControlls extends React.Component<AraTesterControllsProps, AraTesterControllsState> {
-    public onDistanceChange: (event: TouchTapEvent, index: number, menuItemValue: number) => void;
+    public onDistanceSelect: SelectHandler;
 
     public constructor(props: AraTesterControllsProps) {
         super(props);
         this.state = { distance: 0.05 };
-        this.onDistanceChange = this.handleDistanceChange.bind(this);
+        this.onDistanceSelect = this.handleDistanceSelect.bind(this);
     }
 
-    public handleDistanceChange(event: TouchTapEvent, index: number, menuItemValue: number): void {
-        this.setState({ distance: menuItemValue });
+    public handleDistanceSelect(select: string): void {
+        this.setState({ distance: Number(select) });
     }
 
     public render(): JSX.Element {
@@ -33,15 +30,11 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
             <DeepContentBox style={this.props.style}>
                <List>
                     <SimpleListItem>
-                        <SelectField
-                            floatingLabelText="Select movment distance step"
-                            value={this.state.distance}
-                            onChange={this.onDistanceChange}
-                            style={movmentButtonStyle}>
-                                <MenuItem value={5} primaryText="long" />
-                                <MenuItem value={0.5} primaryText="medium" />
-                                <MenuItem value={0.05} primaryText="short" />
-                        </SelectField>
+                        <ButtonSelect default={String(this.state.distance)} onSelect={this.onDistanceSelect} style={movmentButtonStyle}>
+                            <SelectableButton value="5" label="long" />
+                            <SelectableButton value="0.5" label="medium" />
+                            <SelectableButton value="0.05" label="short" />
+                        </ButtonSelect>
                     </SimpleListItem>
                     <SimpleListItem>
                         <AraTesterAutoMovmentButton axisId={0} movment="rotate left" distance={this.state.distance} style={movmentButtonStyle} />
