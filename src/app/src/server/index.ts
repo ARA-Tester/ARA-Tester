@@ -4,6 +4,7 @@ import * as Inert from 'inert';
 import * as Nes from 'nes';
 import * as Mongoose from 'mongoose';
 import * as Ip from 'ip';
+import { Config } from './../share/config';
 import AraTesterAxisController from './controllers/AraTesterAxisController';
 import AraTesterAxisId from './../share/AraTesterAxisId';
 import AraTesterAxisDistance from './../share/AraTesterAxisDistance';
@@ -23,9 +24,7 @@ let server = new Hapi.Server({
     }
 });
 
-server.connection({
-    port: 3000
-});
+server.connection({ port: Config.PORT });
 
 server.register(Inert, () => {
     server.route({

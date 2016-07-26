@@ -33,10 +33,12 @@ start: client server
 	node deploy/server/index.js
 
 electron: app
-	cd ./app && npm install electron-prebuilt
+	rm -f /home/pi/Desktop/AraTester.desktop
 	cp ./src/app/app.desktop /home/pi/Desktop/AraTester.desktop
 	rm -Rf /home/pi/.AraTesterApp
+	cp ./src/app/package.json ./app
 	mv ./app /home/pi/.AraTesterApp
+	cd /home/pi/.AraTesterApp && npm install
 	
 clean:
 	rm -f -R ./deploy ./app

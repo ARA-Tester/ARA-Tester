@@ -1,4 +1,8 @@
 import * as Electron from 'electron';
+import * as Ip from 'ip';
+import { Config } from './../share/config';
+
+process.env.HOST = `${Ip.address()}:${Config.PORT}`;
 
 let mainWindow: Electron.BrowserWindow = null;
 
