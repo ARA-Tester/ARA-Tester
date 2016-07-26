@@ -15,11 +15,8 @@ export default class AppSocket {
     }
 
     /*private */ constructor() {
-        const envHost: boolean = process && process.env && process.env.HOST;
-        const host: string = envHost ? process.env.HOST : window.location.host;
-        console.log(envHost);
-        console.log(host);
-        this._socket = new Nes.Client('ws://' + host);
+        console.log(window.location.host);
+        this._socket = new Nes.Client(`ws://${window.location.host}`);
     }
 
     public onError(handleError: errorHandler) {

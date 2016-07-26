@@ -1,13 +1,14 @@
 import * as Electron from 'electron';
-import * as Ip from 'ip';
-import { Config } from './../share/config';
-
-process.env.HOST = `${Ip.address()}:${Config.PORT}`;
 
 let mainWindow: Electron.BrowserWindow = null;
 
 function createWindow(): void {
-    mainWindow = new Electron.BrowserWindow({ fullscreen: true });
+    mainWindow = new Electron.BrowserWindow({
+        fullscreen: true,
+        webPreferences: {
+            preload: `${__dirname}/preload.js`
+        }
+    });
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.webContents.openDevTools();
     mainWindow.on('close', () => {

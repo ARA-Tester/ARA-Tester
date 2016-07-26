@@ -27,6 +27,7 @@ app: client
 	rm -R ./public
 	$(__npm_bin__)/tsc -p ./src/app
 	mv ./src/app/index.js ./app
+	mv ./src/app/preload.js ./app
 
 start: client server
 	mv ./public ./deploy
