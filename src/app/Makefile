@@ -34,9 +34,8 @@ start: client server
 
 electron: app
 	cd ./app && npm install electron-prebuilt
-	mv ./src/app/AraTester.desktop /home/pi/Desktop/AraTester.desktop
+	cp ./src/app/app.desktop /home/pi/Desktop/AraTester.desktop
 	rm -Rf /home/pi/.AraTesterApp
-	mkdir /home/pi/.AraTesterApp
 	mv ./app /home/pi/.AraTesterApp
 	
 clean:
