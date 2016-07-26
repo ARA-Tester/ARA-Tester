@@ -19,11 +19,27 @@ server:
 	mv $(__ioctl_enum__) ./src/server
 	$(__npm_bin__)/tsc -p ./src/server
 
+app: client
+	rm -Rf ./app
+	mkdir ./app
+	mv ./public/index.html ./app
+	mv ./public/main.js ./app
+	rm -R ./public
+	$(__npm_bin__)/tsc -p ./src/app
+	mv ./src/app/index.js ./app
+
 start: client server
 	mv ./public ./deploy
-	node deploy/server/index.js 
+	node deploy/server/index.js
+
+electron: app
+	cd ./app && npm install electron-prebuilt
+	mv ./src/app/AraTester.desktop /home/pi/Desktop/AraTester.desktop
+	rm -Rf /home/pi/.AraTesterApp
+	mkdir /home/pi/.AraTesterApp
+	mv ./app /home/pi/.AraTesterApp
 	
 clean:
-	rm -f -R ./deploy
+	rm -f -R ./deploy ./app
 	find ./src -name "*.js" -type f -delete
 	rm -f ./src/server/$(__ioctl_enum__)

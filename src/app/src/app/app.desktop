@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=AraTester
+Comment=AraTester
+Icon=/home/pi/.AraTesterApp/icon.xpm
+Exec=/home/pi/.AraTesterApp/node_modules/.bin/electron /home/pi/.AraTesterApp/index.js
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;

@@ -10,6 +10,7 @@
     "react-dom": "registry:dt/react-dom",
     "react-tap-event-plugin": "registry:dt/react-tap-event-plugin",
     "material-ui": "registry:dt/material-ui",
-    "react-flex": "registry:dt/react-flex"
+    "react-flex": "registry:dt/react-flex",
+    "github-electron": "registry:dt/github-electron"
   }
 }
