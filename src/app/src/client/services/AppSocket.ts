@@ -1,4 +1,5 @@
 import * as Nes from 'nes/client';
+import Host from './Host';
 
 type errorHandler = (err: any) => void;
 type requestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch' | 'head';
@@ -15,8 +16,7 @@ export default class AppSocket {
     }
 
     /*private */ constructor() {
-        console.log(window.location.host);
-        this._socket = new Nes.Client(`ws://${window.location.host}`);
+        this._socket = new Nes.Client(`ws://${Host()}`);
     }
 
     public onError(handleError: errorHandler) {
