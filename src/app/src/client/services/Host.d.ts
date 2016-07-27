@@ -1,1 +1,3 @@
-export default function(): string;
+declare function getHost(): string;
+
+export { getHost };
