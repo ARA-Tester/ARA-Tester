@@ -34,7 +34,7 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
     }
 
-    public componentDidMount(): void {
+    /*public componentDidMount(): void {
         this._AraTesterAxisService.onMovmentEnd(() => {
             if(this.state.keepMoving) {
                 this._move();
@@ -44,23 +44,23 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
 
     public componentWillUnmount(): void {
         this._AraTesterAxisService.removeMovmentEnd();
-    }
+    }*/
 
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
-        event.stopPropagation();
-        this._timeout = window.setTimeout(() => {
+        console.log('press');
+        /*this._timeout = window.setTimeout(() => {
             this.setState({ keepMoving: true });
             this._move();
         }, 300);
-        this._move();
+        this._move();*/
     }
 
     public handleButtonRelease(event: React.SyntheticEvent): void {
         event.preventDefault();
-        event.stopPropagation();
-        clearTimeout(this._timeout);
-        this.setState({ keepMoving: false });
+        console.log('release');
+        //clearTimeout(this._timeout);
+        //this.setState({ keepMoving: false });
     }
 
     public render(): JSX.Element {
