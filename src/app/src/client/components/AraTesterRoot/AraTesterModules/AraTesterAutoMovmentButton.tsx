@@ -16,6 +16,7 @@ export interface AraTesterAutoMovmentButtonState {
 export default class AraTesterAutoMovmentButton extends React.Component<AraTesterAutoMovmentButtonProps, AraTesterAutoMovmentButtonState> {
     private _AraTesterAxisService: AraTesterAxisService;
     private _timeout: number;
+    public onClick: SyntheticEventHandler;
     public onButtonPress: SyntheticEventHandler;
     public onButtonRelease: SyntheticEventHandler;
 
@@ -30,6 +31,7 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         super(props);
         this.state = { keepMoving: false };
         this.onButtonPress = this.handleButtonPress.bind(this);
+        this.onClick = this.handleClick.bind(this);
         this.onButtonRelease = this.handleButtonRelease.bind(this);
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
     }
@@ -45,6 +47,11 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public componentWillUnmount(): void {
         this._AraTesterAxisService.removeMovmentEnd();
     }*/
+
+    public handleClick(event: React.SyntheticEvent): void {
+        event.preventDefault();
+        console.log('click');
+    }
 
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
@@ -69,6 +76,7 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
             <MovmentButton
                 style={this.props.style}
                 movment={this.props.movment}
+                onClick={this.onClick}
                 onButtonPress={this.onButtonPress}
                 onButtonRelease={this.onButtonRelease} />
         );

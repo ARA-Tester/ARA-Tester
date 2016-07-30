@@ -76,8 +76,8 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
                         default={this.state.direction ? this.props.negative : this.props.positive}
                         buttonStyle={selectablesSpacing}
                         onSelect={this.onDirectionSelect} >
-                            <SelectableButton value={this.props.positive} label={this.props.positive} />
                             <SelectableButton value={this.props.negative} label={this.props.negative} />
+                            <SelectableButton value={this.props.positive} label={this.props.positive} />
                     </ButtonSelect>
                 </SimpleListItem>
                 <SimpleListItem>
