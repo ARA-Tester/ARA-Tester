@@ -80,8 +80,11 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
         console.log('press');
+        console.log('state');
+        console.log(this.state);
         this._stateProxy.set('timeout', window.setTimeout(() => {
             console.log('timeout');
+            this._stateProxy.set('timeout', null);
             this._stateProxy.set('keepMoving', true);
             this._move();
         }, 300));
@@ -91,10 +94,12 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public handleButtonRelease(event: React.SyntheticEvent): void {
         event.preventDefault();
         console.log('release');
+        console.log('state');
+        console.log(this.state);
+        this._stateProxy.set('keepMoving', false);
         if(this.state.timeout) {
             clearTimeout(this.state.timeout);
             this._stateProxy.set('timeout', null);
-            this._stateProxy.set('keepMoving', false);
         } else {
             console.log('forced');
             this._move();
