@@ -10,7 +10,6 @@ function createWindow(): void {
         }
     });
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-    mainWindow.webContents.openDevTools();
     mainWindow.on('close', () => {
         mainWindow = null;
     });
