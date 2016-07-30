@@ -42,7 +42,7 @@ electron: app
 	cp ./src/app/app.desktop /home/pi/Desktop/AraTester.desktop
 	rm -Rf /home/pi/.AraTesterApp
 	cp ./src/app/package.json ./app
-	cp ./src/app/icon.xpm ./app
+	cp ./src/app/icon.png ./app
 	mv ./app /home/pi/.AraTesterApp
 	cd /home/pi/.AraTesterApp && npm install
 	
