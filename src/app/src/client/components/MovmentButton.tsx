@@ -59,8 +59,8 @@ export default class SettingsButton extends React.Component<MovmentButtonProps, 
                 icon={icon}
                 primary
                 onClick={this.props.onClick}
-                onMouseDown={this.props.onButtonPress}
-                onMouseUp={this.props.onButtonRelease} />
+                onTouchStart={this.props.onButtonPress}
+                onTouchEnd={this.props.onButtonRelease} />
         );
     }
 };
