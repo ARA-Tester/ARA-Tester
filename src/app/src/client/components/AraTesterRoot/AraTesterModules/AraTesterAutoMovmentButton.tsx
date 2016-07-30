@@ -82,7 +82,6 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         console.log('press');
         this._stateProxy.set('timeout', window.setTimeout(() => {
             console.log('timeout');
-            this._stateProxy.set('timeout', null);
             this._stateProxy.set('keepMoving', true);
             this._move();
         }, 300));
