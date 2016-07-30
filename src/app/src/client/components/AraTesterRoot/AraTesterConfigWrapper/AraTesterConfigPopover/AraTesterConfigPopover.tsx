@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import Popover from 'material-ui/Popover';
 import SettingsButton from './../../../SettingsButton';
 import AraTesterWrapperState from './../../../DisabledProp';
@@ -19,7 +18,7 @@ export interface AraTesterConfigPopoverState {
 }
 
 export default class AraTesterConfigPopover extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigPopoverState> {
-    public onTouchTab: TouchTapEventHandler;
+    public onClick: React.MouseEventHandler;
     public onRequestClose: () => void;
 
     public constructor(props: AraTesterConfigPopoverProps) {
@@ -27,11 +26,11 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
         this.state = {
             open: false
         };
-        this.onTouchTab = this.handleTouchTab.bind(this);
+        this.onClick = this.handleClick.bind(this);
         this.onRequestClose = this.handleRequestClose.bind(this);
     }
 
-    public handleTouchTab(event: TouchTapEvent) {
+    public handleClick(event: React.MouseEvent) {
         event.preventDefault();
         this.setState({
             open: true,
@@ -48,7 +47,7 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
     public render(): JSX.Element {
         return (
             <div style={this.props.style}>
-                <SettingsButton disabled={this.props.disabled} onTouchTap={this.onTouchTab} />
+                <SettingsButton disabled={this.props.disabled} onClick={this.onClick} />
                 <Popover open={this.state.open} anchorEl={this.state.anchorEl} onRequestClose={this.onRequestClose} >
                     <AraTesterConfig {...this.props} />
                 </Popover>

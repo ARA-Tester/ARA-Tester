@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TouchTapEventHandler } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import { fullWhite } from 'material-ui/styles/colors';
@@ -13,6 +12,6 @@ export default class SettingsButton extends React.Component<BasicButtonProps, vo
             label="settings"
             primary={true}
             icon={<ActionSettings color={fullWhite} />}
-            onTouchTap={this.props.onTouchTap} />;
+            onClick={this.props.onClick} />;
     }
 };

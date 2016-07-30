@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionPause from 'material-ui/svg-icons/av/pause';
 import { fullWhite, red500 } from 'material-ui/styles/colors';
@@ -13,15 +12,15 @@ export interface AraTesterStopButtonProps extends AraTesterAxisId, OptionalStyle
 
 export default class AraTesterStopButton extends React.Component<AraTesterStopButtonProps, void> {
     private _AraTesterAxisService: AraTesterAxisService;
-    public onTouchTap: TouchTapEventHandler;
+    public onClick: React.MouseEventHandler;
 
     public constructor(props: AraTesterStopButtonProps) {
         super(props);
-        this.onTouchTap = this.handleTouchTap.bind(this);
+        this.onClick = this.handleClick.bind(this);
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
     }
 
-    public handleTouchTap(event: TouchTapEvent): void {
+    public handleClick(event: React.MouseEvent): void {
         this._AraTesterAxisService.stop();
     }
 
@@ -31,6 +30,6 @@ export default class AraTesterStopButton extends React.Component<AraTesterStopBu
             backgroundColor={red500}
             label="Stop"
             icon={<ActionPause color={fullWhite} />}
-            onTouchTap={this.onTouchTap} />;
+            onClick={this.onClick} />;
     }
 };

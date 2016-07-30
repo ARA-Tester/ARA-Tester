@@ -7,7 +7,6 @@ import AraTesterControllsState from './../../../../share/AraTesterAxisDistance';
 import MovmentIcon from 'material-ui/svg-icons/action/open-with';
 import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
 import RaisedButton from 'material-ui/RaisedButton';
-import { TouchTapEvent } from 'material-ui';
 import List from 'material-ui/List';
 
 const movmentButtonStyle: React.CSSProperties = { margin: 5 };

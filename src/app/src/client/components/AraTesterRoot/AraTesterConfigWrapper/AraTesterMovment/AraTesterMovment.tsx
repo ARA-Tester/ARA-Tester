@@ -3,7 +3,6 @@ import List  from 'material-ui/List';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
-import { TouchTapEvent, TouchTapEventHandler } from 'material-ui';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import { ButtonSelect, SelectableButton, SelectHandler } from './../../../ButtonSelect/ButtonSelect';
 import AraTesterStopButton from './../../AraTesterStopButton';
@@ -26,7 +25,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
     private _AraTesterAxisService: AraTesterAxisService;
     public onDirectionSelect: SelectHandler;
     public onDistanceChange: NumberInputValueHandler;
-    public onMovmentTouchTap: TouchTapEventHandler;
+    public onMovmentClick: React.MouseEventHandler;
 
     public constructor(props: AraTesterMovmentProps) {
         super(props);
@@ -37,7 +36,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
         this.onDirectionSelect = this.handleDirectionSelect.bind(this);
         this.onDistanceChange = this.handleDistanceChange.bind(this);
-        this.onMovmentTouchTap = this.handleMovmentTouchTap.bind(this);
+        this.onMovmentClick = this.handleMovmentClick.bind(this);
     }
 
     public handleDirectionSelect(select: string): void {
@@ -54,7 +53,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         });
     }
 
-    public handleMovmentTouchTap(event: TouchTapEvent): void {
+    public handleMovmentClick(event: React.MouseEvent): void {
         this._AraTesterAxisService.movment(this.state);
     }
 
@@ -67,7 +66,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
                 <MovmentButton
                     disabled={this.state.distance === 0}
                     movment={this.state.direction ? this.props.negative : this.props.positive}
-                    onTouchTap={this.onMovmentTouchTap} />
+                    onClick={this.onMovmentClick} />
             );
         }
         return (

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import OptionalStyleProp from './../OptionalStyleProp';
 
 export type SelectHandler = (value: string) => void;
@@ -22,14 +21,14 @@ export default class SelectableButton extends React.Component<SelectableButtonPr
         selected: false,
     };
 
-    public onTouchTap: TouchTapEventHandler;
+    public onClick: React.MouseEventHandler;
 
     public constructor(props: SelectableButtonProps) {
         super(props);
-        this.onTouchTap = this.handleTouchTap.bind(this);
+        this.onClick = this.handleClick.bind(this);
     }
 
-    public handleTouchTap(event: TouchTapEvent): void {
+    public handleClick(event: React.MouseEvent): void {
         if(this.props.onSelect) {
             this.props.onSelect(this.props.value);
         }
@@ -40,7 +39,7 @@ export default class SelectableButton extends React.Component<SelectableButtonPr
             style: this.props.style,
             label: this.props.label,
             primary: true,
-            onTouchTap: this.onTouchTap
+            onClick: this.onClick
         };
         return this.props.selected ? <RaisedButton {...props} /> : <FlatButton {...props} />;
     }

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
@@ -22,7 +21,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     public onTMinChange: NumberInputValueHandler;
     public onTDeltaChange: NumberInputValueHandler;
     public onConfiguredChange: NumberInputValueHandler;
-    public onSaveTouchTap: TouchTapEventHandler;
+    public onSaveClick: React.MouseEventHandler;
 
     private _copyState(): AraTesterConfigState {
         return AraTesterConfig._copyConfigInfo(this.state);
@@ -70,7 +69,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         this.onTMinChange = this.handleTMinChange.bind(this);
         this.onTDeltaChange = this.handleTDeltaChange.bind(this);
         this.onConfiguredChange = this.handleConfiguredChange.bind(this);
-        this.onSaveTouchTap = this.handleSaveTouchTap.bind(this);
+        this.onSaveClick = this.handleSaveClick.bind(this);
     }
 
     public componentDidMount() {
@@ -99,7 +98,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         this._setState((state: AraTesterConfigState) => { state.configured = value; });
     }
 
-    public handleSaveTouchTap(event: TouchTapEvent) {;
+    public handleSaveClick(event: React.MouseEvent) {;
         this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
     }
 
@@ -127,7 +126,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
                             disabled={this.props.disabled}
                             label="save"
                             icon={<ContentSave color={green500} />}
-                            onTouchTap={this.onSaveTouchTap} />
+                            onClick={this.onSaveClick} />
                     </SimpleListItem>
                 </List>
             </DeepContentBox>

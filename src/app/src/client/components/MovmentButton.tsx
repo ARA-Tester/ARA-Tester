@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TouchTapEventHandler } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import { fullWhite } from 'material-ui/styles/colors';
 import Backward from 'material-ui/svg-icons/navigation/arrow-downward';
@@ -59,9 +58,7 @@ export default class SettingsButton extends React.Component<MovmentButtonProps, 
                 disabled={this.props.disabled}
                 icon={icon}
                 primary
-                onTouchTap={this.props.onTouchTap}
-                onTouchStart={this.props.onButtonPress}
-                onTouchEnd={this.props.onButtonRelease}
+                onClick={this.props.onClick}
                 onMouseDown={this.props.onButtonPress}
                 onMouseUp={this.props.onButtonRelease} />
         );
