@@ -8,8 +8,12 @@ install:
 	$(__npm_bin__)/typings install
 
 client:
-	rm -Rf ./public
+	rm -Rf ./public ./tmp
+	mkdir ./tmp
+	cp ./src/client/services/Host.js ./tmp
 	$(__npm_bin__)/webpack
+	mv ./tmp/Host.js ./src/client/services
+	rm -R ./tmp
 
 server:
 	rm -Rf ./deploy
@@ -38,10 +42,10 @@ electron: app
 	cp ./src/app/app.desktop /home/pi/Desktop/AraTester.desktop
 	rm -Rf /home/pi/.AraTesterApp
 	cp ./src/app/package.json ./app
+	cp ./src/app/icon.xpm ./app
 	mv ./app /home/pi/.AraTesterApp
 	cd /home/pi/.AraTesterApp && npm install
 	
 clean:
-	rm -f -R ./deploy ./app
-	find ./src -name "*.js" -type f -delete
+	rm -f -R ./deploy ./app ./public
 	rm -f ./src/server/$(__ioctl_enum__)
