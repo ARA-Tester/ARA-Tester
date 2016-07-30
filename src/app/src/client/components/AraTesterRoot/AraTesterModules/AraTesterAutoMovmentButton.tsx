@@ -49,18 +49,19 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
         console.log('press');
-        /*this._timeout = window.setTimeout(() => {
+        this._timeout = window.setTimeout(() => {
+            console.log('timeout');
             this.setState({ keepMoving: true });
-            this._move();
+            //this._move();
         }, 300);
-        this._move();*/
+        //this._move();
     }
 
     public handleButtonRelease(event: React.SyntheticEvent): void {
         event.preventDefault();
         console.log('release');
-        //clearTimeout(this._timeout);
-        //this.setState({ keepMoving: false });
+        clearTimeout(this._timeout);
+        this.setState({ keepMoving: false });
     }
 
     public render(): JSX.Element {
