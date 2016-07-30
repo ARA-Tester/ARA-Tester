@@ -1,3 +1,3 @@
 exports.getHost = function() {
-    return appHost ? appHost : window.location.host;
+    return global.appHost ? global.appHost : window.location.host;
 }
