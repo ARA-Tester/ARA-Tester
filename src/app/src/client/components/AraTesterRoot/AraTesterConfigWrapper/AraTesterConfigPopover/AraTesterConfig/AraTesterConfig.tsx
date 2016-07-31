@@ -4,17 +4,21 @@ import List from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
 import { AraTesterConfigPopoverProps } from './../AraTesterConfigPopover';
-import AraTesterConfigState from './../../../../../../share/AraTesterAxisConfig';
+import AraTesterAxisConfig from './../../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../../DeepContentBox';
 import SimpleListItem from './../../../../SimpleListItem';
 import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
 import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
 
-export default class AraTesterConfig extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigState> {
-    private static _copyConfigInfo(info: AraTesterConfigState): AraTesterConfigState {
-        return Object.assign({}, info);
-    }
+export interface  AraTesterConfigState {
+    pulseWidth?: number;
+    tMax?: number;
+    tMin?: number;
+    tDelta?: number;
+    configured?: number;
+};
 
+export default class AraTesterConfig extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigState> {
     private _AraTesterAxisService: AraTesterAxisService;
     public onPulseWidthChange: NumberInputValueHandler;
     public onTMaxChange: NumberInputValueHandler;
@@ -23,17 +27,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     public onConfiguredChange: NumberInputValueHandler;
     public onSaveClick: React.MouseEventHandler;
 
-    private _copyState(): AraTesterConfigState {
-        return AraTesterConfig._copyConfigInfo(this.state);
-    }
-
-    private _setState(setter: (state: AraTesterConfigState) => void) {
-        let clone: AraTesterConfigState = this._copyState();
-        setter(clone);
-        this.setState(clone);
-    }
-
-    private _convertFromServer(config: AraTesterConfigState): AraTesterConfigState {
+    private _convertFromServer(config: AraTesterAxisConfig): AraTesterConfigState {
         return {
             pulseWidth: config.pulseWidth / 1000,
             tMax: config.tMax / 1000,
@@ -43,7 +37,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         };
     }
 
-    private _convertToServer(config: AraTesterConfigState): AraTesterConfigState {
+    private _convertToServer(config: AraTesterConfigState): AraTesterAxisConfig {
         return {
             pulseWidth: config.pulseWidth * 1000,
             tMax: config.tMax * 1000,
@@ -54,15 +48,14 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     }
 
     public constructor(props: AraTesterConfigPopoverProps) {
-        let initalState: AraTesterConfigState = {
+        super(props);
+        this.state = {
             pulseWidth: 0,
             tMax: 0,
             tMin: 0,
             tDelta: 0,
             configured: 0
         };
-        super(props);
-        this.state = AraTesterConfig._copyConfigInfo(initalState);
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
         this.onPulseWidthChange = this.handlePulseWidthChange.bind(this);
         this.onTMaxChange = this.handleTMaxChange.bind(this);
@@ -73,29 +66,29 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     }
 
     public componentDidMount() {
-        this._AraTesterAxisService.getConfiguration().then((config: AraTesterConfigState) => {
+        this._AraTesterAxisService.getConfiguration().then((config: AraTesterAxisConfig) => {
             this.setState(this._convertFromServer(config));;
         })
     }
 
     public handlePulseWidthChange(value: number) {
-        this._setState((state: AraTesterConfigState) => { state.pulseWidth = value; });
+        this.setState({ pulseWidth: value });
     }
 
     public handleTMaxChange(value: number) {
-        this._setState((state: AraTesterConfigState) => { state.tMax = value; });
+        this.setState({ tMax: value });
     }
 
     public handleTMinChange(value: number) {
-        this._setState((state: AraTesterConfigState) => { state.tMin = value; });
+        this.setState({ tMin: value });
     }
 
     public handleTDeltaChange(value: number) {
-        this._setState((state: AraTesterConfigState) => { state.tDelta = value; });
+        this.setState({ tDelta: value });
     }
 
     public handleConfiguredChange(value: number) {
-        this._setState((state: AraTesterConfigState) => { state.configured = value; });
+        this.setState({ configured: value });
     }
 
     public handleSaveClick(event: React.MouseEvent) {;

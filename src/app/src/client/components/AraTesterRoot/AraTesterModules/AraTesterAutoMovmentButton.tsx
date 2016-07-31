@@ -9,31 +9,9 @@ export interface AraTesterAutoMovmentButtonProps extends MovmentButtonProps, Ara
 
 }
 
-interface PropSetter<V> {
-    [propName: string]: V;
-}
-
-type AraTesterAutoMovmentButtonEvent = 'release' | 'press' | 'timeout';
-
-type statePropValue = boolean | number | AraTesterAutoMovmentButtonEvent;
-
-type statePropKey = 'keepMoving' | 'timeout' | 'event';
-
-export interface AraTesterAutoMovmentButtonState extends PropSetter<statePropValue> {
-    keepMoving: boolean;
-    timeout: number;
-    event: AraTesterAutoMovmentButtonEvent;
-}
-
-function stateProxy<P, S extends PropSetter<U>, T extends React.Component<P, S>, Y extends string, U>(component: T): void {
-    component.state = new Proxy<S>(component.state, {
-        set: (state: S, prop: Y, value: U, receiver: S): boolean => {
-            let current: S = Object.assign({}, component.state);
-            current[prop as string] = value;
-            component.setState(current);
-            return true;
-        }
-    });
+export interface AraTesterAutoMovmentButtonState {
+    timeout?: number;
+    event?: 'release' | 'press' | 'timeout';
 }
 
 export default class AraTesterAutoMovmentButton extends React.Component<AraTesterAutoMovmentButtonProps, AraTesterAutoMovmentButtonState> {
@@ -51,20 +29,17 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public constructor(props: AraTesterAutoMovmentButtonProps) {
         super(props);
         this.state = {
-            keepMoving: false,
             timeout: null,
             event: 'release'
         };
         this.onButtonPress = this.handleButtonPress.bind(this);
         this.onButtonRelease = this.handleButtonRelease.bind(this);
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
-        stateProxy<AraTesterAutoMovmentButtonProps, AraTesterAutoMovmentButtonState, AraTesterAutoMovmentButton, statePropKey, statePropValue>(this);
-
     }
 
     public componentDidMount(): void {
         this._AraTesterAxisService.onMovmentEnd(() => {
-            if(this.state.keepMoving) {
+            if(this.state.event === 'timeout') {
                 this._move();
             }
         });
@@ -77,13 +52,14 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public handleButtonPress(event: React.SyntheticEvent): void {
         event.preventDefault();
         console.log('press');
-        this.state.event = 'press';
-        this.state.timeout = window.setTimeout(() => {
-            console.log('timeout');
-            this.state.event = 'timeout';
-            this.state.keepMoving = true;;
-            this._move();
-        }, 300);
+        this.setState({ event: 'press'});
+        this.setState({
+            timeout: window.setTimeout(() => {
+                console.log('timeout');
+                this.setState({ event: 'timeout' });
+                this._move();
+            }, 300)
+        });
         this._move();
     }
 
@@ -101,11 +77,10 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
                 break;
             }
             case 'timeout': {
-                this.state.keepMoving = false;
                 break;
             }
         }
-        this.state.event = 'release';
+        this.setState({ event: 'release' });
     }
 
     public render(): JSX.Element {
