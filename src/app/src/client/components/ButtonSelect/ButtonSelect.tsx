@@ -1,6 +1,6 @@
 import * as React from 'react';
 import StyleProp from './../StyleProp';
-import { SelectableButton, SelectHandler } from './SelectableButton';
+import { SelectableButton, SelectHandler, SelectableButtonProps } from './SelectableButton';
 
 export { SelectableButton, SelectHandler };
 
@@ -11,6 +11,13 @@ export interface ButtonSelectProps extends StyleProp {
 };
 
 export { ButtonSelect } ;
+
+type SelectableButtonNode = React.ReactElement<SelectableButtonProps>;
+
+interface SelectableButtonCopyProps extends StyleProp {
+    selected?: boolean;
+    onSelect?: SelectHandler;
+}
 
 export default class ButtonSelect extends React.Component<ButtonSelectProps, void> {
     public static defaultProps: ButtonSelectProps = { selected: '' };
@@ -33,16 +40,12 @@ export default class ButtonSelect extends React.Component<ButtonSelectProps, voi
     }
 
     public render(): JSX.Element {
-        const options: Array<JSX.Element> = React.Children.map(this.props.children, (option: JSX.Element): JSX.Element => {
-            const { value, label } = option.props;
-            return (
-                <SelectableButton
-                    style={this.props.buttonStyle}
-                    value={value}
-                    label={label}
-                    selected={this.props.selected === value}
-                    onSelect={this.onSelect} />
-            );
+        const options: Array<SelectableButtonNode> = React.Children.map(this.props.children, (option: SelectableButtonNode): SelectableButtonNode => {
+            return React.cloneElement<SelectableButtonProps, SelectableButtonCopyProps>(option, {
+                style: this.props.buttonStyle,
+                selected: this.props.selected === option.props.value,
+                onSelect: this.onSelect
+            });
         });
         return <div style={this.props.style}>{options}</div>;
     };

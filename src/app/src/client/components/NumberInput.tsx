@@ -24,8 +24,8 @@ export default class NumberInput extends React.Component<NumberInputProps, void>
     }
 
     public handleChange(event: React.FormEvent): void {
-        let eventValue: EventValue<number> = event as EventValue<number>;
-        let value: number = eventValue.target.value;
+        let eventValue: EventValue<string> = event as EventValue<string>;
+        let value: string = eventValue.target.value;
         this.props.onChange(Number(value));
     }
 
