@@ -2,13 +2,13 @@ import * as React from 'react';
 import Popover from 'material-ui/Popover';
 import SettingsButton from './../../../SettingsButton';
 import AraTesterWrapperState from './../../../DisabledProp';
-import OptionalStyleProp from './../../../OptionalStyleProp';
+import StyleProp from './../../../StyleProp';
 import AraTesterAxisId from './../../../../../share/AraTesterAxisId';
 import DisabledProp from './../../../DisabledProp';
-import AraTesterConfig from './AraTesterConfig/AraTesterConfig';
+import AraTesterConfig from './AraTesterConfig';
 const { div } = React.DOM;
 
-export interface AraTesterConfigPopoverProps extends AraTesterAxisId, OptionalStyleProp, DisabledProp {
+export interface AraTesterConfigPopoverProps extends AraTesterAxisId, StyleProp, DisabledProp {
 
 }
 
@@ -28,6 +28,12 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
         };
         this.onClick = this.handleClick.bind(this);
         this.onRequestClose = this.handleRequestClose.bind(this);
+    }
+
+    public shouldComponentUpdate(props: AraTesterConfigPopoverProps, state: AraTesterConfigPopoverState): boolean {
+        const propsChange: boolean = (this.props.axisId !== props.axisId) || (this.props.disabled !== props.disabled);
+        const stateChange: boolean = (this.state.open !== state.open) || (this.state.anchorEl !== state.anchorEl);
+        return propsChange || stateChange;
     }
 
     public handleClick(event: React.MouseEvent) {

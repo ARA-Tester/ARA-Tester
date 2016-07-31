@@ -63,6 +63,10 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         this._move();
     }
 
+    public shouldComponentUpdate(props: AraTesterAutoMovmentButtonProps, state: AraTesterAutoMovmentButtonState): boolean {
+        return this.props.movment !== props.movment;
+    }
+
     public handleButtonRelease(event: React.SyntheticEvent): void {
         event.preventDefault();
         console.log('release');

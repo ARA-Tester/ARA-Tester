@@ -2,7 +2,7 @@ import * as React from 'react';
 import AraTesterAutoMovmentButton from './AraTesterAutoMovmentButton';
 import DeepContentBox from './../../DeepContentBox';
 import SimpleListItem from './../../SimpleListItem';
-import AraTesterControllsProps from './../../OptionalStyleProp';
+import StyleProp from './../../StyleProp';
 import AraTesterControllsState from './../../../../share/AraTesterAxisDistance';
 import MovmentIcon from 'material-ui/svg-icons/action/open-with';
 import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
@@ -11,13 +11,17 @@ import List from 'material-ui/List';
 
 const movmentButtonStyle: React.CSSProperties = { margin: 5 };
 
-export default class AraTesterControlls extends React.Component<AraTesterControllsProps, AraTesterControllsState> {
+export default class AraTesterControlls extends React.Component<StyleProp, AraTesterControllsState> {
     public onDistanceSelect: SelectHandler;
 
-    public constructor(props: AraTesterControllsProps) {
+    public constructor(props: StyleProp) {
         super(props);
         this.state = { distance: 0.05 };
         this.onDistanceSelect = this.handleDistanceSelect.bind(this);
+    }
+
+    public shouldComponentUpdate(props: StyleProp, state: AraTesterControllsState): boolean {
+        return (this.state.distance !== state.distance);
     }
 
     public handleDistanceSelect(select: string): void {
@@ -30,7 +34,7 @@ export default class AraTesterControlls extends React.Component<AraTesterControl
                <List>
                     <SimpleListItem>
                         <ButtonSelect
-                            default={String(this.state.distance)}
+                            selected={String(this.state.distance)}
                             onSelect={this.onDistanceSelect}
                             buttonStyle={movmentButtonStyle}
                             style={movmentButtonStyle} >

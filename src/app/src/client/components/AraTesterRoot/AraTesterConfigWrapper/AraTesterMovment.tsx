@@ -3,16 +3,16 @@ import List  from 'material-ui/List';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
-import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
-import { ButtonSelect, SelectableButton, SelectHandler } from './../../../ButtonSelect/ButtonSelect';
-import AraTesterStopButton from './../../AraTesterStopButton';
-import { AraTesterConfigWrapperProps } from './../AraTesterConfigWrapper';
-import SimpleListItem from './../../../SimpleListItem';
-import DisabledProp from './../../../DisabledProp';
-import MovmentButton from './../../../MovmentButton';
+import { default as NumberInput, NumberInputValueHandler } from './../../NumberInput';
+import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
+import AraTesterStopButton from './../AraTesterStopButton';
+import { AraTesterConfigWrapperProps } from './AraTesterConfigWrapper';
+import SimpleListItem from './../../SimpleListItem';
+import DisabledProp from './../../DisabledProp';
+import MovmentButton from './../../MovmentButton';
 
-import AraTesterMovmentState from './../../../../../share/AraTesterAxisMovment';
-import AraTesterAxisService from './../../../../services/AraTesterAxisService';
+import AraTesterMovmentState from './../../../../share/AraTesterAxisMovment';
+import AraTesterAxisService from './../../../services/AraTesterAxisService';
 const { div } = React.DOM;
 
 interface AraTesterMovmentProps extends AraTesterConfigWrapperProps, DisabledProp {
@@ -37,6 +37,12 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         this.onDirectionSelect = this.handleDirectionSelect.bind(this);
         this.onDistanceChange = this.handleDistanceChange.bind(this);
         this.onMovmentClick = this.handleMovmentClick.bind(this);
+    }
+
+    public shouldComponentUpdate(props: AraTesterMovmentProps, state: AraTesterMovmentState): boolean {
+        const propsChange: boolean = (this.props.disabled !== props.disabled) || (this.props.positive !== this.props.positive) || (this.props.negative !== props.negative);
+        const stateChange: boolean = (this.state.direction !== state.direction) || (this.state.distance !== state.distance);
+        return propsChange || stateChange;
     }
 
     public handleDirectionSelect(select: string): void {
@@ -73,7 +79,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
             <List style={this.props.style}>
                 <SimpleListItem>
                     <ButtonSelect
-                        default={this.state.direction ? this.props.negative : this.props.positive}
+                        selected={this.state.direction ? this.props.negative : this.props.positive}
                         buttonStyle={selectablesSpacing}
                         onSelect={this.onDirectionSelect} >
                             <SelectableButton value={this.props.negative} label={this.props.negative} />

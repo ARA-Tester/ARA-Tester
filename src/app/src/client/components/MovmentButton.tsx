@@ -24,6 +24,10 @@ export interface MovmentButtonProps extends BasicButtonProps {
 }
 
 export default class SettingsButton extends React.Component<MovmentButtonProps, void> {
+    public shouldComponentUpdate(props: MovmentButtonProps, state: void): boolean {
+        return (this.props.movment !== props.movment) || (this.props.disabled !== props.disabled);
+    }
+
     public render(): JSX.Element {
         let icon: JSX.Element;
         switch(this.props.movment) {

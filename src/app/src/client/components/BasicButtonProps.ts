@@ -1,8 +1,8 @@
 import * as React from 'react';
 import DisabledProp from './DisabledProp';
-import OptionalStyleProp from './OptionalStyleProp';
+import StyleProp from './StyleProp';
 
-interface BasicButtonProps extends DisabledProp, OptionalStyleProp {
+interface BasicButtonProps extends DisabledProp, StyleProp {
     onClick?: React.MouseEventHandler;
 }
 

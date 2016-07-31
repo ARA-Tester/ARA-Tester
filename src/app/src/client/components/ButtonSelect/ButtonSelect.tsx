@@ -1,34 +1,32 @@
 import * as React from 'react';
-import OptionalStyleProp from './../OptionalStyleProp';
+import StyleProp from './../StyleProp';
 import { SelectableButton, SelectHandler } from './SelectableButton';
 
 export { SelectableButton, SelectHandler };
 
-export interface ButtonSelectProps extends OptionalStyleProp {
-    default?: string;
+export interface ButtonSelectProps extends StyleProp {
+    selected?: string;
     onSelect?: SelectHandler;
     buttonStyle?: React.CSSProperties;
 };
 
-export interface ButtonSelectState {
-    selected: string;
-};
-
 export { ButtonSelect } ;
 
-export default class ButtonSelect extends React.Component<ButtonSelectProps, ButtonSelectState> {
+export default class ButtonSelect extends React.Component<ButtonSelectProps, void> {
+    public static defaultProps: ButtonSelectProps = { selected: '' };
+
     public onSelect: SelectHandler;
 
     public constructor(props: ButtonSelectProps) {
         super(props);
-        this.state = {
-            selected: this.props.default ?  this.props.default : ''
-        };
         this.onSelect = this.handleSelect.bind(this);
     }
 
+    public shouldComponentUpdate(props: ButtonSelectProps, state: void): boolean {
+        return this.props.selected !== props.selected;
+    }
+
     public handleSelect(change: string): void {
-        this.setState({ selected: change });
          if(this.props.onSelect) {
             this.props.onSelect(change);
         }
@@ -42,7 +40,7 @@ export default class ButtonSelect extends React.Component<ButtonSelectProps, But
                     style={this.props.buttonStyle}
                     value={value}
                     label={label}
-                    selected={this.state.selected === value}
+                    selected={this.props.selected === value}
                     onSelect={this.onSelect} />
             );
         });

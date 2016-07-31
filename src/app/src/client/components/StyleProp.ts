@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-interface OptionalStyleProp {
+interface StyleProp {
     style?: React.CSSProperties;
 }
 
-export default OptionalStyleProp;
+export default StyleProp;

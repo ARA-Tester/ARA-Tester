@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ListItem } from 'material-ui/List';
-import OptionalStyleProp from './OptionalStyleProp';
+import StyleProp from './StyleProp';
 
-export interface SimpleListItemProps extends OptionalStyleProp {
+export interface SimpleListItemProps extends StyleProp {
     
 }
 

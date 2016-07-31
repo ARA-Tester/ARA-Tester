@@ -8,6 +8,10 @@ import AraTesterConfigWrapper from './AraTesterConfigWrapper/AraTesterConfigWrap
 const { div, link } = React.DOM;
 
 export default class AraTesterRoot extends React.Component<void, void> {
+    public shouldComponentUpdate(props: void, state: void): boolean {
+        return false;
+    }
+
     public render(): JSX.Element {
         return (
             <MuiThemeProvider>

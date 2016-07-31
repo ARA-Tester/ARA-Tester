@@ -1,11 +1,11 @@
 import * as React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import OptionalStyleProp from './../OptionalStyleProp';
+import StyleProp from './../StyleProp';
 
 export type SelectHandler = (value: string) => void;
 
-export interface SelectableButtonProps extends OptionalStyleProp {
+export interface SelectableButtonProps extends StyleProp {
     label: string;
     value: string;
     selected?: boolean;
@@ -26,6 +26,10 @@ export default class SelectableButton extends React.Component<SelectableButtonPr
     public constructor(props: SelectableButtonProps) {
         super(props);
         this.onClick = this.handleClick.bind(this);
+    }
+
+    public shouldComponentUpdate(props: SelectableButtonProps, state: void): boolean {
+        return (this.props.label !== props.label) || (this.props.selected !== props.selected);
     }
 
     public handleClick(event: React.MouseEvent): void {

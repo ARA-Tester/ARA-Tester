@@ -3,12 +3,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
-import { AraTesterConfigPopoverProps } from './../AraTesterConfigPopover';
-import AraTesterAxisConfig from './../../../../../../share/AraTesterAxisConfig';
-import DeepContentBox from './../../../../DeepContentBox';
-import SimpleListItem from './../../../../SimpleListItem';
-import { default as NumberInput, NumberInputValueHandler } from './../../../../NumberInput';
-import AraTesterAxisService from './../../../../../services/AraTesterAxisService';
+import { AraTesterConfigPopoverProps } from './AraTesterConfigPopover';
+import AraTesterAxisConfig from './../../../../../share/AraTesterAxisConfig';
+import DeepContentBox from './../../../DeepContentBox';
+import SimpleListItem from './../../../SimpleListItem';
+import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
+import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 
 export interface  AraTesterConfigState {
     pulseWidth?: number;
@@ -65,33 +65,40 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         this.onSaveClick = this.handleSaveClick.bind(this);
     }
 
-    public componentDidMount() {
+    public componentDidMount(): void {
         this._AraTesterAxisService.getConfiguration().then((config: AraTesterAxisConfig) => {
             this.setState(this._convertFromServer(config));;
         })
     }
 
-    public handlePulseWidthChange(value: number) {
+    public shouldComponentUpdate(props: AraTesterConfigPopoverProps, state: AraTesterConfigState): boolean {
+        const propsChange: boolean = (this.props.disabled !== props.disabled);
+        const stateChange: boolean = (this.state.configured !== state.configured) || (this.state.pulseWidth !== this.state.pulseWidth)
+            || (this.state.tDelta !== state.tDelta) || (this.state.tMax !== state.tMax) || (this.state.tMin !== state.tMin);
+        return propsChange || stateChange;
+    }
+
+    public handlePulseWidthChange(value: number): void {
         this.setState({ pulseWidth: value });
     }
 
-    public handleTMaxChange(value: number) {
+    public handleTMaxChange(value: number): void {
         this.setState({ tMax: value });
     }
 
-    public handleTMinChange(value: number) {
+    public handleTMinChange(value: number): void {
         this.setState({ tMin: value });
     }
 
-    public handleTDeltaChange(value: number) {
+    public handleTDeltaChange(value: number): void {
         this.setState({ tDelta: value });
     }
 
-    public handleConfiguredChange(value: number) {
+    public handleConfiguredChange(value: number): void {
         this.setState({ configured: value });
     }
 
-    public handleSaveClick(event: React.MouseEvent) {;
+    public handleSaveClick(event: React.MouseEvent): void {;
         this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
     }
 

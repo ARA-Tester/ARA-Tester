@@ -1,5 +1,5 @@
 import * as React from 'react';
-import OptionalStyleProp from './../../OptionalStyleProp';
+import StyleProp from './../../StyleProp';
 import AraTesterControlls from './AraTesterControlls';
 import AraTesterPositions from './AraTesterPositions';
 const { div } = React.DOM;
@@ -15,7 +15,11 @@ const childSpacingStyle: React.CSSProperties = {
     margin: 20
 };
 
-export default class AraTesterModules extends React.Component<OptionalStyleProp, void> {
+export default class AraTesterModules extends React.Component<StyleProp, void> {
+    public shouldComponentUpdate(props: StyleProp, state: void): boolean {
+        return false;
+    }
+
     public render(): JSX.Element {
         return (
             <div style={Object.assign({}, centerStyle, this.props.style)}>

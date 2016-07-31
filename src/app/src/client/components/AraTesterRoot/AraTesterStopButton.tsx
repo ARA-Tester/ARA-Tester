@@ -2,11 +2,11 @@ import * as React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionPause from 'material-ui/svg-icons/av/pause';
 import { fullWhite, red500 } from 'material-ui/styles/colors';
-import OptionalStyleProp from './../OptionalStyleProp';
+import StyleProp from './../StyleProp';
 import AraTesterAxisId from './../../../share/AraTesterAxisId';
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 
-export interface AraTesterStopButtonProps extends AraTesterAxisId, OptionalStyleProp {
+export interface AraTesterStopButtonProps extends AraTesterAxisId, StyleProp {
 
 }
 
@@ -20,6 +20,10 @@ export default class AraTesterStopButton extends React.Component<AraTesterStopBu
         this._AraTesterAxisService = new AraTesterAxisService(this.props.axisId);
     }
 
+    public shouldComponentUpdate(props: AraTesterStopButtonProps, state: void): boolean {
+        return false;
+    }
+
     public handleClick(event: React.MouseEvent): void {
         this._AraTesterAxisService.stop();
     }
@@ -28,7 +32,6 @@ export default class AraTesterStopButton extends React.Component<AraTesterStopBu
         return <RaisedButton
             style={this.props.style}
             backgroundColor={red500}
-            label="Stop"
             icon={<ActionPause color={fullWhite} />}
             onClick={this.onClick} />;
     }

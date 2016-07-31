@@ -1,12 +1,12 @@
 import * as React from 'react';
-import OptionalStyleProp from './../OptionalStyleProp';
+import StyleProp from './../StyleProp';
 import AraTesterAxisId from './../../../share/AraTesterAxisId';;
 import AraTesterAxisCurrentPositionState from './../../../share/AraTesterAxisDistance';
 import AraTesterAxisService from './../../services/AraTesterAxisService';
 import FlatButton from 'material-ui/FlatButton';
 const { div } = React.DOM;
 
-export interface AraTesterAxisCurrentPositionProps extends OptionalStyleProp, AraTesterAxisId {
+export interface AraTesterAxisCurrentPositionProps extends StyleProp, AraTesterAxisId {
     axisName: string
 }
 
@@ -30,6 +30,10 @@ export default class AraTesterAxisCurrentPosition extends React.Component<AraTes
 
     public componentWillUnmount(): void {
         this._AraTesterAxisService.removeMovmentEnd();
+    }
+
+    public shouldComponentUpdate(props: AraTesterAxisCurrentPositionProps, state: AraTesterAxisCurrentPositionState): boolean {
+        return (this.props.axisName !== props.axisName) || (this.state.distance !== state.distance);
     }
 
     public render(): JSX.Element {
