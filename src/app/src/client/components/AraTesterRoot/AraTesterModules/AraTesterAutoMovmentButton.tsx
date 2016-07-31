@@ -12,6 +12,7 @@ export interface AraTesterAutoMovmentButtonProps extends MovmentButtonProps, Ara
 export interface AraTesterAutoMovmentButtonState {
     timeout?: number;
     event?: 'release' | 'press' | 'timeout';
+    movment?: boolean;
 }
 
 export default class AraTesterAutoMovmentButton extends React.Component<AraTesterAutoMovmentButtonProps, AraTesterAutoMovmentButtonState> {
@@ -19,18 +20,22 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     public onButtonPress: SyntheticEventHandler;
     public onButtonRelease: SyntheticEventHandler;
 
-    private _move(): Promise<void> {
-        return this._AraTesterAxisService.movment({
-            direction: !this.props.movment.match(/(forward)|(right)|(up)|(rotate right)/),
-            distance: this.props.distance
-        });
+    private _move(): void {
+        if(!this.state.movment) {
+            this.setState({ movment: true });
+            this._AraTesterAxisService.movment({
+                direction: !this.props.movment.match(/(forward)|(right)|(up)|(rotate right)/),
+                distance: this.props.distance
+            });
+        }
     }
 
     public constructor(props: AraTesterAutoMovmentButtonProps) {
         super(props);
         this.state = {
             timeout: null,
-            event: 'release'
+            event: 'release',
+            movment: false
         };
         this.onButtonPress = this.handleButtonPress.bind(this);
         this.onButtonRelease = this.handleButtonRelease.bind(this);
@@ -39,6 +44,7 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
 
     public componentDidMount(): void {
         this._AraTesterAxisService.onMovmentEnd(() => {
+            this.setState({ movment: false });
             if(this.state.event === 'timeout') {
                 this._move();
             }
@@ -49,22 +55,24 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
         this._AraTesterAxisService.removeMovmentEnd();
     }
 
-    public handleButtonPress(event: React.SyntheticEvent): void {
-        event.preventDefault();
-        console.log('press');
-        this.setState({ event: 'press'});
-        this.setState({
-            timeout: window.setTimeout(() => {
-                console.log('timeout');
-                this.setState({ event: 'timeout' });
-                this._move();
-            }, 300)
-        });
-        this._move();
-    }
-
     public shouldComponentUpdate(props: AraTesterAutoMovmentButtonProps, state: AraTesterAutoMovmentButtonState): boolean {
         return this.props.movment !== props.movment;
+    }
+
+    public handleButtonPress(event: React.SyntheticEvent): void {
+        event.preventDefault();
+        if(!this.state.movment) {
+            console.log('press');
+            this.setState({ event: 'press'});
+            this.setState({
+                timeout: window.setTimeout(() => {
+                    console.log('timeout');
+                    this.setState({ event: 'timeout' });
+                    this._move();
+                }, 300)
+            });
+            this._move();
+        }
     }
 
     public handleButtonRelease(event: React.SyntheticEvent): void {
