@@ -6,9 +6,10 @@ import { green500 } from 'material-ui/styles/colors';
 import { AraTesterConfigPopoverProps } from './AraTesterConfigPopover';
 import AraTesterAxisConfig from './../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../DeepContentBox';
-import SimpleListItem from './../../../SimpleListItem';
 import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
+
+const { div } = React.DOM;
 
 export interface  AraTesterConfigState {
     pulseWidth?: number;
@@ -106,28 +107,28 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         return (
             <DeepContentBox style={this.props.style}>
                 <List>
-                    <SimpleListItem>
+                    <div>
                         <NumberInput label="Pulse Width (uS)" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
-                    </SimpleListItem>
-                    <SimpleListItem>
+                    </div>
+                    <div>
                         <NumberInput label="T max (uS)" value={this.state.tMax} onChange={this.onTMaxChange} />
-                    </SimpleListItem>
-                    <SimpleListItem>
+                    </div>
+                    <div>
                         <NumberInput label="T min (uS)" value={this.state.tMin} onChange={this.onTMinChange} />
-                    </SimpleListItem>
-                    <SimpleListItem>
+                    </div>
+                    <div>
                         <NumberInput label="T delta (uS)" value={this.state.tDelta} onChange={this.onTDeltaChange} />
-                    </SimpleListItem>
-                    <SimpleListItem>
+                    </div>
+                    <div>
                         <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
-                    </SimpleListItem>
-                    <SimpleListItem>
+                    </div>
+                    <div>
                         <RaisedButton
                             disabled={this.props.disabled}
                             label="save"
                             icon={<ContentSave color={green500} />}
                             onClick={this.onSaveClick} />
-                    </SimpleListItem>
+                    </div>
                 </List>
             </DeepContentBox>
         );

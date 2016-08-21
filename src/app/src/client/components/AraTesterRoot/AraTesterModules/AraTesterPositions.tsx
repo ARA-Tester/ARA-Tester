@@ -1,10 +1,11 @@
 import * as React from 'react';
 import StyleProp from './../../StyleProp';
 import DeepContentBox from './../../DeepContentBox';
-import SimpleListItem from './../../SimpleListItem';
 import Divider from 'material-ui/Divider';
 import List from 'material-ui/List';
 import AraTesterAxisCurrentPosition from './../AraTesterAxisCurrentPosition';
+
+const { div } =React.DOM;
 
 export default class AraTesterPositions extends React.Component<StyleProp, void> {
     public shouldComponentUpdate(props: StyleProp, state: void): boolean {
@@ -15,21 +16,21 @@ export default class AraTesterPositions extends React.Component<StyleProp, void>
         return (
             <DeepContentBox style={this.props.style}>
                 <List>
-                    <SimpleListItem>
+                    <div>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </SimpleListItem>
+                    </div>
                     <Divider />
-                    <SimpleListItem>
+                    <div>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </SimpleListItem>
+                    </div>
                     <Divider />
-                    <SimpleListItem>
+                    <div>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </SimpleListItem>
+                    </div>
                     <Divider />
-                    <SimpleListItem>
+                    <div>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
-                    </SimpleListItem>
+                    </div>
                 </List>
             </DeepContentBox>
         );

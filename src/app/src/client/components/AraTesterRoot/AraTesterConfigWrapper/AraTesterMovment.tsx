@@ -7,12 +7,11 @@ import { default as NumberInput, NumberInputValueHandler } from './../../NumberI
 import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
 import AraTesterStopButton from './../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './AraTesterConfigWrapper';
-import SimpleListItem from './../../SimpleListItem';
 import DisabledProp from './../../DisabledProp';
 import MovmentButton from './../../MovmentButton';
-
 import AraTesterMovmentState from './../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
+
 const { div } = React.DOM;
 
 interface AraTesterMovmentProps extends AraTesterConfigWrapperProps, DisabledProp {
@@ -77,7 +76,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         }
         return (
             <List style={this.props.style}>
-                <SimpleListItem>
+                <div>
                     <ButtonSelect
                         selected={this.state.direction ? this.props.negative : this.props.positive}
                         buttonStyle={selectablesSpacing}
@@ -85,11 +84,11 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
                             <SelectableButton value={this.props.negative} label={this.props.negative} />
                             <SelectableButton value={this.props.positive} label={this.props.positive} />
                     </ButtonSelect>
-                </SimpleListItem>
-                <SimpleListItem>
+                </div>
+                <div>
                     <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
-                </SimpleListItem>
-                <SimpleListItem>{movmentActionButton}</SimpleListItem>
+                </div>
+                <div>{movmentActionButton}</div>
             </List>
         );
     }
