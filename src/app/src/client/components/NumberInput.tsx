@@ -20,7 +20,8 @@ export default class NumberInput extends React.Component<NumberInputProps, void>
     }
 
     public shouldComponentUpdate(props: NumberInputProps, state: void): boolean {
-        return (this.props.label !== props.label) || (this.props.value !== props.value);
+        const { label, value } = this.props;
+        return (label !== props.label) || (value !== props.value);
     }
 
     public handleChange(event: React.FormEvent): void {
@@ -30,11 +31,13 @@ export default class NumberInput extends React.Component<NumberInputProps, void>
     }
 
     public render(): JSX.Element {
+        const { props, onChange } = this;
+        const { style, label, value } = props;
         return <TextField
-            style={this.props.style}
+            style={style}
             type="number"
-            floatingLabelText={this.props.label}
-            value={this.props.value}
-            onChange={this.onChange} />;
+            floatingLabelText={label}
+            value={value}
+            onChange={onChange} />;
     }
 };

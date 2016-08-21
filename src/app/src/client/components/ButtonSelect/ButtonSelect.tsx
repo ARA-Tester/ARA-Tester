@@ -39,19 +39,22 @@ export default class ButtonSelect extends React.Component<ButtonSelectProps, voi
     }
 
     public handleSelect(change: string): void {
-         if(this.props.onSelect) {
-            this.props.onSelect(change);
+        const { onSelect } = this.props;
+        if(onSelect) {
+            onSelect(change);
         }
     }
 
     public render(): JSX.Element {
-        const options: SelectableButtonNodes = React.Children.map(this.props.children, (option: SelectableButtonNode): SelectableButtonNode => {
+        const { props, onSelect } = this;
+        const { children, buttonStyle, selected, style} = props;
+        const options: SelectableButtonNodes = React.Children.map(children, (option: SelectableButtonNode): SelectableButtonNode => {
             return React.cloneElement<SelectableButtonProps, SelectableButtonCopyProps>(option, {
-                style: this.props.buttonStyle,
-                selected: this.props.selected === option.props.value,
-                onSelect: this.onSelect
+                style: buttonStyle,
+                selected: selected === option.props.value,
+                onSelect: onSelect
             });
         });
-        return <div style={this.props.style}>{options}</div>;
+        return <div style={style}>{options}</div>;
     };
 }

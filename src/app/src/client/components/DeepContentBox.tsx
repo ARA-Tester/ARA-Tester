@@ -10,6 +10,8 @@ const stylePaper: React.CSSProperties = {
 
 export default class DeepContentBox extends React.Component<StyleProp, void> {
     public render(): JSX.Element {
-        return <Paper style={Object.assign({}, stylePaper, this.props.style)} zDepth={5}>{this.props.children}</Paper>;
+        const { style, children } = this.props;
+        const paperStyle: React.CSSProperties = Object.assign({}, stylePaper, style);
+        return <Paper style={paperStyle} zDepth={5}>{children}</Paper>;
     }
 };

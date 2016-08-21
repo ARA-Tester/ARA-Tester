@@ -10,12 +10,13 @@ export default class SettingsButton extends React.Component<BasicButtonProps, vo
     }
 
     public render(): JSX.Element {
+        const { style, onClick, disabled } = this.props;
         return <RaisedButton
-            style={this.props.style}
-            disabled={this.props.disabled}
+            style={style}
+            disabled={disabled}
             label="settings"
             primary={true}
             icon={<ActionSettings color={fullWhite} />}
-            onClick={this.props.onClick} />;
+            onClick={onClick} />;
     }
 };

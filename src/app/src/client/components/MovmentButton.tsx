@@ -25,48 +25,51 @@ export interface MovmentButtonProps extends BasicButtonProps {
 
 export default class SettingsButton extends React.Component<MovmentButtonProps, void> {
     public shouldComponentUpdate(props: MovmentButtonProps, state: void): boolean {
-        return (this.props.movment !== props.movment) || (this.props.disabled !== props.disabled);
+        const { movment, disabled } = this.props;
+        return (movment !== props.movment) || (disabled !== props.disabled);
     }
 
     public render(): JSX.Element {
+        const { style, disabled, onClick, onButtonPress, onButtonRelease } = this.props;
         let icon: JSX.Element;
         switch(this.props.movment) {
             case 'forward':
-                icon = <Forward color={fullWhite} />;
+                icon = <Forward />;
                 break;
             case 'backward':
-                icon = <Backward color={fullWhite} />;
+                icon = <Backward />;
                 break;
             case 'up':
-                icon = <Up color={fullWhite} />;
+                icon = <Up />;
                 break;
             case 'down':
-                icon = <Down color={fullWhite} />;
+                icon = <Down />;
                 break;
             case 'left':
-                icon = <Left color={fullWhite} />;
+                icon = <Left />;
                 break;
             case 'right':
-                icon = <Right color={fullWhite} />;
+                icon = <Right />;
                 break;
             case 'rotate left':
-                icon = <RotateLeft color={fullWhite} />;
+                icon = <RotateLeft />;
                 break;
             case 'rotate right':
-                icon = <RotateRight color={fullWhite} />;
+                icon = <RotateRight />;
                 break;
         }
+        const coloredIcon: JSX.Element = React.cloneElement(icon, { color: fullWhite });
         return (
             <RaisedButton
-                style={this.props.style}
-                disabled={this.props.disabled}
-                icon={icon}
+                style={style}
+                disabled={disabled}
+                icon={coloredIcon}
                 primary
-                onClick={this.props.onClick}
-                onMouseDown={this.props.onButtonPress}
-                onMouseUp={this.props.onButtonRelease}
-                onTouchStart={this.props.onButtonPress}
-                onTouchEnd={this.props.onButtonRelease} />
+                onClick={onClick}
+                onMouseDown={onButtonPress}
+                onMouseUp={onButtonRelease}
+                onTouchStart={onButtonPress}
+                onTouchEnd={onButtonRelease} />
         );
     }
 };

@@ -18,7 +18,7 @@ export default class SelectableButton extends React.Component<SelectableButtonPr
     public static defaultProps: SelectableButtonProps = {
         label: '',
         value: '',
-        selected: false,
+        selected: false
     };
 
     public onClick: React.MouseEventHandler;
@@ -29,21 +29,25 @@ export default class SelectableButton extends React.Component<SelectableButtonPr
     }
 
     public shouldComponentUpdate(props: SelectableButtonProps, state: void): boolean {
-        return (this.props.label !== props.label) || (this.props.selected !== props.selected);
+        const { label, selected } = this.props;
+        return (label !== props.label) || (selected !== props.selected);
     }
 
     public handleClick(event: React.MouseEvent): void {
-        if(this.props.onSelect) {
-            this.props.onSelect(this.props.value);
+        const { onSelect, value } = this.props;
+        if(onSelect) {
+            onSelect(value);
         }
     }
 
     public render(): JSX.Element {
+        const { props: thisProps, onClick } = this;
+        const { style, label } = thisProps;
         const props: Object = {
-            style: this.props.style,
-            label: this.props.label,
+            style: style,
+            label: label,
             primary: true,
-            onClick: this.onClick
+            onClick: onClick
         };
         return this.props.selected ? <RaisedButton {...props} /> : <FlatButton {...props} />;
     }
