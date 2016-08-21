@@ -96,12 +96,14 @@ export default class AraTesterAutoMovmentButton extends React.Component<AraTeste
     }
 
     public render(): JSX.Element {
+        const { props, onButtonPress, onButtonRelease } = this;
+        const { style, movment} = props;
         return (
             <MovmentButton
-                style={this.props.style}
-                movment={this.props.movment}
-                onButtonPress={this.onButtonPress}
-                onButtonRelease={this.onButtonRelease} />
+                style={style}
+                movment={movment}
+                onButtonPress={onButtonPress}
+                onButtonRelease={onButtonRelease} />
         );
     }
 }

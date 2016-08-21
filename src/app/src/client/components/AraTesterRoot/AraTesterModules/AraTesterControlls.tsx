@@ -22,7 +22,7 @@ export default class AraTesterControlls extends React.Component<StyleProp, AraTe
     }
 
     public shouldComponentUpdate(props: StyleProp, state: AraTesterControllsState): boolean {
-        return (this.state.distance !== state.distance);
+        return (distance !== state.distance);
     }
 
     public handleDistanceSelect(select: string): void {
@@ -30,12 +30,13 @@ export default class AraTesterControlls extends React.Component<StyleProp, AraTe
     }
 
     public render(): JSX.Element {
+        const { distance } = this.state;
         return (
             <DeepContentBox style={this.props.style}>
                <List>
                     <div>
                         <ButtonSelect
-                            selected={String(this.state.distance)}
+                            selected={String(distance)}
                             onSelect={this.onDistanceSelect}
                             buttonStyle={movmentButtonStyle}
                             style={movmentButtonStyle} >
@@ -45,19 +46,19 @@ export default class AraTesterControlls extends React.Component<StyleProp, AraTe
                         </ButtonSelect>
                     </div>
                     <div>
-                        <AraTesterAutoMovmentButton axisId={0} movment="rotate left" distance={this.state.distance} style={movmentButtonStyle} />
-                        <AraTesterAutoMovmentButton axisId={0} movment="forward" distance={this.state.distance} style={movmentButtonStyle} />
-                        <AraTesterAutoMovmentButton axisId={0} movment="up" distance={this.state.distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="rotate left" distance={distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="forward" distance={distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="up" distance={distance} style={movmentButtonStyle} />
                     </div>
                     <div>
-                        <AraTesterAutoMovmentButton axisId={0} movment="left" distance={this.state.distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="left" distance={distance} style={movmentButtonStyle} />
                         <RaisedButton disabled={true} icon={<MovmentIcon />} style={movmentButtonStyle} />
-                        <AraTesterAutoMovmentButton axisId={0} movment="right" distance={this.state.distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="right" distance={distance} style={movmentButtonStyle} />
                     </div>
                     <div>
-                        <AraTesterAutoMovmentButton axisId={0} movment="down" distance={this.state.distance} style={movmentButtonStyle} />
-                        <AraTesterAutoMovmentButton axisId={0} movment="backward" distance={this.state.distance} style={movmentButtonStyle} />
-                        <AraTesterAutoMovmentButton axisId={0} movment="rotate right" distance={this.state.distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="down" distance={distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="backward" distance={distance} style={movmentButtonStyle} />
+                        <AraTesterAutoMovmentButton axisId={0} movment="rotate right" distance={distance} style={movmentButtonStyle} />
                     </div>
                 </List>
             </DeepContentBox>
