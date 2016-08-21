@@ -8,12 +8,8 @@ install:
 	$(__npm_bin__)/typings install
 
 client:
-	rm -Rf ./public ./tmp
-	mkdir ./tmp
-	cp ./src/client/services/Host.js ./tmp
+	rm -Rf ./public
 	$(__npm_bin__)/webpack
-	mv ./tmp/Host.js ./src/client/services
-	rm -R ./tmp
 
 server:
 	rm -Rf ./deploy

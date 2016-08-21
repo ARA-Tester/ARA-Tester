@@ -1,4 +1,4 @@
-export function Host(): string {
-    let host: string = global['appHost'];
-    return host !== undefined ? host : window.location.host;
+export default function Host(): string {
+    const { appHost } = global;
+    return appHost !== undefined ? appHost: window.location.host;
 }

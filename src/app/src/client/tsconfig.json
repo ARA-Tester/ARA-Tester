@@ -30,7 +30,7 @@
         "components/AraTesterRoot/AraTesterAxisCurrentPosition.tsx",
         "components/AraTesterRoot/AraTesterStopButton.tsx",
         "components/AraTesterRoot/AraTesterRoot.tsx",
-        "services/Host.d.ts",
+        "services/Host.ts",
         "services/AppSocket.ts",
         "services/AraTesterAxisService.ts",
         "index.tsx"
