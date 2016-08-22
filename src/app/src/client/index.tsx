@@ -8,13 +8,13 @@ function bootstrap(): void {
     let bootstrapNode = document.createElement('div');
     ReactDOM.render(<AraTesterRoot />, bootstrapNode);
     document.body.appendChild(bootstrapNode);
-    socket.onError((err: any) => {
-        if((err !== undefined) && (err !== null)) {
-            console.log(JSON.stringify(err));
-        }
-    });
 }
 
 let socket: AppSocket = AppSocket.getSocket();
+socket.onError((err: any) => {
+    if((err !== undefined) && (err !== null)) {
+        console.log(JSON.stringify(err));
+    }
+});
 injectTapEventPlugin();
 socket.connect().then(bootstrap);
