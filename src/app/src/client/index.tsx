@@ -9,7 +9,9 @@ function bootstrap(): void {
     ReactDOM.render(<AraTesterRoot />, bootstrapNode);
     document.body.appendChild(bootstrapNode);
     socket.onError((err: any) => {
-        console.log(JSON.stringify(err));
+        if((err !== undefined) && (err !== null)) {
+            console.log(JSON.stringify(err));
+        }
     });
 }
 
