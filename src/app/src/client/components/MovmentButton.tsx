@@ -76,4 +76,4 @@ export class MovmentButton extends React.Component<MovmentButtonProps, void> {
     }
 };
 
-export default SettingsButton;
+export default MovmentButton;
