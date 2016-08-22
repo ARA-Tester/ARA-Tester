@@ -15,15 +15,17 @@ export type PositiveMovment = 'forward' | 'right' | 'up' | 'rotate right';
 
 export type NegativeMovment = 'backward' | 'left' | 'down' | 'rotate left';
 
+export type Movment = PositiveMovment | NegativeMovment;
+
 export type SyntheticEventHandler = React.EventHandler<React.SyntheticEvent>;
 
 export interface MovmentButtonProps extends BasicButtonProps {
-    movment: PositiveMovment | NegativeMovment;
+    movment: Movment;
     onButtonPress?: SyntheticEventHandler;
     onButtonRelease?: SyntheticEventHandler;
 }
 
-export default class SettingsButton extends React.Component<MovmentButtonProps, void> {
+export class MovmentButton extends React.Component<MovmentButtonProps, void> {
     public shouldComponentUpdate(props: MovmentButtonProps, state: void): boolean {
         const { movment, disabled } = this.props;
         return (movment !== props.movment) || (disabled !== props.disabled);
@@ -73,3 +75,5 @@ export default class SettingsButton extends React.Component<MovmentButtonProps, 
         );
     }
 };
+
+export default SettingsButton;

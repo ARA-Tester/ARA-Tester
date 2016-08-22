@@ -8,7 +8,7 @@ import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSel
 import AraTesterStopButton from './../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './AraTesterConfigWrapper';
 import DisabledProp from './../../DisabledProp';
-import MovmentButton from './../../MovmentButton';
+import { MovmentButton, Movment } from './../../MovmentButton';
 import AraTesterMovmentState from './../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
 
@@ -39,15 +39,18 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
     }
 
     public shouldComponentUpdate(props: AraTesterMovmentProps, state: AraTesterMovmentState): boolean {
-        const propsChange: boolean = (this.props.disabled !== props.disabled) || (this.props.positive !== this.props.positive) || (this.props.negative !== props.negative);
-        const stateChange: boolean = (this.state.direction !== state.direction) || (this.state.distance !== state.distance);
+        const { disabled, positive, negative } = this.props;
+        const { direction, distance } = this.state;
+        const propsChange: boolean = (disabled !== props.disabled) || (positive !== props.positive) || (negative !== props.negative);
+        const stateChange: boolean = (direction !== state.direction) || (distance !== state.distance);
         return propsChange || stateChange;
     }
 
     public handleDirectionSelect(select: string): void {
+        const { props, state } = this;
         this.setState({
-            direction: select === this.props.negative,
-            distance: this.state.distance       
+            direction: select === props.negative,
+            distance: state.distance       
         });
     }
 
@@ -63,30 +66,34 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
     }
 
     public render(): JSX.Element {
+        const { props, state, onMovmentClick, onDirectionSelect, onDistanceChange } = this;
+        const { disabled, axisId, negative, positive, style } = props;
+        const { direction, distance } = state;
+        const movment: Movment = direction ? negative : positive;
         let movmentActionButton: JSX.Element;
-        if(this.props.disabled) {
-            movmentActionButton = <AraTesterStopButton axisId={this.props.axisId} />;
+        if(disabled) {
+            movmentActionButton = <AraTesterStopButton axisId={axisId} />;
         } else {
             movmentActionButton = (
                 <MovmentButton
-                    disabled={this.state.distance === 0}
-                    movment={this.state.direction ? this.props.negative : this.props.positive}
-                    onClick={this.onMovmentClick} />
+                    disabled={distance === 0}
+                    movment={movment}
+                    onClick={onMovmentClick} />
             );
         }
         return (
-            <List style={this.props.style}>
+            <List style={style}>
                 <div>
                     <ButtonSelect
-                        selected={this.state.direction ? this.props.negative : this.props.positive}
+                        selected={movment}
                         buttonStyle={selectablesSpacing}
-                        onSelect={this.onDirectionSelect} >
-                            <SelectableButton value={this.props.negative} label={this.props.negative} />
-                            <SelectableButton value={this.props.positive} label={this.props.positive} />
+                        onSelect={onDirectionSelect} >
+                            <SelectableButton value={negative} label={negative} />
+                            <SelectableButton value={positive} label={positive} />
                     </ButtonSelect>
                 </div>
                 <div>
-                    <NumberInput label="Distance (mm)" value={this.state.distance} onChange={this.onDistanceChange} />
+                    <NumberInput label="Distance (mm)" value={distance} onChange={onDistanceChange} />
                 </div>
                 <div>{movmentActionButton}</div>
             </List>

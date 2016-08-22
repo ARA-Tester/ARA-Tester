@@ -23,9 +23,7 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
 
     public constructor(props: AraTesterConfigPopoverProps) {
         super(props);
-        this.state = {
-            open: false
-        };
+        this.state = { open: false };
         this.onClick = this.handleClick.bind(this);
         this.onRequestClose = this.handleRequestClose.bind(this);
     }
@@ -45,17 +43,18 @@ export default class AraTesterConfigPopover extends React.Component<AraTesterCon
     }
 
     public handleRequestClose() {
-        this.setState({
-            open: false
-        });
+        this.setState({ open: false });
     }
 
     public render(): JSX.Element {
+        const { props, state, onRequestClose, onClick } = this;
+        const { disabled, style } = props;
+        const { open, anchorEl } = state;
         return (
-            <div style={this.props.style}>
-                <SettingsButton disabled={this.props.disabled} onClick={this.onClick} />
-                <Popover open={this.state.open} anchorEl={this.state.anchorEl} onRequestClose={this.onRequestClose} >
-                    <AraTesterConfig {...this.props} />
+            <div style={style}>
+                <SettingsButton disabled={disabled} onClick={onClick} />
+                <Popover open={open} anchorEl={anchorEl} onRequestClose={onRequestClose} >
+                    <AraTesterConfig {...props} />
                 </Popover>
             </div>
         );

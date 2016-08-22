@@ -49,16 +49,20 @@ export default class AraTesterConfigWrapper extends React.Component<AraTesterCon
     }
 
     public shouldComponentUpdate(props: AraTesterConfigWrapperProps, state: AraTesterConfigWrapperState): boolean {
-        const propsChange: boolean = (this.props.axisId !== props.axisId) || (this.props.positive !== props.positive) || (this.props.negative !== props.negative);
+        const { axisId, positive, negative } = this.props;
+        const propsChange: boolean = (axisId !== props.axisId) || (positive !== props.positive) || (negative !== props.negative);
         const stateChange: boolean = (this.state.disabled !== state.disabled);
         return propsChange || stateChange;
     }
 
     public render(): JSX.Element {
+        const { props, state } = this;
+        const { style, axisId } = props;
+        const { disabled } = state;
         return (
-            <DeepContentBox style={Object.assign({}, centerStyle, this.props.style)}>
-                <AraTesterConfigPopover style={spaceStyle} axisId={this.props.axisId} disabled={this.state.disabled} />
-                <AraTesterMovment style={spaceStyle} {...this.props} disabled={this.state.disabled} />
+            <DeepContentBox style={Object.assign({}, centerStyle, style)}>
+                <AraTesterConfigPopover style={spaceStyle} axisId={axisId} disabled={disabled} />
+                <AraTesterMovment style={spaceStyle} {...props} disabled={disabled} />
             </DeepContentBox>
         );
     }

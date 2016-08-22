@@ -104,30 +104,33 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     }
 
     public render(): JSX.Element {
+        const { props, state, onPulseWidthChange, onTMaxChange, onTMinChange, onTDeltaChange, onConfiguredChange, onSaveClick } = this;
+        const { disabled, style } = props;
+        const { pulseWidth, tMax, tMin, tDelta, configured } = state;
         return (
-            <DeepContentBox style={this.props.style}>
+            <DeepContentBox style={style}>
                 <List>
                     <div>
-                        <NumberInput label="Pulse Width (uS)" value={this.state.pulseWidth} onChange={this.onPulseWidthChange} />
+                        <NumberInput label="Pulse Width (uS)" value={pulseWidth} onChange={onPulseWidthChange} />
                     </div>
                     <div>
-                        <NumberInput label="T max (uS)" value={this.state.tMax} onChange={this.onTMaxChange} />
+                        <NumberInput label="T max (uS)" value={tMax} onChange={onTMaxChange} />
                     </div>
                     <div>
-                        <NumberInput label="T min (uS)" value={this.state.tMin} onChange={this.onTMinChange} />
+                        <NumberInput label="T min (uS)" value={tMin} onChange={onTMinChange} />
                     </div>
                     <div>
-                        <NumberInput label="T delta (uS)" value={this.state.tDelta} onChange={this.onTDeltaChange} />
+                        <NumberInput label="T delta (uS)" value={tDelta} onChange={onTDeltaChange} />
                     </div>
                     <div>
-                        <NumberInput label="Configured (uInt)" value={this.state.configured} onChange={this.onConfiguredChange} />
+                        <NumberInput label="Configured (uInt)" value={configured} onChange={onConfiguredChange} />
                     </div>
                     <div>
                         <RaisedButton
-                            disabled={this.props.disabled}
+                            disabled={disabled}
                             label="save"
                             icon={<ContentSave color={green500} />}
-                            onClick={this.onSaveClick} />
+                            onClick={onSaveClick} />
                     </div>
                 </List>
             </DeepContentBox>

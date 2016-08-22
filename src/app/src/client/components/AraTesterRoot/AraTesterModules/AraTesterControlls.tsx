@@ -22,7 +22,7 @@ export default class AraTesterControlls extends React.Component<StyleProp, AraTe
     }
 
     public shouldComponentUpdate(props: StyleProp, state: AraTesterControllsState): boolean {
-        return (distance !== state.distance);
+        return (this.state.distance !== state.distance);
     }
 
     public handleDistanceSelect(select: string): void {
