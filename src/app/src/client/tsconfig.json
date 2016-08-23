@@ -8,6 +8,7 @@
     },
     "files": [
         "typings.d.ts",
+        "components/Center.ts",
         "components/EventValue.ts",
         "components/DisabledProp.ts",
         "components/StyleProp.ts",

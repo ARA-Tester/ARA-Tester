@@ -6,6 +6,7 @@ import DeepContentBox from './../../DeepContentBox';
 import AraTesterConfigPopover from './AraTesterConfigPopover/AraTesterConfigPopover';
 import AraTesterMovment from './AraTesterMovment';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
+import Center from './../../Center';
 import { PositiveMovment, NegativeMovment } from './../../MovmentButton';
 
 export interface AraTesterConfigWrapperProps extends AraTesterAxisId, StyleProp {
@@ -18,15 +19,13 @@ const spaceStyle: React.CSSProperties = {
     marginBottom: 10
 };
 
-const centerStyle: React.CSSProperties = {
-    display: 'block',
-    margin: 'auto',
-    padding: 'auto',
-    width: 300
-};
-
 export default class AraTesterConfigWrapper extends React.Component<AraTesterConfigWrapperProps, AraTesterConfigWrapperState> {
+    private static _contentWith: number = 300;
     private _AraTesterAxisService: AraTesterAxisService;
+
+    private _center(): React.CSSProperties {
+        return Center(AraTesterConfigWrapper._contentWith, this.props.style);
+    }
 
     public constructor(props: AraTesterConfigWrapperProps) {
         super(props);
@@ -60,7 +59,7 @@ export default class AraTesterConfigWrapper extends React.Component<AraTesterCon
         const { style, axisId } = props;
         const { disabled } = state;
         return (
-            <DeepContentBox style={Object.assign({}, centerStyle, style)}>
+            <DeepContentBox style={this._center()}>
                 <AraTesterConfigPopover style={spaceStyle} axisId={axisId} disabled={disabled} />
                 <AraTesterMovment style={spaceStyle} {...props} disabled={disabled} />
             </DeepContentBox>
