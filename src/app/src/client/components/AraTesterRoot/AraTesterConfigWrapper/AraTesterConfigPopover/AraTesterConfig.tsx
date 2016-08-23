@@ -6,7 +6,7 @@ import { green500 } from 'material-ui/styles/colors';
 import { AraTesterConfigPopoverProps } from './AraTesterConfigPopover';
 import AraTesterAxisConfig from './../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../DeepContentBox';
-import { default as NumberInput, NumberInputValueHandler } from './../../../NumberInput';
+import { default as NumberInputField, NumberInputFieldValueHandler } from './../../../NumberInputField';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 
 const { div } = React.DOM;
@@ -21,11 +21,11 @@ export interface  AraTesterConfigState {
 
 export default class AraTesterConfig extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigState> {
     private _AraTesterAxisService: AraTesterAxisService;
-    public onPulseWidthChange: NumberInputValueHandler;
-    public onTMaxChange: NumberInputValueHandler;
-    public onTMinChange: NumberInputValueHandler;
-    public onTDeltaChange: NumberInputValueHandler;
-    public onConfiguredChange: NumberInputValueHandler;
+    public onPulseWidthChange: NumberInputFieldValueHandler;
+    public onTMaxChange: NumberInputFieldValueHandler;
+    public onTMinChange: NumberInputFieldValueHandler;
+    public onTDeltaChange: NumberInputFieldValueHandler;
+    public onConfiguredChange: NumberInputFieldValueHandler;
     public onSaveClick: React.MouseEventHandler;
 
     private _convertFromServer(config: AraTesterAxisConfig): AraTesterConfigState {
@@ -100,7 +100,8 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     }
 
     public handleSaveClick(event: React.MouseEvent): void {;
-        this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
+        console.log(this.state);
+        //this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
     }
 
     public render(): JSX.Element {
@@ -111,19 +112,19 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
             <DeepContentBox style={style}>
                 <List>
                     <div>
-                        <NumberInput label="Pulse Width (uS)" value={pulseWidth} onChange={onPulseWidthChange} />
+                        <NumberInputField label="Pulse Width (uS)" value={pulseWidth} onValue={onPulseWidthChange} />
                     </div>
                     <div>
-                        <NumberInput label="T max (uS)" value={tMax} onChange={onTMaxChange} />
+                        <NumberInputField label="T max (uS)" value={tMax} onValue={onTMaxChange} />
                     </div>
                     <div>
-                        <NumberInput label="T min (uS)" value={tMin} onChange={onTMinChange} />
+                        <NumberInputField label="T min (uS)" value={tMin} onValue={onTMinChange} />
                     </div>
                     <div>
-                        <NumberInput label="T delta (uS)" value={tDelta} onChange={onTDeltaChange} />
+                        <NumberInputField label="T delta (uS)" value={tDelta} onValue={onTDeltaChange} />
                     </div>
                     <div>
-                        <NumberInput label="Configured (uInt)" value={configured} onChange={onConfiguredChange} />
+                        <NumberInputField label="Configured (uInt)" value={configured} onValue={onConfiguredChange} />
                     </div>
                     <div>
                         <RaisedButton

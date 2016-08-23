@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-const centerStyle: React.CSSProperties = {
+const centerStyle: CSSProperties = {
     display: 'block',
     margin: 'auto',
     padding: 'auto'
