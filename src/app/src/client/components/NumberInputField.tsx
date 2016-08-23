@@ -34,7 +34,7 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, Num
         const { onValue } = props;
         const { listen } = state;
         console.log('valid');
-        if(listen && (onValue !== undefined)) {
+        if(onValue !== undefined) {
             onValue(valid);
         }
     }
@@ -51,7 +51,7 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, Num
 
     public constructor(props: NumberInputFieldProps) {
         super(props);
-        this.state = { open: false, listen: false };
+        this.state = { open: false, listen: true };
         this._onFocus = this._handleFocus.bind(this);
         this._onValid = this._handleValid.bind(this);
         this._onRequestClose = this._handleRequestClose.bind(this);
@@ -59,9 +59,9 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, Num
     }
 
     public shouldComponentUpdate(props: NumberInputFieldProps, state: NumberInputFieldState): boolean { 
-        const { label, value } = this.props;
-        const { open } = this.state;
-        return (label !== props.label) || (value !== props.value) || (open !== state.open);
+        const { listen } = this.state;
+        const { listen: nextListen } = state;
+        return listen || (listen !== nextListen);
     }
 
     public render(): JSX.Element {
