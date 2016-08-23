@@ -33,7 +33,7 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, Num
         const { props, state } = this;
         const { onValue } = props;
         const { listen } = state;
-        if((!listen) && (onValue !== undefined)) {
+        if(listen && (onValue !== undefined)) {
             onValue(valid);
         }
     }
