@@ -6,7 +6,7 @@ import { green500 } from 'material-ui/styles/colors';
 import { AraTesterConfigPopoverProps } from './AraTesterConfigPopover';
 import AraTesterAxisConfig from './../../../../../share/AraTesterAxisConfig';
 import DeepContentBox from './../../../DeepContentBox';
-import { default as NumberInputField, NumberInputFieldValueHandler } from './../../../NumberInputField';
+import { NumberInputField, NumberInputFieldValueHandler } from './../../../NumberInputField';
 import AraTesterAxisService from './../../../../services/AraTesterAxisService';
 
 const { div } = React.DOM;
@@ -100,8 +100,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
     }
 
     public handleSaveClick(event: React.MouseEvent): void {;
-        console.log(this.state);
-        //this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
+        this._AraTesterAxisService.saveConfiguration(this._convertToServer(this.state));
     }
 
     public render(): JSX.Element {

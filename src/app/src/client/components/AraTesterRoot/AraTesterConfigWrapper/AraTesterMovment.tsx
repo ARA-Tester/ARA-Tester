@@ -3,7 +3,7 @@ import List  from 'material-ui/List';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
-import { default as NumberInput, NumberInputValueHandler } from './../../NumberInput';
+import { NumberInputField, NumberInputFieldValueHandler } from './../../NumberInputField';
 import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
 import AraTesterStopButton from './../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './AraTesterConfigWrapper';
@@ -23,7 +23,7 @@ const selectablesSpacing: React.CSSProperties = { margin: 5 };
 export default class AraTesterMovment extends React.Component<AraTesterMovmentProps, AraTesterMovmentState> {
     private _AraTesterAxisService: AraTesterAxisService;
     public onDirectionSelect: SelectHandler;
-    public onDistanceChange: NumberInputValueHandler;
+    public onDistanceChange: NumberInputFieldValueHandler;
     public onMovmentClick: React.MouseEventHandler;
 
     public constructor(props: AraTesterMovmentProps) {
@@ -55,7 +55,8 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
     }
 
     public handleDistanceChange(value: number): void {
-         this.setState({
+        console.log(value);
+        this.setState({
             direction: this.state.direction,
             distance: value       
         });
@@ -93,7 +94,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
                     </ButtonSelect>
                 </div>
                 <div>
-                    <NumberInput label="Distance (mm)" value={distance} onChange={onDistanceChange} />
+                    <NumberInputField label="Distance (mm)" value={distance} onValue={onDistanceChange} />
                 </div>
                 <div>{movmentActionButton}</div>
             </List>
