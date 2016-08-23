@@ -55,7 +55,6 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
     }
 
     public handleDistanceChange(value: number): void {
-        console.log(value);
         this.setState({
             direction: this.state.direction,
             distance: value       
