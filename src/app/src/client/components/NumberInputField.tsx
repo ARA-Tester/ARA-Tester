@@ -33,9 +33,13 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, Num
     }
 
     private _handleInput(value: string): void {
-        const { onValue } = this.props;
+        const { min, onValue } = this.props;
+        let numberValue: number = parseFloat(value);
+        if(numberValue < min) {
+            numberValue = min;
+        }
         if(onValue !== undefined) {
-            onValue(parseFloat(value));
+            onValue(numberValue);
         }
     }
 
