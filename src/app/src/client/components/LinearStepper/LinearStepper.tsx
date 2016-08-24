@@ -83,7 +83,7 @@ export class LinearStepper extends React.Component<LinearStepperProps, void> {
         }
         
         return (
-            <div style={{ width: '100%', margin: 30 }}>
+            <div style={{ width: '90%', margin: 'auto', marginTop: 30 }}>
                 <Stepper activeStep={activeStep}>{steps}</Stepper>
                 {stepContent}
                 {navigation}

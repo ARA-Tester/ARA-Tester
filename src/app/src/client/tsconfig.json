@@ -8,7 +8,7 @@
     },
     "files": [
         "typings.d.ts",
-        "components/TextField.tsx",
+        "components/TextInput.tsx",
         "components/OnScreenKeyboard.tsx",
         "components/NumberInputField.tsx",
         "components/Center.ts",
