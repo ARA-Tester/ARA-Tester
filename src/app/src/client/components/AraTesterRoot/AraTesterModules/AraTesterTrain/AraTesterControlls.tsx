@@ -1,10 +1,10 @@
 import * as React from 'react';
 import AraTesterAutoMovmentButton from './AraTesterAutoMovmentButton';
-import DeepContentBox from './../../DeepContentBox';
-import StyleProp from './../../StyleProp';
-import AraTesterControllsState from './../../../../share/AraTesterAxisDistance';
+import DeepContentBox from './../../../DeepContentBox';
+import StyleProp from './../../../StyleProp';
+import AraTesterControllsState from './../../../../../share/AraTesterAxisDistance';
 import MovmentIcon from 'material-ui/svg-icons/action/open-with';
-import { ButtonSelect, SelectableButton, SelectHandler } from './../../ButtonSelect/ButtonSelect';
+import { ButtonSelect, SelectableButton, SelectHandler } from './../../../ButtonSelect/ButtonSelect';
 import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List';
 

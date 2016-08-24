@@ -1,9 +1,9 @@
 import * as React from 'react';
-import AraTesterAxisService from './../../../services/AraTesterAxisService';
-import AraTesterAxisId from './../../../../share/AraTesterAxisId';
-import AraTesterAxisDistance from './../../../../share/AraTesterAxisDistance';
-import AraTesterAxisMovment from './../../../../share/AraTesterAxisMovment';
-import { default as MovmentButton, SyntheticEventHandler, MovmentButtonProps } from './../../MovmentButton';
+import AraTesterAxisService from './../../../../services/AraTesterAxisService';
+import AraTesterAxisId from './../../../../../share/AraTesterAxisId';
+import AraTesterAxisDistance from './../../../../../share/AraTesterAxisDistance';
+import AraTesterAxisMovment from './../../../../../share/AraTesterAxisMovment';
+import { default as MovmentButton, SyntheticEventHandler, MovmentButtonProps } from './../../../MovmentButton';
 
 export interface AraTesterAutoMovmentButtonProps extends MovmentButtonProps, AraTesterAxisId, AraTesterAxisDistance {
 
