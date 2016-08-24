@@ -9,6 +9,7 @@ import AraTesterStopButton from './../AraTesterStopButton';
 import { AraTesterConfigWrapperProps } from './AraTesterConfigWrapper';
 import DisabledProp from './../../DisabledProp';
 import { MovmentButton, Movment } from './../../MovmentButton';
+import DeepContentBox from './../../DeepContentBox';
 import AraTesterMovmentState from './../../../../share/AraTesterAxisMovment';
 import AraTesterAxisService from './../../../services/AraTesterAxisService';
 
@@ -82,21 +83,23 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
             );
         }
         return (
-            <List style={style}>
-                <div>
-                    <ButtonSelect
-                        selected={movment}
-                        buttonStyle={selectablesSpacing}
-                        onSelect={onDirectionSelect} >
-                            <SelectableButton value={negative} label={negative} />
-                            <SelectableButton value={positive} label={positive} />
-                    </ButtonSelect>
-                </div>
-                <div>
-                    <NumberInputField label="Distance (mm)" value={distance} onValue={onDistanceChange} />
-                </div>
-                <div>{movmentActionButton}</div>
-            </List>
+            <DeepContentBox style={style}>
+                <List>
+                    <div>
+                        <ButtonSelect
+                            selected={movment}
+                            buttonStyle={selectablesSpacing}
+                            onSelect={onDirectionSelect} >
+                                <SelectableButton value={negative} label={negative} />
+                                <SelectableButton value={positive} label={positive} />
+                        </ButtonSelect>
+                    </div>
+                    <div>
+                        <NumberInputField label="Distance (mm)" value={distance} onValue={onDistanceChange} />
+                    </div>
+                    <div>{movmentActionButton}</div>
+                </List>
+            </DeepContentBox>
         );
     }
 }
