@@ -3,13 +3,19 @@ import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
-import { AraTesterConfigPopoverProps } from './AraTesterConfigPopover';
-import AraTesterAxisConfig from './../../../../../share/AraTesterAxisConfig';
-import DeepContentBox from './../../../DeepContentBox';
-import { NumberInputField, NumberInputFieldValueHandler } from './../../../NumberInputField';
-import AraTesterAxisService from './../../../../services/AraTesterAxisService';
+import AraTesterAxisConfig from './../../../../share/AraTesterAxisConfig';
+import AraTesterAxisId from './../../../../share/AraTesterAxisId';
+import StyleProp from './../../StyleProp';
+import DisabledProp from './../../DisabledProp';
+import DeepContentBox from './../../DeepContentBox';
+import { NumberInputField, NumberInputFieldValueHandler } from './../../NumberInputField';
+import AraTesterAxisService from './../../../services/AraTesterAxisService';
 
 const { div } = React.DOM;
+
+export interface AraTesterConfigProps extends AraTesterAxisId, StyleProp, DisabledProp {
+
+}
 
 export interface  AraTesterConfigState {
     pulseWidth?: number;
@@ -19,7 +25,7 @@ export interface  AraTesterConfigState {
     configured?: number;
 };
 
-export default class AraTesterConfig extends React.Component<AraTesterConfigPopoverProps, AraTesterConfigState> {
+export default class AraTesterConfig extends React.Component<AraTesterConfigProps, AraTesterConfigState> {
     private _AraTesterAxisService: AraTesterAxisService;
     public onPulseWidthChange: NumberInputFieldValueHandler;
     public onTMaxChange: NumberInputFieldValueHandler;
@@ -48,7 +54,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         };
     }
 
-    public constructor(props: AraTesterConfigPopoverProps) {
+    public constructor(props: AraTesterConfigProps) {
         super(props);
         this.state = {
             pulseWidth: 0,
@@ -72,10 +78,11 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigPopo
         })
     }
 
-    public shouldComponentUpdate(props: AraTesterConfigPopoverProps, state: AraTesterConfigState): boolean {
+    public shouldComponentUpdate(props: AraTesterConfigProps, state: AraTesterConfigState): boolean {
+        const { configured, pulseWidth, tDelta, tMax, tMin } = this.state;
         const propsChange: boolean = (this.props.disabled !== props.disabled);
-        const stateChange: boolean = (this.state.configured !== state.configured) || (this.state.pulseWidth !== this.state.pulseWidth)
-            || (this.state.tDelta !== state.tDelta) || (this.state.tMax !== state.tMax) || (this.state.tMin !== state.tMin);
+        const stateChange: boolean = (configured !== state.configured) || (pulseWidth !== state.pulseWidth)
+            || (tDelta !== state.tDelta) || (tMax !== state.tMax) || (tMin !== state.tMin);
         return propsChange || stateChange;
     }
 
