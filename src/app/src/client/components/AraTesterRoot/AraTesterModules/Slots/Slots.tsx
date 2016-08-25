@@ -30,7 +30,7 @@ export class Slots extends React.PureComponent<void, void> {
                         <span>
                             <Slot type="vertical" status="empty" />
                             <span style={positionRight}>
-                                <div><Slot type="horizontal" status="module" slot={1} /></div>
+                                <div><Slot type="horizontal" status="module" index={1} /></div>
                                 <div><Slot type="horizontal" status="selected" /></div>
                             </span>
                         </span>
@@ -38,7 +38,7 @@ export class Slots extends React.PureComponent<void, void> {
                     <div>
                         <span>
                             <Slot type="vertical" status="empty" />
-                            <Slot type="merged" status="module" slot={2} />
+                            <Slot type="merged" status="module" index={2} />
                         </span>
                     </div>
                     <div>
