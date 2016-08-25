@@ -1,5 +1,6 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
+import { ExtendedKeyboard } from 'react-material-ui-keyboard';
 
 export type TextInputChangeHandler = (ecent: React.FormEvent, value: string) => void;
 
@@ -8,14 +9,6 @@ export interface EventValue {
         value?: string
     }
 }
-
-const ExtendedKeyboard: Array<Array<string>> = [
-    ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
-    ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
-    ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
-    ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
-    ['Escape',   '@', '_',         '     ',         '.',     'Enter']
-];
 
 export const TextInputValidKeys: Array<string> = [].concat.apply([], ExtendedKeyboard);
 
@@ -48,13 +41,20 @@ export interface TextInputProps {
 }
 
 export class TextInput extends React.Component<TextInputProps, void> {
+    public static TextInputValidKeys: Array<string> = TextInputValidKeys;
+    public textField: TextField;
+    private _refTextField: (TextField: TextField) => void;
     private _onKeyDown: React.KeyboardEventHandler;
     private _onChange: React.FocusEventHandler;
+
+    private _handleTextField(textField: TextField): void {
+        this.textField = textField;
+    }
 
     private _handleKeyDown(event: React.KeyboardEvent) {
         const { onKeyDown } = this.props;
         const { key } = event;
-        if((TextInputValidKeys.indexOf(key.toLowerCase()) === -1) && (key.length === 1)) {
+        if((key.length === 1) && (TextInputValidKeys.indexOf(key.toLowerCase()) === -1)) {
             event.preventDefault();
             event.stopPropagation();
         } else if(onKeyDown) {
@@ -72,15 +72,21 @@ export class TextInput extends React.Component<TextInputProps, void> {
 
     constructor(props: TextInputProps) {
         super(props);
+        this._refTextField = this._handleTextField.bind(this);
         this._onKeyDown = this._handleKeyDown.bind(this);
         this._onChange = this._handleChange.bind(this);
     }
 
+    public getInputNode(): HTMLInputElement {
+        return this.textField.getInputNode();
+    }
+
     public render(): JSX.Element {
-        const { props, _onKeyDown, _onChange } = this;
+        const { props, _refTextField, _onKeyDown, _onChange } = this;
         const textFieldProps: Object = Object.assign({}, props, {
             onKeyDown: _onKeyDown,
-            onChange: _onChange
+            onChange: _onChange,
+            ref: _refTextField
         });
         return React.cloneElement(<TextField />, textFieldProps);
     }
