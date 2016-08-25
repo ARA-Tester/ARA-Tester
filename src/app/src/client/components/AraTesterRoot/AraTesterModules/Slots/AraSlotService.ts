@@ -1,4 +1,4 @@
-import { AraSlot, AraSlotBase, SlotBase, AraSlotIdentifier, SlotType, SlotStatus } from './AraSlot';
+import { AraSlot, SlotBase, AraSlotIdentifier, SlotType, SlotStatus } from './AraSlot';
 
 export type AraSlots = Array<AraSlot>;
 
@@ -55,32 +55,23 @@ export class AraSlotService {
     }
 
     public static isSlotVertical(slot: AraSlot): boolean {
-        return AraSlotService.isTypeVertical(slot.type);
+        return AraSlotService.isIdentifierVertical(slot.identifier);
     }
 
     public static isSlotHorizontal(slot: AraSlot): boolean {
-        return AraSlotService.isTypeHorizontal(slot.type);
+        return AraSlotService.isIdentifierHorizontal(slot.identifier);
     }
 
     public static isSlotMerged(slot: AraSlot): boolean {
-        return AraSlotService.isTypeMerged(slot.type);
+        return AraSlotService.isIdentifierMerged(slot.identifier);
     }
 
     public static createSlotBaseFromIdentifier(identifier: AraSlotIdentifier): SlotBase {
-        return {
-            type: AraSlotService.resolveTypeFromIdentifier(identifier),
-            status: 'empty'
-        };
+        return { identifier: identifier, status: 'empty' };
     }
 
-    public static createAraSlot(slot: AraSlotBase): AraSlot {
-        const { identifier, name } = slot;
-        return {
-            identifier: identifier,
-            name: name,
-            type: AraSlotService.resolveTypeFromIdentifier(identifier),
-            status: 'module'
-        }
+    public static createAraSlot(identifier: AraSlotIdentifier, name: string): AraSlot {
+        return { identifier: identifier, status: 'module', name: name };
     }
 
     public static findSlotByName(slots: AraSlots, name: string): AraSlot {

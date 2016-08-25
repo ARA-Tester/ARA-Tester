@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SlotSize from './SlotSize';
 import Paper from 'material-ui/Paper';
-import { Slot, SelectionHandler } from './Slot';
+import { Slot, SlotSelectionHandler } from './Slot';
 import { Frame, FramePart } from './Frame';
 import { AraSlots, AraSlotService } from './AraSlotService';
 import { AraSlotIdentifier, AraSlot, SlotBase } from './AraSlot';
@@ -18,41 +18,18 @@ const positionRight: React.CSSProperties = { float:Slot.mergedType.float };
 
 const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 30 };
 
-export type SlotSelectionHandler = (slot: AraSlotIdentifier) => void;
-
 export interface SlotsProps {
     slots: AraSlots;
     onSlotSelection?: SlotSelectionHandler;
 }
 
 export class Slots extends React.PureComponent<SlotsProps, void> {
-    private _onVertical1Selection: SelectionHandler;
-    private _onVertical2Selection: SelectionHandler;
-    private _onHorizontal1Selection: SelectionHandler;
-    private _onHorizontal2Selection: SelectionHandler;
-    private _onHorizontal3Selection: SelectionHandler;
-    private _onHorizontal4Selection: SelectionHandler;
-    private _onMerged1Selection: SelectionHandler;
-    private _onMerged2Selection: SelectionHandler;
+    private _onSlotSelection: SlotSelectionHandler;
 
     private _handleSelection(slot: AraSlotIdentifier): void {
         const { onSlotSelection } = this.props;
         if(onSlotSelection !== undefined) {
             onSlotSelection(slot);
-        }
-    }
-
-    private _getSelectionHandlerForIdentifier(identifier: AraSlotIdentifier) {
-        console.log(`handler for ${identifier}`);
-        switch(identifier) {
-            case 'vertical1': return this._onVertical1Selection;
-            case 'vertical2': return this._onVertical2Selection;
-            case 'horizontal1': return this._onHorizontal1Selection;
-            case 'horizontal2': return this._onHorizontal2Selection;
-            case 'horizontal3': return this._onHorizontal3Selection;
-            case 'horizontal4': return this._onHorizontal4Selection;
-            case 'merged1': return this._onMerged1Selection;
-            case 'merged2': return this._onMerged2Selection;
         }
     }
 
@@ -65,7 +42,7 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
     }
 
     private _renderSlot(slotBase: SlotBase, identifier: AraSlotIdentifier): JSX.Element {
-        return <Slot {...slotBase} onSelection={this._getSelectionHandlerForIdentifier(identifier)} />;
+        return <Slot {...slotBase} onSlotSelection={this._onSlotSelection} />;
     }
 
     private _renderNoneMergedSlot(identifier: AraSlotIdentifier): JSX.Element {
@@ -107,14 +84,7 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
 
     public constructor(props: SlotsProps) {
         super(props);
-        this._onVertical1Selection = this._handleSelection.bind(this, 'vertical1');
-        this._onVertical2Selection = this._handleSelection.bind(this, 'vertical2');
-        this._onHorizontal1Selection = this._handleSelection.bind(this, 'horizontal1');
-        this._onHorizontal2Selection = this._handleSelection.bind(this, 'horizontal2');
-        this._onHorizontal3Selection = this._handleSelection.bind(this, 'horizontal3');
-        this._onHorizontal4Selection = this._handleSelection.bind(this, 'horizontal4');
-        this._onMerged1Selection = this._handleSelection.bind(this, 'merged1');
-        this._onMerged2Selection = this._handleSelection.bind(this, 'merged2');
+        this._onSlotSelection = this._handleSelection.bind(this);
     }
 
     public render(): JSX.Element {

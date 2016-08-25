@@ -11,7 +11,8 @@ import Slot4 from 'material-ui/svg-icons/image/filter-4';
 import Slot5 from 'material-ui/svg-icons/image/filter-5';
 import Slot6 from 'material-ui/svg-icons/image/filter-6';
 import SelectedSlot from 'material-ui/svg-icons/image/filter-center-focus';
-import { SlotBase, AraSlot } from './AraSlot';
+import { SlotBase, AraSlot, AraSlotIdentifier, SlotType } from './AraSlot';
+import AraSlotService from './AraSlotService';
 
 const Margin: number = 2;
 
@@ -29,10 +30,10 @@ const HorizontalType: React.CSSProperties = { minWidth: Size2, height: Size1 };
 
 const MergedType: React.CSSProperties = { minWidth: Size2, height: versticalHeight, float: 'right' };
 
-export type SelectionHandler = () => void;
+export type SlotSelectionHandler = (identifier: AraSlotIdentifier ) => void;
 
 export interface SlotProps extends SlotBase {
-    onSelection?: SelectionHandler;
+    onSlotSelection: SlotSelectionHandler;
 }
 
 export class Slot extends React.Component<SlotProps, void> {
@@ -52,20 +53,24 @@ export class Slot extends React.Component<SlotProps, void> {
     public static mergedType: React.CSSProperties = MergedType;
     private _onClick: React.MouseEventHandler;
 
-    private _handleClick(event: React.MouseEvent): void {
-        const { status, onSelection } = this.props;
-        event.stopPropagation();
-        event.preventDefault();
-        if((status === 'empty') && (onSelection !== undefined)) {
-            onSelection();
-        }
-    }
-
-    private _getTypeSize(): React.CSSProperties {
-        switch(this.props.type) {
+    private static _getTypeSize(type: SlotType): React.CSSProperties {
+        switch(type) {
             case 'vertical': return VerticalType;
             case 'horizontal': return HorizontalType;
             case 'merged': return MergedType;
+        }
+    }
+
+    private static _getStyles(type: SlotType): React.CSSProperties {
+        return Object.assign({ margin: Margin }, Slot._getTypeSize(type));
+    }
+
+    private _handleClick(event: React.MouseEvent): void {
+        const { status, identifier, onSlotSelection } = this.props;
+        event.stopPropagation();
+        event.preventDefault();
+        if(status === 'empty') {
+            onSlotSelection(identifier);
         }
     }
 
@@ -83,10 +88,6 @@ export class Slot extends React.Component<SlotProps, void> {
         return Slot._slotIcons[iconIndex];
     }
 
-    private _getStyles(): React.CSSProperties {
-        return Object.assign({ margin: Margin }, this._getTypeSize());
-    }
-
     private _getIcon(): React.ReactNode {
         return React.createElement(this._getSlotIcon(), { style: { width: IconSize, height: IconSize }, color: amber500 });
     }
@@ -101,12 +102,13 @@ export class Slot extends React.Component<SlotProps, void> {
     }
 
     public render(): JSX.Element {
+        const type: SlotType = AraSlotService.resolveTypeFromIdentifier(this.props.identifier);
         return (
             <RaisedButton
                 onClick={this._onClick}
                 backgroundColor={this._getStatusColor()}
                 icon={this._getIcon()}
-                style={this._getStyles()}
+                style={Slot._getStyles(type)}
             />
         );
     } 
