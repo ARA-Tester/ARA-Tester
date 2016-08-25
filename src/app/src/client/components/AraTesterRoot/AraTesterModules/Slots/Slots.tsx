@@ -1,17 +1,22 @@
 import * as React from 'react';
-import { SingleSlot, Margin } from './SingleSlot';
-import DoubleSlot from './DoubleSlot';
+import Slot from './Slot';
 import SlotSize from './SlotSize';
 import Frame from './Frame';
 import Paper from 'material-ui/Paper';
 
 const { span, div } = React.DOM;
 
-const width: number = (3 * SlotSize) + (4 * Margin);
+const totalMargin: number = Slot.margin * 4;
 
-const height: number = (6.25 * SlotSize) + (8 * Margin);
+const width: number = Slot.verticalPosition.minWidth + Slot.horizontalPosition.minWidth + totalMargin;
 
-const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 'auto' };
+const height: number = (Slot.mergedPosition.height * 2) + totalMargin + Frame.upHeight + Frame.downHeight;
+
+console.log(width, height);
+
+const positionRight: React.CSSProperties = { float:Slot.mergedPosition.float };
+
+const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 30 };
 
 export class Slots extends React.PureComponent<void, void> {
     public render(): JSX.Element {
@@ -23,14 +28,17 @@ export class Slots extends React.PureComponent<void, void> {
                     </div>
                     <div>
                         <span>
-                            <SingleSlot />
-                            <DoubleSlot />
+                            <Slot position="vertical" />
+                            <span style={positionRight}>
+                                <div><Slot position="horizontal" /></div>
+                                <div><Slot position="horizontal" /></div>
+                            </span>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <SingleSlot />
-                            <DoubleSlot />
+                            <Slot position="vertical" />
+                            <Slot position="merged" />
                         </span>
                     </div>
                     <div>

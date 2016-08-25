@@ -2,11 +2,12 @@ import * as React from 'react';
 import SlotSize from './SlotSize';
 import RaisedButton from 'material-ui/RaisedButton';
 import ARA from 'material-ui/svg-icons/action/settings-ethernet';
+import Speaker from 'material-ui/svg-icons/navigation/more-horiz';
 import { pinkA400, red700 } from 'material-ui/styles/colors';
 
-export const UpHeight: number = SlotSize / 4;
+const UpHeight: number = SlotSize / 3;
 
-export const DownHeight: number = SlotSize * 2;
+const DownHeight: number = SlotSize * 2;
 
 export type FramePart = 'up' | 'down';
 
@@ -15,6 +16,14 @@ export interface FrameProps {
 }
 
 export class Frame extends React.Component<FrameProps, void> {
+    public static upHeight: number = UpHeight;
+    public static downHeight: number = DownHeight;
+
+    private static _renderFrame(icon: JSX.Element, size: number, height: number): JSX.Element {
+        const sizedIcon: JSX.Element = React.cloneElement(icon, { style: { width: size, height: size }, color: red700 });
+        return <RaisedButton icon={sizedIcon} disabled fullWidth style={{ height: height }} disabledBackgroundColor={pinkA400} />;
+    }
+
     public constructor(props: FrameProps) {
         super(props);
     }
@@ -25,15 +34,8 @@ export class Frame extends React.Component<FrameProps, void> {
 
     public render(): JSX.Element {
         const { part } = this.props;
-        let frame: JSX.Element = <RaisedButton disabled fullWidth disabledBackgroundColor={pinkA400} />;
-        if(part === 'up') {
-            return React.cloneElement(frame, { label: ' ', style: { height: UpHeight }});
-        } else {
-            const size: number = SlotSize;
-            const iconStyle: React.CSSProperties = { width: size, height: size };
-            const icon: React.ReactNode = <ARA style={iconStyle} color={red700} />;
-            return React.cloneElement(frame, { icon: icon , style: { height: DownHeight }});
-        }
+        const { _renderFrame } = Frame;
+        return part === 'up' ? _renderFrame(<Speaker />, UpHeight - (UpHeight / 10), UpHeight) : _renderFrame(<ARA />, SlotSize + (SlotSize / 10), DownHeight);
     } 
 }
 
