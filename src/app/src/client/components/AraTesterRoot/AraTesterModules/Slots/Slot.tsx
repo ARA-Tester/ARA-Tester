@@ -11,7 +11,7 @@ import Slot4 from 'material-ui/svg-icons/image/filter-4';
 import Slot5 from 'material-ui/svg-icons/image/filter-5';
 import Slot6 from 'material-ui/svg-icons/image/filter-6';
 import SelectedSlot from 'material-ui/svg-icons/image/filter-center-focus';
-import { SlotBase, AraSlot, AraSlotIdentifier, SlotType } from './AraSlot';
+import { AraSlot, AraSlotIdentifier, SlotType } from './AraSlot';
 import AraSlotService from './AraSlotService';
 
 const Margin: number = 2;
@@ -32,7 +32,7 @@ const MergedType: React.CSSProperties = { minWidth: Size2, height: versticalHeig
 
 export type SlotSelectionHandler = (identifier: AraSlotIdentifier ) => void;
 
-export interface SlotProps extends SlotBase {
+export interface SlotProps extends AraSlot {
     onSlotSelection: SlotSelectionHandler;
 }
 
@@ -84,7 +84,7 @@ export class Slot extends React.Component<SlotProps, void> {
 
     private _getSlotIcon(): React.ComponentClass<any> {
         const { status, index } = this.props;
-        const iconIndex: number = status === 'empty' ? 0 : (status === 'selected' ? 7 : index); 
+        const iconIndex: number = status === 'empty' ? 0 : (status === 'selected' ? 7 : index + 1);
         return Slot._slotIcons[iconIndex];
     }
 
@@ -95,10 +95,6 @@ export class Slot extends React.Component<SlotProps, void> {
     public constructor(props: SlotProps) {
         super(props);
         this._onClick = this._handleClick.bind(this);
-    }
-
-    public shouldComponentUpdate(props: SlotProps): boolean {
-        return false;
     }
 
     public render(): JSX.Element {

@@ -1,26 +1,10 @@
-import { AraSlot, SlotBase, AraSlotIdentifier, SlotType, SlotStatus } from './AraSlot';
+import { AraSlot, AraSlotIdentifier, SlotType, SlotStatus } from './AraSlot';
 
 export type AraSlots = Array<AraSlot>;
 
+export type AraSlotCreator = (identifier: AraSlotIdentifier) => AraSlot;
+
 export class AraSlotService {
-    private static _identifierPredicate(identifier: AraSlotIdentifier, slot: AraSlot): boolean {
-        return slot.identifier === identifier;
-    }
-
-    private static _namePredicate(name: string, slot: AraSlot): boolean {
-        return slot.name === name;
-    }
-
-    private static _findSlot(slots: AraSlots, predicate: (slot: AraSlot) => boolean): AraSlot {
-        for(let index: number = 0; index < slots.length; ++index) {
-            const slot: AraSlot = slots[index];
-            if(predicate(slot)) {
-                return Object.assign({ index: index }, slot);
-            }
-        }
-        return null;
-    }
-
     public static resolveTypeFromIdentifier(identifier: AraSlotIdentifier): SlotType {
         const stringified: string = identifier;
         return stringified.substring(0, stringified.length - 1) as SlotType;
@@ -66,33 +50,27 @@ export class AraSlotService {
         return AraSlotService.isIdentifierMerged(slot.identifier);
     }
 
-    public static createSlotBaseFromIdentifier(identifier: AraSlotIdentifier): SlotBase {
-        return { identifier: identifier, status: 'empty' };
+    public static createAraSlot(status: SlotStatus, identifier: AraSlotIdentifier): AraSlot {
+        return { identifier: identifier, status: status };
     }
 
-    public static createAraSlot(identifier: AraSlotIdentifier, name: string): AraSlot {
-        return { identifier: identifier, status: 'module', name: name };
-    }
+    public static createEmptyAraSlot: AraSlotCreator = AraSlotService.createAraSlot.bind(null, 'empty');
 
-    public static findSlotByName(slots: AraSlots, name: string): AraSlot {
-        return AraSlotService._findSlot(slots, AraSlotService._namePredicate.bind(null, name));
-    }
+    public static createModuleAraSlot: AraSlotCreator = AraSlotService.createAraSlot.bind(null, 'module');
 
     public static findSlotByIdentifier(slots: AraSlots, identifier: AraSlotIdentifier): AraSlot {
-        return AraSlotService._findSlot(slots, AraSlotService._identifierPredicate.bind(null, identifier));
+        for(let index: number = 0; index < slots.length; ++index) {
+            const slot: AraSlot = slots[index];
+            if(slot.identifier === identifier) {
+                return Object.assign({ index: index }, slot);
+            }
+        }
+        return null;
     }
 
-    public static stricCastAraSlotToSlotBase(araSlot: AraSlot): SlotBase {
-        let slotBase: SlotBase = Object.assign({}, araSlot);
-        delete araSlot.identifier;
-        delete araSlot.name;
-        return slotBase;
-    }
-
-    public static getSlotBaseForIdentifier(slots: AraSlots, identifier: AraSlotIdentifier): SlotBase {
+    public static getSlotBaseForIdentifier(slots: AraSlots, identifier: AraSlotIdentifier): AraSlot {
         const araSlot: AraSlot = AraSlotService.findSlotByIdentifier(slots, identifier);
-        return AraSlotService.isSlot(araSlot) ? AraSlotService.stricCastAraSlotToSlotBase(araSlot)
-            : AraSlotService.createSlotBaseFromIdentifier(identifier);
+        return AraSlotService.isSlot(araSlot) ? araSlot : AraSlotService.createEmptyAraSlot(identifier);
     }
 }
 

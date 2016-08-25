@@ -13,8 +13,6 @@ export interface TextInputFieldState {
     open?: boolean;
 }
 
-console.log(ExtendedKeyboard);
-
 export class TextInputField extends React.Component<TextInputFieldProps, TextInputFieldState> {
     private _onFocus: React.FocusEventHandler;
     private _onRequestClose: RequestCloseHandler;

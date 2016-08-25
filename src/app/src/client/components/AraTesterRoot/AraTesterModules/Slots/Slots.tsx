@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 import { Slot, SlotSelectionHandler } from './Slot';
 import { Frame, FramePart } from './Frame';
 import { AraSlots, AraSlotService } from './AraSlotService';
-import { AraSlotIdentifier, AraSlot, SlotBase } from './AraSlot';
+import { AraSlotIdentifier, AraSlot } from './AraSlot';
 
 const { span, div } = React.DOM;
 
@@ -17,6 +17,8 @@ const height: number = (Slot.mergedType.height * 2) + totalMargin + Frame.upHeig
 const positionRight: React.CSSProperties = { float:Slot.mergedType.float };
 
 const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 30 };
+
+export { SlotSelectionHandler };
 
 export interface SlotsProps {
     slots: AraSlots;
@@ -41,13 +43,13 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
         );
     }
 
-    private _renderSlot(slotBase: SlotBase, identifier: AraSlotIdentifier): JSX.Element {
-        return <Slot {...slotBase} onSlotSelection={this._onSlotSelection} />;
+    private _renderSlot(araSlot: AraSlot, identifier: AraSlotIdentifier): JSX.Element {
+        return <Slot {...araSlot} onSlotSelection={this._onSlotSelection} />;
     }
 
     private _renderNoneMergedSlot(identifier: AraSlotIdentifier): JSX.Element {
-        const props: SlotBase = AraSlotService.getSlotBaseForIdentifier(this.props.slots, identifier);
-        return this._renderSlot(props, identifier);
+        const araSlot: AraSlot = AraSlotService.getSlotBaseForIdentifier(this.props.slots, identifier);
+        return this._renderSlot(araSlot, identifier);
     }
 
     private _renderNoneVerticalSlots(merged: number, upHorizontal: number): JSX.Element {
@@ -55,8 +57,7 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
         const mergedIdentifier: AraSlotIdentifier = `merged${merged}` as AraSlotIdentifier;
         const mergedSlot: AraSlot = AraSlotService.findSlotByIdentifier(slots, mergedIdentifier);
         if(AraSlotService.isSlot(mergedSlot)) {
-            const props: SlotBase = AraSlotService.stricCastAraSlotToSlotBase(mergedSlot);
-            return this._renderSlot(props, mergedIdentifier);
+            return this._renderSlot(mergedSlot, mergedIdentifier);
         } else {
             return (
                 <span style={positionRight}>

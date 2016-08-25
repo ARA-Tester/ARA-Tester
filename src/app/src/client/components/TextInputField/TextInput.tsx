@@ -42,13 +42,13 @@ export interface TextInputProps {
 
 export class TextInput extends React.Component<TextInputProps, void> {
     public static TextInputValidKeys: Array<string> = TextInputValidKeys;
-    public textField: TextField;
+    private _textField: TextField;
     private _refTextField: (TextField: TextField) => void;
     private _onKeyDown: React.KeyboardEventHandler;
     private _onChange: React.FocusEventHandler;
 
     private _handleTextField(textField: TextField): void {
-        this.textField = textField;
+        this._textField = textField;
     }
 
     private _handleKeyDown(event: React.KeyboardEvent) {
@@ -78,7 +78,7 @@ export class TextInput extends React.Component<TextInputProps, void> {
     }
 
     public getInputNode(): HTMLInputElement {
-        return this.textField.getInputNode();
+        return this._textField.getInputNode();
     }
 
     public render(): JSX.Element {
