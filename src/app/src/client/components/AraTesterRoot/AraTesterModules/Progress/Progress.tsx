@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { LinearStepper, LinearStep, RequestStepTransitionHandler,  }  from './../LinearStepper/LinearStepper';
 import { TextInputField, TextInputFieldValueHandler } from './../TextInputField/TextInputField';
-import { Slots, SlotSelectionHandler } from './../Slots/Slots';
+import { Slots, SlotSelectionHandler, AraSizeStyle } from './../Slots/Slots';
 import { AraSlot, AraSlotIdentifier } from './../Slots/AraSlot';
 import { AraSlots, AraSlotService } from './../Slots/AraSlotService';
 import { AttachedModuleToSlot, AttachedModuleToSlotResponse, ResponseHandler } from './AttachedModuleToSlot';
+import { Modules, RemoveModuleHandler } from './Modules';
 
 const { div } = React.DOM;
 
@@ -49,6 +50,7 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _onName: TextInputFieldValueHandler;
     private _onSlotSelection: SlotSelectionHandler;
     private _onResponse: ResponseHandler;
+    private _onRemoveModule: RemoveModuleHandler;
     private _onRequestStepTransition: RequestStepTransitionHandler;
     private _renderStepContent: (step: number) => JSX.Element;
 
@@ -79,12 +81,17 @@ export default class Progress extends React.Component<void, ProgressState> {
         }
     }
 
+    private _handleRemoveModule(index: number): void {
+        const { slots } = this.state;
+        this.setState({ slots: slots.slice(0, index).concat(slots.slice(index + 1)) });
+    }
+
     private _handleRequestStepTransition(from: number, to: number): void {
         this.setState({ stepIndex: to < 3 ? to : 0 });
     }
 
     private _getStepContent(step: number): JSX.Element {
-        const { state, _onName, _onSlotSelection, _onResponse } = this;
+        const { state, _onName, _onSlotSelection, _onResponse, _onRemoveModule } = this;
         const { name, slots, newSlot } = state;
         const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
         let actions: Array<JSX.Element>;
@@ -92,7 +99,14 @@ export default class Progress extends React.Component<void, ProgressState> {
             case 0: return <TextInputField id="ivo" value={name} onValue={_onName} />;
             case 1: return  (
                 <div>
-                    <Slots slots={slots} onSlotSelection={_onSlotSelection} />
+                    <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
+                        <div style={{float: 'left'}}>
+                            <Slots slots={slots} onSlotSelection={_onSlotSelection} />
+                        </div>
+                        <div style={{float: 'right'}}>
+                            <Modules modules={slots} onRemoveModule={_onRemoveModule} />
+                        </div>
+                    </div>
                     <AttachedModuleToSlot slot={newSlot} onResponse={_onResponse} mergedOption={mergedOption} />
                 </div>
             );
@@ -112,6 +126,7 @@ export default class Progress extends React.Component<void, ProgressState> {
         this._onName = this._handleName.bind(this);
         this._onSlotSelection = this._handleSlotSelection.bind(this);
         this._onResponse = this._handleResponse.bind(this);
+        this._onRemoveModule = this._handleRemoveModule.bind(this);
         this._onRequestStepTransition = this._handleRequestStepTransition.bind(this);
         this._renderStepContent = this._getStepContent.bind(this);
     }

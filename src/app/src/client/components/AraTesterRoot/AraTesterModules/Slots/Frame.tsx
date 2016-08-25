@@ -9,6 +9,8 @@ const UpHeight: number = SlotSize / 3;
 
 const DownHeight: number = SlotSize * 2;
 
+export const FrameColor: string = pinkA400;
+
 export type FramePart = 'up' | 'down';
 
 export interface FrameProps {
@@ -16,6 +18,7 @@ export interface FrameProps {
 }
 
 export class Frame extends React.Component<FrameProps, void> {
+    public static frameColor: string = FrameColor;
     public static upHeight: number = UpHeight;
     public static downHeight: number = DownHeight;
 

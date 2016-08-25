@@ -8,15 +8,15 @@ import { AraSlotIdentifier, AraSlot } from './AraSlot';
 
 const { span, div } = React.DOM;
 
-const totalMargin: number = Slot.margin * 4;
+export const TotalMargin: number = Slot.margin * 4;
 
-const width: number = Slot.verticalType.minWidth + Slot.horizontalType.minWidth + totalMargin;
+export const Width: number = Slot.verticalType.minWidth + Slot.horizontalType.minWidth + TotalMargin;
 
-const height: number = (Slot.mergedType.height * 2) + totalMargin + Frame.upHeight + Frame.downHeight;
+export const Height: number = (Slot.mergedType.height * 2) + TotalMargin + Frame.upHeight + Frame.downHeight;
 
 const positionRight: React.CSSProperties = { float:Slot.mergedType.float };
 
-const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 30 };
+export const AraSizeStyle: React.CSSProperties = { width: Width, height: Height };
 
 export { SlotSelectionHandler };
 
@@ -90,7 +90,7 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
 
     public render(): JSX.Element {
         return (
-            <Paper zDepth={5} style={PhoneStyle}>
+            <Paper zDepth={5} style={AraSizeStyle}>
                 <div>
                     {this._renderFrame('up')}
                     {this._renderSlotGroup(1, 1)}
