@@ -8,13 +8,13 @@ const { span, div } = React.DOM;
 
 const totalMargin: number = Slot.margin * 4;
 
-const width: number = Slot.verticalPosition.minWidth + Slot.horizontalPosition.minWidth + totalMargin;
+const width: number = Slot.verticalType.minWidth + Slot.horizontalType.minWidth + totalMargin;
 
-const height: number = (Slot.mergedPosition.height * 2) + totalMargin + Frame.upHeight + Frame.downHeight;
+const height: number = (Slot.mergedType.height * 2) + totalMargin + Frame.upHeight + Frame.downHeight;
 
 console.log(width, height);
 
-const positionRight: React.CSSProperties = { float:Slot.mergedPosition.float };
+const positionRight: React.CSSProperties = { float:Slot.mergedType.float };
 
 const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 30 };
 
@@ -28,17 +28,17 @@ export class Slots extends React.PureComponent<void, void> {
                     </div>
                     <div>
                         <span>
-                            <Slot position="vertical" />
+                            <Slot type="vertical" status="empty" />
                             <span style={positionRight}>
-                                <div><Slot position="horizontal" /></div>
-                                <div><Slot position="horizontal" /></div>
+                                <div><Slot type="horizontal" status="module" slot={1} /></div>
+                                <div><Slot type="horizontal" status="selected" /></div>
                             </span>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <Slot position="vertical" />
-                            <Slot position="merged" />
+                            <Slot type="vertical" status="empty" />
+                            <Slot type="merged" status="module" slot={2} />
                         </span>
                     </div>
                     <div>
