@@ -2,8 +2,6 @@ import { AraSlot, AraSlotBase, SlotBase, AraSlotIdentifier, SlotType, SlotStatus
 
 export type AraSlots = Array<AraSlot>;
 
-export type AraSlotCreator = (slot: AraSlotBase) => AraSlot;
-
 export class AraSlotService {
     private static _identifierPredicate(identifier: AraSlotIdentifier, slot: AraSlot): boolean {
         return slot.identifier === identifier;
@@ -75,19 +73,15 @@ export class AraSlotService {
         };
     }
 
-    public static createSlotWithStatus(status: SlotStatus, slot: AraSlotBase): AraSlot {
+    public static createAraSlot(slot: AraSlotBase): AraSlot {
         const { identifier, name } = slot;
         return {
             identifier: identifier,
             name: name,
             type: AraSlotService.resolveTypeFromIdentifier(identifier),
-            status: status
+            status: 'module'
         }
     }
-
-    public static createEmptySlot: AraSlotCreator = AraSlotService.createSlotWithStatus.bind(null, 'empty');
-
-    public static createModuleSlot: AraSlotCreator = AraSlotService.createSlotWithStatus.bind(null, 'module');
 
     public static findSlotByName(slots: AraSlots, name: string): AraSlot {
         return AraSlotService._findSlot(slots, AraSlotService._namePredicate.bind(null, name));

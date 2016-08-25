@@ -29,8 +29,10 @@ const HorizontalType: React.CSSProperties = { minWidth: Size2, height: Size1 };
 
 const MergedType: React.CSSProperties = { minWidth: Size2, height: versticalHeight, float: 'right' };
 
-export interface SlotProps extends SlotBase {
+export type SelectionHandler = () => void;
 
+export interface SlotProps extends SlotBase {
+    onSelection?: SelectionHandler;
 }
 
 export class Slot extends React.Component<SlotProps, void> {
@@ -48,6 +50,16 @@ export class Slot extends React.Component<SlotProps, void> {
     public static verticalType: React.CSSProperties = VerticalType;
     public static horizontalType: React.CSSProperties = HorizontalType;
     public static mergedType: React.CSSProperties = MergedType;
+    private _onClick: React.MouseEventHandler;
+
+    private _handleClick(event: React.MouseEvent): void {
+        const { status, onSelection } = this.props;
+        event.stopPropagation();
+        event.preventDefault();
+        if((status === 'empty') && (onSelection !== undefined)) {
+            onSelection();
+        }
+    }
 
     private _getTypeSize(): React.CSSProperties {
         switch(this.props.type) {
@@ -81,6 +93,7 @@ export class Slot extends React.Component<SlotProps, void> {
 
     public constructor(props: SlotProps) {
         super(props);
+        this._onClick = this._handleClick.bind(this);
     }
 
     public shouldComponentUpdate(props: SlotProps): boolean {
@@ -88,7 +101,14 @@ export class Slot extends React.Component<SlotProps, void> {
     }
 
     public render(): JSX.Element {
-        return <RaisedButton backgroundColor={this._getStatusColor()} icon={this._getIcon()} style={this._getStyles()} />;
+        return (
+            <RaisedButton
+                onClick={this._onClick}
+                backgroundColor={this._getStatusColor()}
+                icon={this._getIcon()}
+                style={this._getStyles()}
+            />
+        );
     } 
 }
 
