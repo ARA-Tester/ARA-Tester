@@ -56,14 +56,10 @@ export class Slot extends React.Component<SlotProps, void> {
     public static mergedType: React.CSSProperties = MergedType;
     private _onClick: React.MouseEventHandler;
 
-    public static getSlotIcon(slot: AraSlot): React.ComponentClass<any> {
+    public static getSlotIcon(slot: AraSlot): React.ReactNode {
         const { status, index } = slot;
         const iconIndex: number = status === 'empty' ? 0 : (status === 'selected' ? 7 : index + 1);
-        return Slot.slotIcons[iconIndex];
-    }
-
-    public static getIcon(slot: AraSlot): React.ReactNode {
-        return React.createElement(Slot.getSlotIcon(slot), {
+        return React.createElement(Slot.slotIcons[iconIndex], {
             style: { width: IconSize, height: IconSize },
             color: Slot.iconClor
         });
@@ -110,7 +106,7 @@ export class Slot extends React.Component<SlotProps, void> {
             <RaisedButton
                 onClick={this._onClick}
                 backgroundColor={this._getStatusColor()}
-                icon={Slot.getIcon(this.props)}
+                icon={Slot.getSlotIcon(this.props)}
                 style={Slot._getStyles(type)}
             />
         );

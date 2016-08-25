@@ -55,7 +55,7 @@ export class Modules extends React.Component<ModulesProps, void> {
                 <ListItem
                     key={index}
                     style={ListItemStyle}
-                    leftIcon={Slot.getIcon(indexedSlot)}
+                    leftIcon={Slot.getSlotIcon(indexedSlot)}
                     rightIconButton={<IconButton onClick={_removeModuleFunctionFactory(index)} iconStyle={CroosStyle}>
                         <Cross color={FrameColor} />
                     </IconButton>}
