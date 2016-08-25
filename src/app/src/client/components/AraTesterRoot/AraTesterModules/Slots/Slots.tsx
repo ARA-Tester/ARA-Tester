@@ -1,8 +1,10 @@
 import * as React from 'react';
 import Slot from './Slot';
 import SlotSize from './SlotSize';
-import Frame from './Frame';
+import { Frame, FramePart } from './Frame';
 import Paper from 'material-ui/Paper';
+import { AraSlots, AraSlotService } from './AraSlotService';
+import { AraSlotIdentifier, AraSlot, SlotBase } from './AraSlot';
 
 const { span, div } = React.DOM;
 
@@ -12,38 +14,72 @@ const width: number = Slot.verticalType.minWidth + Slot.horizontalType.minWidth 
 
 const height: number = (Slot.mergedType.height * 2) + totalMargin + Frame.upHeight + Frame.downHeight;
 
-console.log(width, height);
-
 const positionRight: React.CSSProperties = { float:Slot.mergedType.float };
 
 const PhoneStyle: React.CSSProperties = { width: width, height: height, margin: 30 };
 
-export class Slots extends React.PureComponent<void, void> {
+export interface SlotsProps {
+    slots: AraSlots;
+}
+
+export class Slots extends React.PureComponent<SlotsProps, void> {
+    private _renderFrame(part: FramePart): JSX.Element {
+        return (
+            <div>
+                <Frame part={part} />
+            </div>
+        );
+    }
+
+    private _renderNoneMergedSlot(identifier: AraSlotIdentifier): JSX.Element {
+        const props: SlotBase = AraSlotService.getSlotBaseForIdentifier(this.props.slots, identifier); 
+        return <Slot {...props} />;
+    }
+
+    private _renderNoneVerticalSlots(merged: number, upHorizontal: number): JSX.Element {
+        const { slots } = this.props;
+        const mergedIdentifier: AraSlotIdentifier = `merged${merged}` as AraSlotIdentifier;
+        const mergedSlot: AraSlot = AraSlotService.findSlotByIdentifier(slots, mergedIdentifier);
+        if(AraSlotService.isSlot(mergedSlot)) {
+            const props: SlotBase = AraSlotService.stricCastAraSlotToSlotBase(mergedSlot);
+            return <Slot {...props} />;
+        } else {
+            return (
+                <span style={positionRight}>
+                    <div>
+                        {this._renderNoneMergedSlot(`horizontal${upHorizontal}` as AraSlotIdentifier)}
+                    </div>
+                    <div>
+                        {this._renderNoneMergedSlot(`horizontal${upHorizontal + 1}` as AraSlotIdentifier)}
+                    </div>
+                </span>
+            )
+        }
+    }
+
+    private _renderSlotGroup(vertical: number, horizontal: number): JSX.Element {
+        return (
+            <div>
+                <span>
+                    {this._renderNoneMergedSlot(`vertical${vertical}` as AraSlotIdentifier)}
+                    {this._renderNoneVerticalSlots(vertical, horizontal)}
+                </span>
+            </div>
+        )
+    }
+
+    public constructor(props: SlotsProps) {
+        super(props);
+    }
+
     public render(): JSX.Element {
         return (
             <Paper zDepth={5} style={PhoneStyle}>
                 <div>
-                    <div>
-                        <Frame part="up" />
-                    </div>
-                    <div>
-                        <span>
-                            <Slot type="vertical" status="empty" />
-                            <span style={positionRight}>
-                                <div><Slot type="horizontal" status="module" index={1} /></div>
-                                <div><Slot type="horizontal" status="selected" /></div>
-                            </span>
-                        </span>
-                    </div>
-                    <div>
-                        <span>
-                            <Slot type="vertical" status="empty" />
-                            <Slot type="merged" status="module" index={2} />
-                        </span>
-                    </div>
-                    <div>
-                        <Frame part="down" />
-                    </div>
+                    {this._renderFrame('up')}
+                    {this._renderSlotGroup(1, 1)}
+                    {this._renderSlotGroup(2, 3)}
+                    {this._renderFrame('down')}
                 </div>
             </Paper>
         );
