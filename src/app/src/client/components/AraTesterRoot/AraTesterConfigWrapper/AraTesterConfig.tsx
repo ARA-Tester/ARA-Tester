@@ -1,6 +1,5 @@
 import * as React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import List from 'material-ui/List';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { green500 } from 'material-ui/styles/colors';
 import AraTesterAxisConfig from './../../../../share/AraTesterAxisConfig';
@@ -116,7 +115,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
         const { pulseWidth, tMax, tMin, tDelta, configured } = state;
         return (
             <DeepContentBox style={style}>
-                <List>
+                <div>
                     <div>
                         <NumberInputField label="Pulse Width (uS)" value={pulseWidth} onValue={onPulseWidthChange} />
                     </div>
@@ -139,7 +138,7 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
                             icon={<ContentSave color={green500} />}
                             onClick={onSaveClick} />
                     </div>
-                </List>
+                </div>
             </DeepContentBox>
         );
     }

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import List  from 'material-ui/List';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import { yellow500 } from 'material-ui/styles/colors';
@@ -84,7 +83,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
         }
         return (
             <DeepContentBox style={style}>
-                <List>
+                <div>
                     <div>
                         <ButtonSelect
                             selected={movment}
@@ -98,7 +97,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
                         <NumberInputField label="Distance (mm)" value={distance} onValue={onDistanceChange} />
                     </div>
                     <div>{movmentActionButton}</div>
-                </List>
+                </div>
             </DeepContentBox>
         );
     }

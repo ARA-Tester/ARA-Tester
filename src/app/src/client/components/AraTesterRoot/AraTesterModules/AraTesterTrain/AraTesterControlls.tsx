@@ -6,7 +6,6 @@ import AraTesterControllsState from './../../../../../share/AraTesterAxisDistanc
 import MovmentIcon from 'material-ui/svg-icons/action/open-with';
 import { ButtonSelect, SelectableButton, SelectHandler } from './../../../ButtonSelect/ButtonSelect';
 import RaisedButton from 'material-ui/RaisedButton';
-import List from 'material-ui/List';
 
 const { div } = React.DOM;
 
@@ -33,7 +32,7 @@ export default class AraTesterControlls extends React.Component<StyleProp, AraTe
         const { distance } = this.state;
         return (
             <DeepContentBox style={this.props.style}>
-               <List>
+               <div>
                     <div>
                         <ButtonSelect
                             selected={String(distance)}
@@ -60,7 +59,7 @@ export default class AraTesterControlls extends React.Component<StyleProp, AraTe
                         <AraTesterAutoMovmentButton axisId={0} movment="backward" distance={distance} style={movmentButtonStyle} />
                         <AraTesterAutoMovmentButton axisId={0} movment="rotate right" distance={distance} style={movmentButtonStyle} />
                     </div>
-                </List>
+                </div>
             </DeepContentBox>
         );
     }

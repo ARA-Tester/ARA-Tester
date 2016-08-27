@@ -2,7 +2,6 @@ import * as React from 'react';
 import StyleProp from './../../../StyleProp';
 import DeepContentBox from './../../../DeepContentBox';
 import Divider from 'material-ui/Divider';
-import List from 'material-ui/List';
 import AraTesterAxisCurrentPosition from './../../AraTesterAxisCurrentPosition';
 
 const { div } = React.DOM;
@@ -15,7 +14,7 @@ export default class AraTesterPositions extends React.Component<StyleProp, void>
     public render(): JSX.Element {
         return (
             <DeepContentBox style={this.props.style}>
-                <List>
+                <div>
                     <div>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </div>
@@ -31,7 +30,7 @@ export default class AraTesterPositions extends React.Component<StyleProp, void>
                     <div>
                         <AraTesterAxisCurrentPosition axisId={0} axisName="X" />
                     </div>
-                </List>
+                </div>
             </DeepContentBox>
         );
     }
