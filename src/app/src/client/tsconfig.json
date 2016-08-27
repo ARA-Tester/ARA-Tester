@@ -8,7 +8,6 @@
     },
     "files": [
         "typings.d.ts",
-        "components/TextInput.tsx",
         "components/OnScreenKeyboard.tsx",
         "components/NumberInputField.tsx",
         "components/Center.ts",
@@ -20,8 +19,7 @@
         "components/MovmentButton.tsx",
         "components/ButtonSelect/SelectableButton.tsx",
         "components/ButtonSelect/ButtonSelect.tsx",
-        "components/LinearStepper/LinearStep.tsx",
-        "components/LinearStepper/LinearStepper.tsx",
+        "components/LinearStepper.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterConfig.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterMovment.tsx",
         "components/AraTesterRoot/AraTesterConfigWrapper/AraTesterConfigWrapper.tsx",
