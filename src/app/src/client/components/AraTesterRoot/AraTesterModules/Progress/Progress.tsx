@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LinearStepper, LinearStep, RequestStepTransitionHandler,  }  from './../LinearStepper/LinearStepper';
+import { LinearStepper, RequestStepTransitionHandler,  }  from './../LinearStepper';
 import { TextInputField, TextInputFieldValueHandler } from './../TextInputField/TextInputField';
 import { Slots, SlotSelectionHandler, AraSizeStyle } from './../Slots/Slots';
 import { AraSlot, AraSlotIdentifier } from './../Slots/AraSlot';
@@ -11,7 +11,6 @@ const { div } = React.DOM;
 
 interface ProgressState {
     stepIndex?: number;
-    completed?: boolean;
     slots?: AraSlots;
     name?: string;
     newSlot?: AraSlotIdentifier;
@@ -52,7 +51,6 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _onResponse: ResponseHandler;
     private _onRemoveModule: RemoveModuleHandler;
     private _onRequestStepTransition: RequestStepTransitionHandler;
-    private _renderStepContent: (step: number) => JSX.Element;
 
     private _addSlot(identifier: AraSlotIdentifier): void {
         const slots: AraSlots = [...this.state.slots, AraSlotService.createModuleAraSlot(identifier)];
@@ -96,8 +94,7 @@ export default class Progress extends React.Component<void, ProgressState> {
         const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
         let actions: Array<JSX.Element>;
         switch (step) {
-            case 0: return <TextInputField id="ivo" value={name} onValue={_onName} />;
-            case 1: return  (
+            case 0: return  (
                 <div>
                     <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
                         <div style={{float: 'left'}}>
@@ -110,7 +107,14 @@ export default class Progress extends React.Component<void, ProgressState> {
                     <AttachedModuleToSlot slot={newSlot} onResponse={_onResponse} mergedOption={mergedOption} />
                 </div>
             );
-            case 2: return <div>Step 3?</div>;
+            default: return <TextInputField id="ivo" value={name} onValue={_onName} />;
+        }
+    }
+
+    private _isNextStepTransitionAllowed(): boolean {
+        switch(this.state.stepIndex) {
+            case 0: return this.state.slots.length > 0;
+            default: return false;
         }
     }
 
@@ -118,7 +122,6 @@ export default class Progress extends React.Component<void, ProgressState> {
         super(props);
         this.state = {
             stepIndex: 0,
-            completed: true,
             slots: [],
             name: '',
             newSlot: undefined
@@ -128,22 +131,23 @@ export default class Progress extends React.Component<void, ProgressState> {
         this._onResponse = this._handleResponse.bind(this);
         this._onRemoveModule = this._handleRemoveModule.bind(this);
         this._onRequestStepTransition = this._handleRequestStepTransition.bind(this);
-        this._renderStepContent = this._getStepContent.bind(this);
     }
 
     public render(): JSX.Element {
-        const { state, _renderStepContent, _onRequestStepTransition } = this; 
-        const { stepIndex, completed } = state;
+        const { state, _onRequestStepTransition } = this; 
+        const { stepIndex, slots } = state;
+        let stepLabels: Array<string> = ['Modules selection'];
+        slots.forEach((slot: AraSlot, index: number): void => {
+            stepLabels.push(`Module ${index + 1} training`);
+        });
         return (
             <LinearStepper
+                stepLabels={stepLabels}
                 activeStep={stepIndex}
-                stepCompleted={completed}
-                stepContent={_renderStepContent(stepIndex)}
-                onRequestStepTransition={_onRequestStepTransition} >
-                    <LinearStep label="Step 1" />
-                    <LinearStep label="Step 2" />
-                    <LinearStep label="Step 3" />
-            </LinearStepper>
+                stepCompleted={this._isNextStepTransitionAllowed()}
+                stepContent={this._getStepContent(stepIndex)}
+                onRequestStepTransition={_onRequestStepTransition}
+            />
         )
     }
 }

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Stepper, Step, StepLabel } from 'material-ui/Stepper';
-import { LinearStepProps, LinearStep } from './LinearStep';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -8,16 +7,12 @@ const { div } = React.DOM;
 
 export type RequestStepTransitionHandler = (from: number, to: number) => void;
 
-export type LinearStepperChild = React.ReactElement<LinearStepProps>;
-
-export type LinearStepperChildren = Array<LinearStepperChild>;
-
 export interface LinearStepperProps {
+    stepLabels: Array<string>;
     activeStep: number;
     stepContent: React.ReactNode;
     stepCompleted: boolean;
     onRequestStepTransition: RequestStepTransitionHandler;
-    children?: LinearStepperChildren;
 }
 
 export class LinearStepper extends React.Component<LinearStepperProps, void> {
@@ -52,13 +47,12 @@ export class LinearStepper extends React.Component<LinearStepperProps, void> {
 
     public render(): JSX.Element {
         const { props, _requestBack, _requestNext } = this;
-        const { activeStep, stepContent, stepCompleted, onRequestStepTransition, children } = props;
-        const childrens: LinearStepperChildren = React.Children.toArray(children) as LinearStepperChildren;
-        const { length } = childrens;
-        const steps: Array<React.ReactNode> = children.map((child: LinearStepperChild, index: number): React.ReactNode => {
+        const { activeStep, stepContent, stepCompleted, onRequestStepTransition, stepLabels } = props;
+        const { length } = stepLabels;
+        const steps: Array<React.ReactNode> = stepLabels.map((label: string, index: number): React.ReactNode => {
              return (
                 <Step key={index}>
-                    <StepLabel>{child.props.label}</StepLabel>
+                    <StepLabel>{label}</StepLabel>
                 </Step>
             );
         });
@@ -91,7 +85,5 @@ export class LinearStepper extends React.Component<LinearStepperProps, void> {
         );
     }
 }
-
-export { LinearStep };
 
 export default LinearStepper;

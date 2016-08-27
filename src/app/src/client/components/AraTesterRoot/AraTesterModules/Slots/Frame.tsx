@@ -11,6 +11,8 @@ const DownHeight: number = SlotSize * 2;
 
 export const FrameColor: string = pinkA400;
 
+export const FrameOrnamentColor: string = red700;
+
 export type FramePart = 'up' | 'down';
 
 export interface FrameProps {
@@ -18,13 +20,12 @@ export interface FrameProps {
 }
 
 export class Frame extends React.Component<FrameProps, void> {
-    public static frameColor: string = FrameColor;
     public static upHeight: number = UpHeight;
     public static downHeight: number = DownHeight;
 
     private static _renderFrame(icon: JSX.Element, size: number, height: number): JSX.Element {
-        const sizedIcon: JSX.Element = React.cloneElement(icon, { style: { width: size, height: size }, color: red700 });
-        return <RaisedButton icon={sizedIcon} disabled fullWidth style={{ height: height }} disabledBackgroundColor={pinkA400} />;
+        const sizedIcon: JSX.Element = React.cloneElement(icon, { style: { width: size, height: size }, color: FrameOrnamentColor });
+        return <RaisedButton icon={sizedIcon} disabled fullWidth style={{ height: height }} disabledBackgroundColor={FrameColor} />;
     }
 
     public constructor(props: FrameProps) {

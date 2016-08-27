@@ -53,14 +53,14 @@ export class AttachedModuleToSlot extends React.Component<AttachedModuleToSlotPr
                 this._renderActionButton(<RaisedButton label="Yes, single module" />, this._respondWithSingle)
             ];
             if(mergedOption) {
-               actions.push(this._renderActionButton(<RaisedButton label="Yes, merged module" />, this._respondeWithMerged));
+               actions.push(this._renderActionButton(<RaisedButton label="Yes, double module" />, this._respondeWithMerged));
             }
         }
         return (
             <Dialog
                 modal
                 open={open}
-                title="Is module atached to this slot?"
+                title="Is module going to be tested?"
                 actions={actions}
             />
         );

@@ -8,13 +8,13 @@ import Slot from './../Slots/Slot';
 import { AraSizeStyle } from './../Slots/Slots';
 import { FrameColor } from './../Slots/Frame';
 import { AraSlot } from './../Slots/AraSlot';
-import { AraSlots } from './../Slots/AraSlotService';
+import { AraSlots, AraSlotService } from './../Slots/AraSlotService';
 
 const CroosSize: number = Slot.horizontalType.height / 2;
 
 const CroosStyle: React.CSSProperties = { height: CroosSize, width: CroosSize };
 
-const ListStyle: React.CSSProperties = Object.assign({ padding: 0 }, AraSizeStyle);
+const ListStyle: React.CSSProperties = Object.assign({ paddingTop: 0 }, AraSizeStyle);
 
 const ListItemStyle: React.CSSProperties = { height: AraSizeStyle.height / 6 };
 
@@ -51,15 +51,25 @@ export class Modules extends React.Component<ModulesProps, void> {
         modules.forEach((slot: AraSlot, index: number) => {
             const module: number = index + 1;
             const indexedSlot: AraSlot = Object.assign({}, slot, { index: index });
+            const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
+            const rightIconButton: JSX.Element = (
+                <IconButton
+                    touch
+                    onClick={_removeModuleFunctionFactory(index)}
+                    iconStyle={CroosStyle}
+                    tooltip="do not test"
+                    tooltipPosition="top-center">
+                        <Cross color={FrameColor} />
+                </IconButton>
+            );
             items.push(
                 <ListItem
                     key={index}
                     style={ListItemStyle}
                     leftIcon={Slot.getSlotIcon(indexedSlot)}
-                    rightIconButton={<IconButton onClick={_removeModuleFunctionFactory(index)} iconStyle={CroosStyle}>
-                        <Cross color={FrameColor} />
-                    </IconButton>}
+                    rightIconButton={rightIconButton}
                     primaryText={`Module ${module}`}
+                    secondaryText={moduleType}
                 />
             );
             items.push(<Divider key={index + length}/>);

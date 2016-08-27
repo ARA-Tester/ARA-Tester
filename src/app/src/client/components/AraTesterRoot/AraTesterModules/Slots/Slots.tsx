@@ -2,7 +2,7 @@ import * as React from 'react';
 import SlotSize from './SlotSize';
 import Paper from 'material-ui/Paper';
 import { Slot, SlotSelectionHandler } from './Slot';
-import { Frame, FramePart } from './Frame';
+import { Frame, FramePart, FrameOrnamentColor } from './Frame';
 import { AraSlots, AraSlotService } from './AraSlotService';
 import { AraSlotIdentifier, AraSlot } from './AraSlot';
 
@@ -14,7 +14,9 @@ export const Width: number = Slot.verticalType.minWidth + Slot.horizontalType.mi
 
 export const Height: number = (Slot.mergedType.height * 2) + TotalMargin + Frame.upHeight + Frame.downHeight;
 
-const positionRight: React.CSSProperties = { float:Slot.mergedType.float };
+const PositionRight: React.CSSProperties = { float:Slot.mergedType.float };
+
+const FrameOutline: React.CSSProperties = { backgroundColor: FrameOrnamentColor };
 
 export const AraSizeStyle: React.CSSProperties = { width: Width, height: Height };
 
@@ -60,7 +62,7 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
             return this._renderSlot(mergedSlot, mergedIdentifier);
         } else {
             return (
-                <span style={positionRight}>
+                <span style={PositionRight}>
                     <div>
                         {this._renderNoneMergedSlot(`horizontal${upHorizontal}` as AraSlotIdentifier)}
                     </div>
@@ -91,7 +93,7 @@ export class Slots extends React.PureComponent<SlotsProps, void> {
     public render(): JSX.Element {
         return (
             <Paper zDepth={5} style={AraSizeStyle}>
-                <div>
+                <div style={FrameOutline}>
                     {this._renderFrame('up')}
                     {this._renderSlotGroup(1, 1)}
                     {this._renderSlotGroup(2, 3)}
