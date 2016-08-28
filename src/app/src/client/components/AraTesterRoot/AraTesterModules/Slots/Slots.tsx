@@ -2,7 +2,7 @@ import * as React from 'react';
 import SlotSize from './SlotSize';
 import Paper from 'material-ui/Paper';
 import { Slot, SlotSelectionHandler } from './Slot';
-import { Frame, FramePart, FrameOrnamentColor } from './Frame';
+import { Frame, FrameProps, FramePart, FrameOrnamentColor } from './Frame';
 import { AraSlots, AraSlotService } from './AraSlotService';
 import { AraSlotIdentifier, AraSlot } from './AraSlot';
 
@@ -27,81 +27,94 @@ export interface SlotsProps {
     onSlotSelection?: SlotSelectionHandler;
 }
 
-export class Slots extends React.PureComponent<SlotsProps, void> {
-    private _onSlotSelection: SlotSelectionHandler;
+function SlotsFrame(props: FrameProps): JSX.Element {
+    return (
+        <div>
+            <Frame {...props} />
+        </div>
+    );
+}
 
-    private _handleSelection(slot: AraSlotIdentifier): void {
-        const { onSlotSelection } = this.props;
-        if(onSlotSelection !== undefined) {
-            onSlotSelection(slot);
-        }
-    }
+interface NoneMergedSlotProps extends SlotsProps {
+    identifier: AraSlotIdentifier;
+}
 
-    private _renderFrame(part: FramePart): JSX.Element {
+function NoneMergedSlot(props: NoneMergedSlotProps): JSX.Element {
+    const { slots, identifier, onSlotSelection } = props;
+    const araSlot: AraSlot = AraSlotService.getSlotBaseForIdentifier(slots, identifier);
+    return <Slot {...araSlot} onSlotSelection={onSlotSelection} />;
+}
+
+interface NoneVerticalSlotProps extends SlotsProps {
+    merged: number;
+    upperHorizontal: number;
+}
+
+function NoneVertcalSlots(props: NoneVerticalSlotProps): JSX.Element {
+    const { slots, merged, upperHorizontal, onSlotSelection } = props;
+    const mergedIdentifier: AraSlotIdentifier = `merged${merged}` as AraSlotIdentifier;
+    const mergedSlot: AraSlot = AraSlotService.findSlotByIdentifier(slots, mergedIdentifier);
+    if(AraSlotService.isSlot(mergedSlot)) {
+        return <Slot {...mergedSlot} onSlotSelection={onSlotSelection} />;
+    } else {
         return (
-            <div>
-                <Frame part={part} />
-            </div>
-        );
-    }
-
-    private _renderSlot(araSlot: AraSlot, identifier: AraSlotIdentifier): JSX.Element {
-        return <Slot {...araSlot} onSlotSelection={this._onSlotSelection} />;
-    }
-
-    private _renderNoneMergedSlot(identifier: AraSlotIdentifier): JSX.Element {
-        const araSlot: AraSlot = AraSlotService.getSlotBaseForIdentifier(this.props.slots, identifier);
-        return this._renderSlot(araSlot, identifier);
-    }
-
-    private _renderNoneVerticalSlots(merged: number, upHorizontal: number): JSX.Element {
-        const { slots } = this.props;
-        const mergedIdentifier: AraSlotIdentifier = `merged${merged}` as AraSlotIdentifier;
-        const mergedSlot: AraSlot = AraSlotService.findSlotByIdentifier(slots, mergedIdentifier);
-        if(AraSlotService.isSlot(mergedSlot)) {
-            return this._renderSlot(mergedSlot, mergedIdentifier);
-        } else {
-            return (
-                <span style={PositionRight}>
-                    <div>
-                        {this._renderNoneMergedSlot(`horizontal${upHorizontal}` as AraSlotIdentifier)}
-                    </div>
-                    <div>
-                        {this._renderNoneMergedSlot(`horizontal${upHorizontal + 1}` as AraSlotIdentifier)}
-                    </div>
-                </span>
-            )
-        }
-    }
-
-    private _renderSlotGroup(vertical: number, horizontal: number): JSX.Element {
-        return (
-            <div>
-                <span>
-                    {this._renderNoneMergedSlot(`vertical${vertical}` as AraSlotIdentifier)}
-                    {this._renderNoneVerticalSlots(vertical, horizontal)}
-                </span>
-            </div>
-        )
-    }
-
-    public constructor(props: SlotsProps) {
-        super(props);
-        this._onSlotSelection = this._handleSelection.bind(this);
-    }
-
-    public render(): JSX.Element {
-        return (
-            <Paper zDepth={5} style={AraSizeStyle}>
-                <div style={FrameOutline}>
-                    {this._renderFrame('up')}
-                    {this._renderSlotGroup(1, 1)}
-                    {this._renderSlotGroup(2, 3)}
-                    {this._renderFrame('down')}
+            <span style={PositionRight}>
+                <div>
+                    <NoneMergedSlot
+                        slots={slots}
+                        onSlotSelection={onSlotSelection}
+                        identifier={`horizontal${upperHorizontal}` as AraSlotIdentifier}
+                    />
                 </div>
-            </Paper>
+                <div>
+                    <NoneMergedSlot
+                        slots={slots}
+                        onSlotSelection={onSlotSelection}
+                        identifier={`horizontal${upperHorizontal + 1}` as AraSlotIdentifier}
+                    />
+                </div>
+            </span>
         );
     }
+}
+
+interface SlotsGroupProps extends SlotsProps {
+    vertical: number;
+    horizontal: number;
+}
+
+function SlotsGroup(props: SlotsGroupProps): JSX.Element {
+    const { slots, onSlotSelection, vertical, horizontal } = props;
+    return (
+        <div>
+            <span>
+                <NoneMergedSlot
+                    slots={slots}
+                    onSlotSelection={onSlotSelection}
+                    identifier={`vertical${vertical}` as AraSlotIdentifier}
+                />
+                <NoneVertcalSlots
+                    slots={slots}
+                    onSlotSelection={onSlotSelection}
+                    merged={vertical}
+                    upperHorizontal={horizontal}
+                />
+            </span>
+        </div>
+    );
+}
+
+export function Slots(props: SlotsProps): JSX.Element {
+    return (
+        <Paper zDepth={5} style={AraSizeStyle}>
+            <div style={FrameOutline}>
+                <SlotsFrame part="up" />
+                <SlotsGroup {...props} vertical={1} horizontal={1} />
+                <SlotsGroup {...props} vertical={2} horizontal={3} />
+                <SlotsFrame part="down" />
+            </div>
+        </Paper>
+    );
 }
 
 export default Slots;

@@ -44,7 +44,7 @@ const SlotIcons: Array<React.ComponentClass<any>> = [
 export type SlotSelectionHandler = (identifier: AraSlotIdentifier ) => void;
 
 export interface SlotProps extends AraSlot {
-    onSlotSelection: SlotSelectionHandler;
+    onSlotSelection?: SlotSelectionHandler;
 }
 
 export class Slot extends React.Component<SlotProps, void> {
@@ -101,10 +101,11 @@ export class Slot extends React.Component<SlotProps, void> {
     }
 
     public render(): JSX.Element {
+        const { onSlotSelection } = this.props;
         const type: SlotType = AraSlotService.resolveTypeFromIdentifier(this.props.identifier);
         return (
             <RaisedButton
-                onClick={this._onClick}
+                onClick={onSlotSelection ? this._onClick : undefined}
                 backgroundColor={this._getStatusColor()}
                 icon={Slot.getSlotIcon(this.props)}
                 style={Slot._getStyles(type)}
