@@ -4,8 +4,6 @@ import { Keyboard, RequestCloseHandler, InputHandler, TextFieldElement, Keyboard
 export interface OnScreenKeyboardProps {
     layout: KeyboardLayout;
     textField: TextFieldElement;
-    open: boolean;
-    onRequestClose: RequestCloseHandler;
     onInput: InputHandler;
 }
 
@@ -19,14 +17,13 @@ export class OnScreenKeyboard extends React.Component<OnScreenKeyboardProps, voi
     }
 
     public render(): JSX.Element {
-        const { layout, textField, open, onRequestClose, onInput } = this.props;
+        const { layout, textField, onInput } = this.props;
         const { _keyboardKeyHeight, _keyboardKeyWidth, _keyboardKeySymbolSize } = OnScreenKeyboard;
         return (
             <Keyboard
+                automatic
                 layouts={[layout]}
                 textField={textField}
-                open={open}
-                onRequestClose={onRequestClose}
                 onInput={onInput}
                 keyboardKeyHeight={_keyboardKeyHeight}
                 keyboardKeyWidth={_keyboardKeyWidth}

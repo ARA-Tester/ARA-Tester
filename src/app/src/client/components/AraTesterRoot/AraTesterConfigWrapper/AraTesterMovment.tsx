@@ -94,7 +94,7 @@ export default class AraTesterMovment extends React.Component<AraTesterMovmentPr
                         </ButtonSelect>
                     </div>
                     <div>
-                        <NumberInputField label="Distance (mm)" value={distance} onValue={onDistanceChange} />
+                        <NumberInputField floatingLabelText="Distance (mm)" fieldValue={distance} onFieldValue={onDistanceChange} />
                     </div>
                     <div>{movmentActionButton}</div>
                 </div>

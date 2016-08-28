@@ -85,24 +85,24 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
         return propsChange || stateChange;
     }
 
-    public handlePulseWidthChange(value: number): void {
-        this.setState({ pulseWidth: value });
+    public handlePulseWidthChange(fieldFieldValue: number): void {
+        this.setState({ pulseWidth: fieldFieldValue });
     }
 
-    public handleTMaxChange(value: number): void {
-        this.setState({ tMax: value });
+    public handleTMaxChange(fieldFieldValue: number): void {
+        this.setState({ tMax: fieldFieldValue });
     }
 
-    public handleTMinChange(value: number): void {
-        this.setState({ tMin: value });
+    public handleTMinChange(fieldFieldValue: number): void {
+        this.setState({ tMin: fieldFieldValue });
     }
 
-    public handleTDeltaChange(value: number): void {
-        this.setState({ tDelta: value });
+    public handleTDeltaChange(fieldFieldValue: number): void {
+        this.setState({ tDelta: fieldFieldValue });
     }
 
-    public handleConfiguredChange(value: number): void {
-        this.setState({ configured: value });
+    public handleConfiguredChange(fieldFieldValue: number): void {
+        this.setState({ configured: fieldFieldValue });
     }
 
     public handleSaveClick(event: React.MouseEvent): void {;
@@ -117,19 +117,19 @@ export default class AraTesterConfig extends React.Component<AraTesterConfigProp
             <DeepContentBox style={style}>
                 <div>
                     <div>
-                        <NumberInputField label="Pulse Width (uS)" value={pulseWidth} onValue={onPulseWidthChange} />
+                        <NumberInputField floatingLabelText="Pulse Width (uS)" fieldValue={pulseWidth} onFieldValue={onPulseWidthChange} />
                     </div>
                     <div>
-                        <NumberInputField label="T max (uS)" value={tMax} onValue={onTMaxChange} />
+                        <NumberInputField floatingLabelText="T max (uS)" fieldValue={tMax} onFieldValue={onTMaxChange} />
                     </div>
                     <div>
-                        <NumberInputField label="T min (uS)" value={tMin} onValue={onTMinChange} />
+                        <NumberInputField floatingLabelText="T min (uS)" fieldValue={tMin} onFieldValue={onTMinChange} />
                     </div>
                     <div>
-                        <NumberInputField label="T delta (uS)" value={tDelta} onValue={onTDeltaChange} />
+                        <NumberInputField floatingLabelText="T delta (uS)" fieldValue={tDelta} onFieldValue={onTDeltaChange} />
                     </div>
                     <div>
-                        <NumberInputField label="Configured (uInt)" value={configured} onValue={onConfiguredChange} />
+                        <NumberInputField floatingLabelText="Configured (uInt)" fieldValue={configured} onFieldValue={onConfiguredChange} />
                     </div>
                     <div>
                         <RaisedButton
