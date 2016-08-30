@@ -30,6 +30,8 @@ const HorizontalType: React.CSSProperties = { minWidth: Size2, height: Size1 };
 
 const MergedType: React.CSSProperties = { minWidth: Size2, height: versticalHeight, float: 'right' };
 
+const IconStyle: React.CSSProperties = { width: IconSize, height: IconSize };
+
 const SlotIcons: Array<React.ComponentClass<any>> = [
     EmptySlot,
     Slot1,
@@ -49,20 +51,19 @@ export interface SlotProps extends AraSlot {
 
 export class Slot extends React.Component<SlotProps, void> {
     public static slotIcons: Array<React.ComponentClass<any>> = SlotIcons;
-    public static iconClor: string = amber500;
+    public static iconStyle: React.CSSProperties = IconStyle;
+    public static iconSize: number = IconSize;
+    public static iconColor: string = amber500;
     public static margin: number = Margin;
     public static verticalType: React.CSSProperties = VerticalType;
     public static horizontalType: React.CSSProperties = HorizontalType;
     public static mergedType: React.CSSProperties = MergedType;
     private _onClick: React.MouseEventHandler;
 
-    public static getSlotIcon(slot: AraSlot): React.ReactNode {
+    public static getSlotIcon(slot: AraSlot): JSX.Element {
         const { status, index } = slot;
         const iconIndex: number = status === 'empty' ? 0 : (status === 'selected' ? 7 : index + 1);
-        return React.createElement(Slot.slotIcons[iconIndex], {
-            style: { width: IconSize, height: IconSize },
-            color: Slot.iconClor
-        });
+        return React.createElement(Slot.slotIcons[iconIndex], { style: IconStyle, color: Slot.iconColor });
     }
 
     private static _getTypeSize(type: SlotType): React.CSSProperties {
@@ -93,7 +94,6 @@ export class Slot extends React.Component<SlotProps, void> {
             case 'selected': return blueGrey400;
         }
     }
-
 
     public constructor(props: SlotProps) {
         super(props);

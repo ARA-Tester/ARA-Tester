@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { List, ListItem } from 'material-ui/List';
+import EnhancedButton from 'material-ui/internal/EnhancedButton';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import Cross from 'material-ui/svg-icons/content/clear';
@@ -10,13 +10,25 @@ import { FrameColor } from './../Slots/Frame';
 import { AraSlot } from './../Slots/AraSlot';
 import { AraSlots, AraSlotService } from './../Slots/AraSlotService';
 
-const CroosSize: number = Slot.horizontalType.height / 2;
+const { div } = React.DOM;
 
-const CroosStyle: React.CSSProperties = { height: CroosSize, width: CroosSize };
+function floatLeftStyle(style: React.CSSProperties): React.CSSProperties {
+    return Object.assign({ float: 'left' }, style);
+}
 
-const ListStyle: React.CSSProperties = Object.assign({ paddingTop: 0 }, AraSizeStyle);
+const modulesCount: number = 6;
 
-const ListItemStyle: React.CSSProperties = { height: AraSizeStyle.height / 6 };
+const EnhancedButtonHeight: number = (AraSizeStyle.height / modulesCount) - modulesCount - 1;
+
+const EnhancedButtonStyle: React.CSSProperties = { height: EnhancedButtonHeight, width: AraSizeStyle.width };
+
+const IconStyle: React.CSSProperties = floatLeftStyle(Slot.iconStyle);
+
+const TextWidth: number = AraSizeStyle.width - Slot.iconStyle.width - EnhancedButtonHeight;
+
+const TextStyle: React.CSSProperties = floatLeftStyle({ width: TextWidth });
+
+const IconButtonStyle: React.CSSProperties = floatLeftStyle({ width: EnhancedButtonHeight, height: EnhancedButtonHeight });
 
 export type RemoveModuleHandler = (index: number) => void;
 
@@ -52,32 +64,35 @@ export class Modules extends React.Component<ModulesProps, void> {
             const module: number = index + 1;
             const indexedSlot: AraSlot = Object.assign({}, slot, { index: index });
             const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
-            const rightIconButton: JSX.Element = (
-                <IconButton
-                    touch
-                    onClick={_removeModuleFunctionFactory(index)}
-                    iconStyle={CroosStyle}
-                    tooltip="do not test"
-                    tooltipPosition="top-center">
-                        <Cross color={FrameColor} />
-                </IconButton>
-            );
             items.push(
-                <ListItem
+                <EnhancedButton
                     key={index}
-                    style={ListItemStyle}
-                    leftIcon={Slot.getSlotIcon(indexedSlot)}
-                    rightIconButton={rightIconButton}
-                    primaryText={`Module ${module}`}
-                    secondaryText={moduleType}
-                />
+                    containerElement="div"
+                    touchRippleColor={Slot.iconColor}
+                    style={EnhancedButtonStyle}>
+                        {React.cloneElement(Slot.getSlotIcon(indexedSlot), { style: IconStyle })}
+                        <div style={TextStyle}>
+                            <div>{`Module ${module}`}</div>
+                            <div>{moduleType}</div>
+                        </div>
+                        <IconButton
+                            touchRippleColor={FrameColor}
+                            touch
+                            onClick={_removeModuleFunctionFactory(index)}
+                            style={IconButtonStyle}
+                            iconStyle={Slot.iconStyle}
+                            tooltip="do not test"
+                            tooltipPosition="bottom-right">
+                                <Cross color={FrameColor} />
+                        </IconButton>
+                </EnhancedButton>
             );
-            items.push(<Divider key={index + length}/>);
+            items.push(<Divider />);
         });
         return (
-            <List style={ListStyle}>
+            <div style={AraSizeStyle}>
                {items}
-            </List>
+            </div>
         );
     }
 }

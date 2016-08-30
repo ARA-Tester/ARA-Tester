@@ -92,7 +92,6 @@ export default class Progress extends React.Component<void, ProgressState> {
         const { state, _onName, _onSlotSelection, _onResponse, _onRemoveModule } = this;
         const { name, slots, newSlot } = state;
         const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
-        let actions: Array<JSX.Element>;
         switch (step) {
             case 0: return  (
                 <div>
@@ -107,7 +106,7 @@ export default class Progress extends React.Component<void, ProgressState> {
                     <AttachedModuleToSlot slot={newSlot} onResponse={_onResponse} mergedOption={mergedOption} />
                 </div>
             );
-            default: return <TextInputField id="ivo" value={name} onValue={_onName} />;
+            default: return <TextInputField id="ivo" fieldValue={name} onFieldValue={_onName} />;
         }
     }
 
