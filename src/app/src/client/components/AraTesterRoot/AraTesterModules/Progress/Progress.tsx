@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
+import RaisedButton from 'material-ui/RaisedButton';
 import { LinearStepper, RequestStepTransitionHandler,  }  from './../LinearStepper';
 import { TextInputField, TextInputFieldValueHandler } from './../TextInputField/TextInputField';
 import { Slots, SlotSelectionHandler, AraSizeStyle } from './../Slots/Slots';
@@ -38,6 +40,16 @@ export default class Progress extends React.Component<void, ProgressState> {
         }
     }
 
+    private static _randomShuffler(): number {
+        return 0.5 - Math.random();
+    }
+
+    private static _randomTimes(moduleOrder: ModuleOrder): ModuleOrder {
+        let mutable: ModuleOrder = Object.assign({}, moduleOrder);
+        mutable.times = Math.floor(Math.random() * 9999999);
+        return mutable;
+    }
+
     private static _askForMergedOption(slots: AraSlots, identifier: AraSlotIdentifier): boolean {
         if((identifier === undefined) || (!AraSlotService.isIdentifierHorizontal(identifier))) {
             return false;
@@ -52,6 +64,7 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _onSlotSelection: SlotSelectionHandler;
     private _onResponse: ResponseHandler;
     private _onRemoveModule: RemoveModuleHandler;
+    private _onRandomModulesOrder: TouchTapEventHandler;
     private _onModuleTimesChange: ModulesOrderChangeHandler;
     private _onModulesOrderChange: ModulesOrderChangeHandler;
     private _onRequestStepTransition: RequestStepTransitionHandler;
@@ -86,6 +99,12 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _handleRemoveModule(index: number): void {
         const { slots } = this.state;
         this.setState({ slots: slots.slice(0, index).concat(slots.slice(index + 1)) });
+    }
+
+    private _handleRandomModulesOrder(event: TouchTapEvent): void {
+        let mutable: ModulesOrder = [...this.state.order];
+        let randomized: ModulesOrder = mutable.sort(Progress._randomShuffler).map(Progress._randomTimes);
+        this.setState({ order: randomized });
     }
 
     private _handleModuleTimesChange(index: number, times: number): void {
@@ -130,15 +149,20 @@ export default class Progress extends React.Component<void, ProgressState> {
                     </div>
                 );
             case 1: return  (
-                <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
-                    <div style={{float: 'left'}}>
-                        <Slots slots={slots} />
+                <div>
+                    <div>
+                        <RaisedButton primary label="Random" onTouchTap={this._onRandomModulesOrder} />
                     </div>
-                    <div style={{float: 'right'}}>
-                        <ModulesTestOrder
-                            order={order}
-                            onModuleTimesChange={this._onModuleTimesChange}
-                            onModulesOrderChange={this._onModulesOrderChange} />
+                    <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
+                        <div style={{float: 'left'}}>
+                            <Slots slots={slots} />
+                        </div>
+                        <div style={{float: 'right'}}>
+                            <ModulesTestOrder
+                                order={order}
+                                onModuleTimesChange={this._onModuleTimesChange}
+                                onModulesOrderChange={this._onModulesOrderChange} />
+                        </div>
                     </div>
                 </div>
             );
@@ -165,6 +189,7 @@ export default class Progress extends React.Component<void, ProgressState> {
         this._onSlotSelection = this._handleSlotSelection.bind(this);
         this._onResponse = this._handleResponse.bind(this);
         this._onRemoveModule = this._handleRemoveModule.bind(this);
+        this._onRandomModulesOrder = this._handleRandomModulesOrder.bind(this);
         this._onModuleTimesChange = this._handleModuleTimesChange.bind(this);
         this._onModulesOrderChange = this._handleModulesOrderChange.bind(this);
         this._onRequestStepTransition = this._handleRequestStepTransition.bind(this);

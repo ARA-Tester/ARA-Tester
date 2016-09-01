@@ -20,7 +20,7 @@ const NumberInputFieldStyle: React.CSSProperties = floatLeftStyle({ width: Numbe
 const Margin: number = (EnhancedButtonStyle.height - 48) / 2;
 
 const NumberInputStyle: React.CSSProperties = {
-    fontSize: 18,
+    fontSize: 16,
     marginTop: Margin,
     marginRight: Margin,
     backgroundColor: fullWhite
@@ -29,7 +29,7 @@ const NumberInputStyle: React.CSSProperties = {
 const NumberInputUnderlineStyle: React.CSSProperties = {
     borderColor: Slot.iconColor,
     borderBottomWidth: 3,
-    bottom: 2
+    bottom: 0
 };
 
 const OrdarableModuleStyle: React.CSSProperties = {
@@ -56,6 +56,10 @@ export interface OrdarableModuleProps {
     onModuleTimesChange: NumberInputFieldValueHandler;
 }
 
+export interface OrdarableModuleState {
+    blink: boolean;
+}
+
 export interface OrdarableModulesProps {
     order: ModulesOrder;
     onModuleTimesChange: ModulesOrderChangeHandler;
@@ -65,34 +69,66 @@ export interface ModulesTestOrderProps extends OrdarableModulesProps {
     onModulesOrderChange: ModulesOrderChangeHandler;
 }
 
-export const OrdarableModule = SortableElement((props: OrdarableModuleProps): JSX.Element => {
-    const { order, onModuleTimesChange } = props;
-    const slot: AraSlot = order;
-    const moduleIndex: number = slot.index + 1;
-    const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
-    return (
-        <EnhancedButton
-            containerElement="div"
-            disableFocusRipple
-            disableTouchRipple
-            style={OrdarableModuleStyle}>
-                {React.cloneElement(Slot.getSlotIcon(slot), { style: IconStyle })}
-                <div style={TextStyle}>
-                    <div>{`Module ${moduleIndex}`}</div>
-                    <div>{moduleType}</div>
-                </div>
-                <NumberInputField
-                    id={`times-for-${slot.index}`}
-                    fieldValue={order.times}
-                    max={9999999}
-                    onFieldValue={onModuleTimesChange}
-                    style={NumberInputFieldStyle}
-                    inputStyle={NumberInputStyle}
-                    underlineStyle={NumberInputUnderlineStyle}
-                />
-        </EnhancedButton>
-    );
-});
+export const OrdarableModule = SortableElement(
+    class extends React.Component<OrdarableModuleProps, OrdarableModuleState> {
+        private _interval: number;
+        private _blink: () => void;
+
+        private _handleBlink(): void {
+            this.setState({ blink: !this.state.blink });
+        }
+
+        public constructor(props: OrdarableModuleProps) {
+            super(props);
+            this.state = { blink: false };
+            this._interval = null;
+            this._blink = this._handleBlink.bind(this);
+        }
+
+        public componentDidMount(): void {
+            this._interval = window.setInterval(this._blink, 1000);
+        }
+
+        public componentWillUnmount(): void {
+            clearInterval(this._interval);
+        }
+
+        public render(): JSX.Element {
+            const { order, onModuleTimesChange } = this.props;
+            const slot: AraSlot = order;
+            const moduleIndex: number = slot.index + 1;
+            const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
+            let iconProps: any = { style: IconStyle, color: FrameColor };
+            let underlineStyle: React.CSSProperties = Object.assign({}, NumberInputUnderlineStyle);
+            if(this.state.blink) {
+                delete iconProps.color;
+                underlineStyle.borderColor = FrameColor;
+            }
+            return (
+                <EnhancedButton
+                    containerElement="div"
+                    disableFocusRipple
+                    disableTouchRipple
+                    style={OrdarableModuleStyle}>
+                        {React.cloneElement(Slot.getSlotIcon(slot), iconProps)}
+                        <div style={TextStyle}>
+                            <div>{`Module ${moduleIndex}`}</div>
+                            <div>{moduleType}</div>
+                        </div>
+                        <NumberInputField
+                            id={`times-for-${slot.index}`}
+                            fieldValue={order.times}
+                            max={9999999}
+                            onFieldValue={onModuleTimesChange}
+                            style={NumberInputFieldStyle}
+                            inputStyle={NumberInputStyle}
+                            underlineStyle={underlineStyle}
+                        />
+                </EnhancedButton>
+            );
+        }
+    }
+);
 
 export const OrdarableModules = SortableContainer(
     class extends React.Component<OrdarableModulesProps, void> {
