@@ -35,7 +35,6 @@ export default class Progress extends React.Component<void, ProgressState> {
         }
     }
 
-
     private static _askForMergedOption(slots: AraSlots, identifier: AraSlotIdentifier): boolean {
         if((identifier === undefined) || (!AraSlotService.isIdentifierHorizontal(identifier))) {
             return false;
@@ -106,6 +105,7 @@ export default class Progress extends React.Component<void, ProgressState> {
                     <AttachedModuleToSlot slot={newSlot} onResponse={_onResponse} mergedOption={mergedOption} />
                 </div>
             );
+            case 1: 
             default: return <TextInputField id="ivo" fieldValue={name} onFieldValue={_onName} />;
         }
     }

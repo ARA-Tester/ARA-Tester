@@ -5,28 +5,28 @@ import IconButton from 'material-ui/IconButton';
 import Cross from 'material-ui/svg-icons/content/clear';
 import Divider from 'material-ui/Divider';
 import Slot from './../Slots/Slot';
+import AraSlot from './../Slots/AraSlot';
 import { AraSizeStyle } from './../Slots/Slots';
 import { FrameColor } from './../Slots/Frame';
-import { AraSlot } from './../Slots/AraSlot';
 import { AraSlots, AraSlotService } from './../Slots/AraSlotService';
 
 const { div } = React.DOM;
 
-function floatLeftStyle(style: React.CSSProperties): React.CSSProperties {
+export function floatLeftStyle(style: React.CSSProperties): React.CSSProperties {
     return Object.assign({ float: 'left' }, style);
 }
 
 const modulesCount: number = 6;
 
-const EnhancedButtonHeight: number = (AraSizeStyle.height / modulesCount) - modulesCount - 1;
+export const EnhancedButtonHeight: number = (AraSizeStyle.height / modulesCount) - modulesCount - 1;
 
 const EnhancedButtonStyle: React.CSSProperties = { height: EnhancedButtonHeight, width: AraSizeStyle.width };
 
-const IconStyle: React.CSSProperties = floatLeftStyle(Slot.iconStyle);
+export const IconStyle: React.CSSProperties = floatLeftStyle(Slot.iconStyle);
 
 const TextWidth: number = AraSizeStyle.width - Slot.iconStyle.width - EnhancedButtonHeight;
 
-const TextStyle: React.CSSProperties = floatLeftStyle({ width: TextWidth });
+export const TextStyle: React.CSSProperties = floatLeftStyle({ width: TextWidth });
 
 const IconButtonStyle: React.CSSProperties = floatLeftStyle({ width: EnhancedButtonHeight, height: EnhancedButtonHeight });
 
@@ -41,8 +41,6 @@ export class Modules extends React.Component<ModulesProps, void> {
     private _removeModuleFunctionFactory: (index: number) => React.MouseEventHandler;
 
     private _removeModule(index: number, event: React.MouseEvent): void {
-        event.stopPropagation();
-        event.preventDefault();
         this.props.onRemoveModule(index);
     }
 
