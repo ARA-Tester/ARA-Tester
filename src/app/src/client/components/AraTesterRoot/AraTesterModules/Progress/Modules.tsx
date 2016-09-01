@@ -20,7 +20,7 @@ const modulesCount: number = 6;
 
 export const EnhancedButtonHeight: number = (AraSizeStyle.height / modulesCount) - modulesCount - 1;
 
-const EnhancedButtonStyle: React.CSSProperties = { height: EnhancedButtonHeight, width: AraSizeStyle.width };
+export const EnhancedButtonStyle: React.CSSProperties = { height: EnhancedButtonHeight, width: AraSizeStyle.width };
 
 export const IconStyle: React.CSSProperties = floatLeftStyle(Slot.iconStyle);
 
@@ -58,8 +58,8 @@ export class Modules extends React.Component<ModulesProps, void> {
         const { modules } = props;
         const { length } = modules;
         let items: Array<JSX.Element> = [];
-        modules.forEach((slot: AraSlot, index: number) => {
-            const module: number = index + 1;
+        modules.forEach((slot: AraSlot, index: number): void => {
+            const moduleIndex: number = index + 1;
             const indexedSlot: AraSlot = Object.assign({}, slot, { index: index });
             const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
             items.push(
@@ -70,7 +70,7 @@ export class Modules extends React.Component<ModulesProps, void> {
                     style={EnhancedButtonStyle}>
                         {React.cloneElement(Slot.getSlotIcon(indexedSlot), { style: IconStyle })}
                         <div style={TextStyle}>
-                            <div>{`Module ${module}`}</div>
+                            <div>{`Module ${moduleIndex}`}</div>
                             <div>{moduleType}</div>
                         </div>
                         <IconButton
@@ -85,7 +85,7 @@ export class Modules extends React.Component<ModulesProps, void> {
                         </IconButton>
                 </EnhancedButton>
             );
-            items.push(<Divider />);
+            items.push(<Divider key={index + length} />);
         });
         return (
             <div style={AraSizeStyle}>

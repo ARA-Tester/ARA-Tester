@@ -6,6 +6,8 @@ import { AraSlot, AraSlotIdentifier } from './../Slots/AraSlot';
 import { AraSlots, AraSlotService } from './../Slots/AraSlotService';
 import { AttachedModuleToSlot, AttachedModuleToSlotResponse, ResponseHandler } from './AttachedModuleToSlot';
 import { Modules, RemoveModuleHandler } from './Modules';
+import { ModulesTestOrder, ModulesOrder, ModuleOrder, ModulesOrderChangeHandler } from './ModulesTestOrder';
+import { arrayMove } from 'react-sortable-hoc';
 
 const { div } = React.DOM;
 
@@ -14,6 +16,7 @@ interface ProgressState {
     slots?: AraSlots;
     name?: string;
     newSlot?: AraSlotIdentifier;
+    order?: ModulesOrder;
 }
 
 export default class Progress extends React.Component<void, ProgressState> {
@@ -49,6 +52,8 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _onSlotSelection: SlotSelectionHandler;
     private _onResponse: ResponseHandler;
     private _onRemoveModule: RemoveModuleHandler;
+    private _onModuleTimesChange: ModulesOrderChangeHandler;
+    private _onModulesOrderChange: ModulesOrderChangeHandler;
     private _onRequestStepTransition: RequestStepTransitionHandler;
 
     private _addSlot(identifier: AraSlotIdentifier): void {
@@ -83,30 +88,61 @@ export default class Progress extends React.Component<void, ProgressState> {
         this.setState({ slots: slots.slice(0, index).concat(slots.slice(index + 1)) });
     }
 
+    private _handleModuleTimesChange(index: number, times: number): void {
+        let mutable: ModulesOrder = [...this.state.order];
+        mutable[index].times = times;
+        this.setState({ order: mutable });
+    }
+
+    private _handleModulesOrderChange(oldIndex: number, newIndex: number): void {
+        let mutable: ModulesOrder = [...this.state.order];
+        this.setState({ order: arrayMove(mutable, oldIndex, newIndex) });
+    }
+
     private _handleRequestStepTransition(from: number, to: number): void {
+        switch(to) {
+            case 1:
+                const order: ModulesOrder = this.state.slots.map((slot: AraSlot, index: number): ModuleOrder => {
+                    return Object.assign({ index: index, times: 1 }, slot);
+                })
+                this.setState({ order: order });
+                break;
+        }
         this.setState({ stepIndex: to < 3 ? to : 0 });
     }
 
     private _getStepContent(step: number): JSX.Element {
-        const { state, _onName, _onSlotSelection, _onResponse, _onRemoveModule } = this;
-        const { name, slots, newSlot } = state;
-        const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
+        const { name, slots, newSlot, order } = this.state;
         switch (step) {
-            case 0: return  (
-                <div>
-                    <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
-                        <div style={{float: 'left'}}>
-                            <Slots slots={slots} onSlotSelection={_onSlotSelection} />
+            case 0:
+                const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
+                return  (
+                    <div>
+                        <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
+                            <div style={{float: 'left'}}>
+                                <Slots slots={slots} onSlotSelection={this._onSlotSelection} />
+                            </div>
+                            <div style={{float: 'right'}}>
+                                <Modules modules={slots} onRemoveModule={this._onRemoveModule} />
+                            </div>
                         </div>
-                        <div style={{float: 'right'}}>
-                            <Modules modules={slots} onRemoveModule={_onRemoveModule} />
-                        </div>
+                        <AttachedModuleToSlot slot={newSlot} onResponse={this._onResponse} mergedOption={mergedOption} />
                     </div>
-                    <AttachedModuleToSlot slot={newSlot} onResponse={_onResponse} mergedOption={mergedOption} />
+                );
+            case 1: return  (
+                <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
+                    <div style={{float: 'left'}}>
+                        <Slots slots={slots} />
+                    </div>
+                    <div style={{float: 'right'}}>
+                        <ModulesTestOrder
+                            order={order}
+                            onModuleTimesChange={this._onModuleTimesChange}
+                            onModulesOrderChange={this._onModulesOrderChange} />
+                    </div>
                 </div>
             );
-            case 1: 
-            default: return <TextInputField id="ivo" fieldValue={name} onFieldValue={_onName} />;
+            default: return <TextInputField id="ivo" fieldValue={name} onFieldValue={this._onName} />;
         }
     }
 
@@ -129,6 +165,8 @@ export default class Progress extends React.Component<void, ProgressState> {
         this._onSlotSelection = this._handleSlotSelection.bind(this);
         this._onResponse = this._handleResponse.bind(this);
         this._onRemoveModule = this._handleRemoveModule.bind(this);
+        this._onModuleTimesChange = this._handleModuleTimesChange.bind(this);
+        this._onModulesOrderChange = this._handleModulesOrderChange.bind(this);
         this._onRequestStepTransition = this._handleRequestStepTransition.bind(this);
     }
 
