@@ -3,7 +3,6 @@ import EnhancedButton from 'material-ui/internal/EnhancedButton';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import Cross from 'material-ui/svg-icons/content/clear';
-import Divider from 'material-ui/Divider';
 import Slot from './../Slots/Slot';
 import AraSlot from './../Slots/AraSlot';
 import { AraSizeStyle } from './../Slots/Slots';
@@ -18,9 +17,13 @@ export function floatLeftStyle(style: React.CSSProperties): React.CSSProperties 
 
 const modulesCount: number = 6;
 
-export const EnhancedButtonHeight: number = (AraSizeStyle.height / modulesCount) - modulesCount - 1;
+export const EnhancedButtonHeight: number = AraSizeStyle.height / modulesCount;
 
-export const EnhancedButtonStyle: React.CSSProperties = { height: EnhancedButtonHeight, width: AraSizeStyle.width };
+export const EnhancedButtonStyle: React.CSSProperties = {
+    height: EnhancedButtonHeight,
+    width: AraSizeStyle.width,
+    display: 'block'
+};
 
 export const IconStyle: React.CSSProperties = floatLeftStyle(Slot.iconStyle);
 
@@ -57,12 +60,11 @@ export class Modules extends React.Component<ModulesProps, void> {
         const { _removeModuleFunctionFactory, props } = this;
         const { modules } = props;
         const { length } = modules;
-        let items: Array<JSX.Element> = [];
-        modules.forEach((slot: AraSlot, index: number): void => {
+        const items: Array<JSX.Element> = modules.map((slot: AraSlot, index: number): JSX.Element => {
             const moduleIndex: number = index + 1;
             const indexedSlot: AraSlot = Object.assign({}, slot, { index: index });
             const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
-            items.push(
+            return (
                 <EnhancedButton
                     key={index}
                     containerElement="div"
@@ -85,7 +87,6 @@ export class Modules extends React.Component<ModulesProps, void> {
                         </IconButton>
                 </EnhancedButton>
             );
-            items.push(<Divider key={index + length} />);
         });
         return (
             <div style={AraSizeStyle}>

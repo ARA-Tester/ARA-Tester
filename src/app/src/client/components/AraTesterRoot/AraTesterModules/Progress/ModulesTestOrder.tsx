@@ -1,28 +1,47 @@
 import * as React from 'react';
 import EnhancedButton from 'material-ui/internal/EnhancedButton';
 import Avatar from 'material-ui/Avatar';
-import Divider from 'material-ui/Divider';
 import Slot from './../Slots/Slot';
 import AraSlotService from './../Slots/AraSlotService';
 import AraSlot from './../Slots/AraSlot';
 import { AraSizeStyle } from './../Slots/Slots';
+import { FrameColor } from './../Slots/Frame';
+import { fullWhite } from 'material-ui/styles/colors';
 import { floatLeftStyle, EnhancedButtonStyle, IconStyle, TextStyle } from './Modules';
 import { SortableElement, SortableContainer, SortEndHandler, SortEnd, SortEvent } from 'react-sortable-hoc';
 import { NumberInputField, NumberInputFieldValueHandler } from './../TextInputField/NumberInputField';
 
 const { div } = React.DOM;
 
-const Margin: number = 24;
+const NumberInputWidth: number = EnhancedButtonStyle.height;
 
-const NumberInputmargin: number = 2 * Margin;
+const NumberInputFieldStyle: React.CSSProperties = floatLeftStyle({ width: NumberInputWidth });
 
-const NumberInputWidth: number = AraSizeStyle.width - NumberInputmargin;
+const Margin: number = (EnhancedButtonStyle.height - 48) / 2;
 
-const NumberInputStyle: React.CSSProperties = floatLeftStyle({
-    marginLeft: Margin,
+const NumberInputStyle: React.CSSProperties = {
+    fontSize: 18,
+    marginTop: Margin,
     marginRight: Margin,
-    width: NumberInputWidth
-});
+    backgroundColor: fullWhite
+};
+
+const NumberInputUnderlineStyle: React.CSSProperties = {
+    borderColor: Slot.iconColor,
+    borderBottomWidth: 3,
+    bottom: 2
+};
+
+const OrdarableModuleStyle: React.CSSProperties = {
+    backgroundColor: Slot.emptyColor,
+    width: EnhancedButtonStyle.width,
+    height: EnhancedButtonStyle.height - 7,
+    marginTop: 2
+}
+
+const OrdarableModulesStyle: React.CSSProperties = Object.assign({
+    backgroundColor: Slot.moduleColor
+}, AraSizeStyle);
 
 export interface ModuleOrder extends AraSlot {
     times: number;
@@ -56,12 +75,21 @@ export const OrdarableModule = SortableElement((props: OrdarableModuleProps): JS
             containerElement="div"
             disableFocusRipple
             disableTouchRipple
-            style={EnhancedButtonStyle}>
+            style={OrdarableModuleStyle}>
                 {React.cloneElement(Slot.getSlotIcon(slot), { style: IconStyle })}
                 <div style={TextStyle}>
                     <div>{`Module ${moduleIndex}`}</div>
                     <div>{moduleType}</div>
                 </div>
+                <NumberInputField
+                    id={`times-for-${slot.index}`}
+                    fieldValue={order.times}
+                    max={9999999}
+                    onFieldValue={onModuleTimesChange}
+                    style={NumberInputFieldStyle}
+                    inputStyle={NumberInputStyle}
+                    underlineStyle={NumberInputUnderlineStyle}
+                />
         </EnhancedButton>
     );
 });
@@ -82,10 +110,9 @@ export const OrdarableModules = SortableContainer(
         public render(): JSX.Element {
             const { order } = this.props;
             const { length } = order;
-            let modules: Array<JSX.Element> = [];
-            this.props.order.forEach((moduleOrder: ModuleOrder, index: number): void => {
+            const modules: Array<JSX.Element> = order.map((moduleOrder: ModuleOrder, index: number): JSX.Element => {
                 const onModuleTimesChange: NumberInputFieldValueHandler = this._moduleTimesChangeFunctionFactory(index);
-                modules.push(
+                return (
                     <OrdarableModule
                         key={index}
                         index={index}
@@ -93,10 +120,9 @@ export const OrdarableModules = SortableContainer(
                         onModuleTimesChange={onModuleTimesChange}
                     />
                 );
-                modules.push(<Divider key={index + length } />);
             });
             return (
-                <div style={AraSizeStyle}>
+                <div style={OrdarableModulesStyle}>
                     {modules}
                 </div>
             );

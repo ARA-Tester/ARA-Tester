@@ -54,6 +54,9 @@ export class Slot extends React.Component<SlotProps, void> {
     public static iconStyle: React.CSSProperties = IconStyle;
     public static iconSize: number = IconSize;
     public static iconColor: string = amber500;
+    public static emptyColor: string = grey400;
+    public static moduleColor: string = grey700;
+    public static selectedColor: string = blueGrey400;
     public static margin: number = Margin;
     public static verticalType: React.CSSProperties = VerticalType;
     public static horizontalType: React.CSSProperties = HorizontalType;
@@ -89,9 +92,9 @@ export class Slot extends React.Component<SlotProps, void> {
 
     private _getStatusColor(): string {
         switch(this.props.status) {
-            case 'empty': return grey400;
-            case 'module': return grey700;
-            case 'selected': return blueGrey400;
+            case 'empty': return Slot.emptyColor;
+            case 'module': return Slot.moduleColor;
+            case 'selected': return Slot.selectedColor;
         }
     }
 

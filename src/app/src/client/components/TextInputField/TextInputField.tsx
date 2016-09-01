@@ -1,5 +1,5 @@
 import * as React from 'react';
-import OnScreenKeyboard from './../OnScreenKeyboard';
+import OnScreenKeyboard from './OnScreenKeyboard';
 import { TextInput, TextInputProps } from './TextInput';
 import { ExtendedKeyboard, RequestCloseHandler, InputHandler, TextFieldElement } from 'react-material-ui-keyboard'
 

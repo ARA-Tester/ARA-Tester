@@ -38,7 +38,7 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, voi
         return (
             <OnScreenKeyboard
                 layout={NumericKeyboard}
-                textField={<NumberInput {...numberInputProps} value={String(fieldValue)} />}
+                textField={<NumberInput {...numberInputProps} value={String(fieldValue)} strategy="ignore" />}
                 onInput={_onInput}
             />
         )
