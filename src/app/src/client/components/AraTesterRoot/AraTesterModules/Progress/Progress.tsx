@@ -47,6 +47,8 @@ interface ProgressState {
     name?: string;
     newSlot?: AraSlotIdentifier;
     order?: ModulesOrder;
+    equalTimes?: boolean;
+    equalValue?: number;
 }
 
 export default class Progress extends React.Component<void, ProgressState> {
@@ -69,7 +71,7 @@ export default class Progress extends React.Component<void, ProgressState> {
     }
 
     private static _randomShuffler(): number {
-        return 0.5 - Math.random();
+        return Math.random() - Math.random();
     }
 
     private static _randomTimes(moduleOrder: ModuleOrder): ModuleOrder {
@@ -93,6 +95,8 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _onResponse: ResponseHandler;
     private _onRemoveModule: RemoveModuleHandler;
     private _onRandomModulesOrder: TouchTapEventHandler;
+    private _onEqualTimesToggle: (event: React.MouseEvent, toggled: boolean) => void;
+    private _onEqualValue: NumberInputFieldValueHandler;
     private _onModuleTimesChange: ModulesOrderChangeHandler;
     private _onModulesOrderChange: ModulesOrderChangeHandler;
     private _onRequestStepTransition: RequestStepTransitionHandler;
@@ -131,8 +135,27 @@ export default class Progress extends React.Component<void, ProgressState> {
 
     private _handleRandomModulesOrder(event: TouchTapEvent): void {
         let mutable: ModulesOrder = [...this.state.order];
-        let randomized: ModulesOrder = mutable.sort(Progress._randomShuffler).map(Progress._randomTimes);
+        let randomized: ModulesOrder = mutable.sort(Progress._randomShuffler);
+        if(!this.state.equalTimes) {
+             randomized = randomized.map(Progress._randomTimes);
+        }
         this.setState({ order: randomized });
+    }
+
+    private _equalizeValues(value: number): ProgressState {
+        let mutable: ModulesOrder = [...this.state.order];
+        const equaled: ModulesOrder = mutable.map((moduleOrder: ModuleOrder): ModuleOrder => {
+            return Object.assign(moduleOrder, { times: value });
+        });
+        return { order: equaled, equalValue: value };
+    }
+
+    private _handleEqualTimesToggle(event: React.MouseEvent, toggled: boolean): void {
+        this.setState(Object.assign({ equalTimes: toggled }, this._equalizeValues(1)));
+    }
+
+    private _handleEqualValue(value: number): void {
+        this.setState(this._equalizeValues(value));
     }
 
     private _handleModuleTimesChange(index: number, times: number): void {
@@ -159,7 +182,7 @@ export default class Progress extends React.Component<void, ProgressState> {
     }
 
     private _getStepContent(step: number): JSX.Element {
-        const { name, slots, newSlot, order } = this.state;
+        const { name, slots, newSlot, order, equalTimes, equalValue } = this.state;
         switch (step) {
             case 0:
                 const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
@@ -176,40 +199,50 @@ export default class Progress extends React.Component<void, ProgressState> {
                         <AttachedModuleToSlot slot={newSlot} onResponse={this._onResponse} mergedOption={mergedOption} />
                     </div>
                 );
-            case 1: return  (
-                <div>
-                    <div style={{ width: ContainerWidth, margin: 'auto' }}>
-                        <div>
-                            <div style={CenterRaisedButtonStyle}>
-                                <RaisedButton
-                                    primary
-                                    label="Random"
-                                    style={RaisedButtonStyle}
-                                    onTouchTap={this._onRandomModulesOrder} />
-                            </div>
+            case 1:
+                let numberInputField: JSX.Element;
+                if(equalTimes) {
+                    numberInputField = (
+                        <NumberInputField
+                            fieldValue={equalValue}
+                            onFieldValue={this._onEqualValue}
+                            id="equal-times-input"
+                            style={NumberInputFieldStyle} />
+                    );
+                }
+                return  (
+                    <div>
+                        <div style={{ width: ContainerWidth, margin: 'auto' }}>
                             <div>
-                                <Toggle
-                                    label="Test all modules equal times"
-                                    labelPosition="right"
-                                    style={ToggleStyle} />
-                                <NumberInputField
-                                    fieldValue={23}
-                                    onFieldValue={() => {}}
-                                    id="equal-times-input"
-                                    style={NumberInputFieldStyle} />
+                                <div style={CenterRaisedButtonStyle}>
+                                    <RaisedButton
+                                        primary
+                                        label="Random"
+                                        style={RaisedButtonStyle}
+                                        onTouchTap={this._onRandomModulesOrder} />
+                                </div>
+                                <div>
+                                    <Toggle
+                                        label="Test all modules equal times"
+                                        labelPosition="right"
+                                        onToggle={this._onEqualTimesToggle}
+                                        toggled={equalTimes}
+                                        style={ToggleStyle} />
+                                    {numberInputField}
+                                </div>
                             </div>
-                        </div>
-                        <div style={{float: 'left'}}>
-                            <Slots slots={slots} />
-                        </div>
-                        <div style={{float: 'right'}}>
-                            <ModulesTestOrder
-                                order={order}
-                                onModuleTimesChange={this._onModuleTimesChange}
-                                onModulesOrderChange={this._onModulesOrderChange} />
+                            <div style={{float: 'left'}}>
+                                <Slots slots={slots} />
+                            </div>
+                            <div style={{float: 'right'}}>
+                                <ModulesTestOrder
+                                    order={order}
+                                    disabledInputs={equalTimes}
+                                    onModuleTimesChange={this._onModuleTimesChange}
+                                    onModulesOrderChange={this._onModulesOrderChange} />
+                            </div>
                         </div>
                     </div>
-                </div>
             );
             default: return <TextInputField id="ivo" fieldValue={name} onFieldValue={this._onName} />;
         }
@@ -228,13 +261,16 @@ export default class Progress extends React.Component<void, ProgressState> {
             stepIndex: 0,
             slots: [],
             name: '',
-            newSlot: undefined
-         };
+            newSlot: undefined,
+            equalTimes: false
+        };
         this._onName = this._handleName.bind(this);
         this._onSlotSelection = this._handleSlotSelection.bind(this);
         this._onResponse = this._handleResponse.bind(this);
         this._onRemoveModule = this._handleRemoveModule.bind(this);
         this._onRandomModulesOrder = this._handleRandomModulesOrder.bind(this);
+        this._onEqualTimesToggle = this._handleEqualTimesToggle.bind(this);
+        this._onEqualValue = this._handleEqualValue.bind(this);
         this._onModuleTimesChange = this._handleModuleTimesChange.bind(this);
         this._onModulesOrderChange = this._handleModulesOrderChange.bind(this);
         this._onRequestStepTransition = this._handleRequestStepTransition.bind(this);

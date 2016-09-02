@@ -33,8 +33,7 @@ const NumberInputStyle: React.CSSProperties = {
 
 const NumberInputUnderlineStyle: React.CSSProperties = {
     borderColor: Slot.iconColor,
-    borderBottomWidth: 3,
-    bottom: 0
+    bottom: 1
 };
 
 const OrdarableModuleStyle: React.CSSProperties = {
@@ -61,11 +60,13 @@ export interface ModulesTestOrdereState {
 }
 
 export interface OrdarableModuleProps extends ModulesTestOrdereState {
+    disabledInput: boolean;
     order: ModuleOrder;
     onModuleTimesChange: NumberInputFieldValueHandler;
 }
 
 export interface OrdablesBaseProps {
+    disabledInputs: boolean;
     order: ModulesOrder;
     onModuleTimesChange: ModulesOrderChangeHandler;
 }
@@ -86,7 +87,7 @@ export const OrdarableModule = SortableElement(
         }
 
         public render(): JSX.Element {
-            const { order, onModuleTimesChange, blink } = this.props;
+            const { order, onModuleTimesChange, blink, disabledInput } = this.props;
             const slot: AraSlot = order;
             const moduleIndex: number = slot.index + 1;
             const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
@@ -110,6 +111,7 @@ export const OrdarableModule = SortableElement(
                         </div>
                         <NumberInputField
                             id={`times-for-${slot.index}`}
+                            disabled={disabledInput}
                             fieldValue={order.times}
                             max={9999999}
                             onFieldValue={onModuleTimesChange}
@@ -137,7 +139,7 @@ export const OrdarableModules = SortableContainer(
         }
 
         public render(): JSX.Element {
-            const { order, blink } = this.props;
+            const { order, blink, disabledInputs } = this.props;
             const { length } = order;
             const modules: Array<JSX.Element> = order.map((moduleOrder: ModuleOrder, index: number): JSX.Element => {
                 const onModuleTimesChange: NumberInputFieldValueHandler = this._moduleTimesChangeFunctionFactory(index);
@@ -146,6 +148,7 @@ export const OrdarableModules = SortableContainer(
                         key={index}
                         index={index}
                         blink={blink}
+                        disabledInput={disabledInputs}
                         order={moduleOrder}
                         onModuleTimesChange={onModuleTimesChange}
                     />
@@ -209,11 +212,12 @@ export class ModulesTestOrder extends React.Component<ModulesTestOrderProps, Mod
 
     public render(): JSX.Element {
         const { props, state, _onSortStart, _onSortEnd } = this;
-        const { order, onModuleTimesChange } = props;
+        const { order, onModuleTimesChange, disabledInputs } = props;
         return (
             <OrdarableModules
                 order={order}
                 blink={state.blink}
+                disabledInputs={disabledInputs}
                 onSortStart={_onSortStart}
                 onSortEnd={_onSortEnd}
                 onModuleTimesChange={onModuleTimesChange}
