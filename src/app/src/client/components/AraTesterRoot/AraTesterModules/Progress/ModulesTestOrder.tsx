@@ -15,9 +15,14 @@ const { div } = React.DOM;
 
 const NumberInputWidth: number = EnhancedButtonStyle.height;
 
-const NumberInputFieldStyle: React.CSSProperties = floatLeftStyle({ width: NumberInputWidth });
+const NumberInputHeight: number = 48;
 
-const Margin: number = (EnhancedButtonStyle.height - 48) / 2;
+const NumberInputFieldStyle: React.CSSProperties = floatLeftStyle({
+    width: NumberInputWidth,
+    height: NumberInputHeight
+});
+
+const Margin: number = (EnhancedButtonStyle.height - NumberInputHeight) / 2;
 
 const NumberInputStyle: React.CSSProperties = {
     fontSize: 16,

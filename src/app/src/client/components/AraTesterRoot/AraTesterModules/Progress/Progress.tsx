@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import Checkbox from 'material-ui/Checkbox';
+import Toggle from 'material-ui/Toggle';
 import { NumberInputField, NumberInputFieldValueHandler } from './../TextInputField/NumberInputField';
 import { LinearStepper, RequestStepTransitionHandler }  from './../LinearStepper';
 import { TextInputField, TextInputFieldValueHandler } from './../TextInputField/TextInputField';
@@ -15,15 +15,31 @@ import { arrayMove } from 'react-sortable-hoc';
 
 const { div } = React.DOM;
 
+const RaisedButtonWidth: number = 90;
+
+const RaisedButtonStyle: React.CSSProperties = { minWidth: RaisedButtonWidth, width: RaisedButtonWidth };
+
+const CenterRaisedButtonStyle: React.CSSProperties = { margin: 'auto', width: RaisedButtonWidth };
+
 const ContainerWidth: number = AraSizeStyle.width * 2;
 
-const CheckboxWidth: number = ContainerWidth * (2 / 3);
+const ToggleWidth: number = ContainerWidth * (2 / 3);
 
-const NumberInputFieldWidth: number = ContainerWidth - CheckboxWidth
+const NumberInputFieldWidth: number = ContainerWidth - ToggleWidth
 
-const CheckboxStyle: React.CSSProperties = { width: CheckboxWidth };
+const equalityHeight: number = 30;
 
-const NumberInputFieldStyle: React.CSSProperties = { width: NumberInputFieldWidth };
+const ToggleStyle: React.CSSProperties = {
+    width: ToggleWidth,
+    height: equalityHeight,
+    float: 'left'
+};
+
+const NumberInputFieldStyle: React.CSSProperties = {
+    width: NumberInputFieldWidth,
+    height: equalityHeight,
+    float: 'right'
+};
 
 interface ProgressState {
     stepIndex?: number;
@@ -164,14 +180,24 @@ export default class Progress extends React.Component<void, ProgressState> {
                 <div>
                     <div style={{ width: ContainerWidth, margin: 'auto' }}>
                         <div>
-                            <RaisedButton primary label="Random" onTouchTap={this._onRandomModulesOrder} />
-                            <Checkbox label="Test all modules equal times" style={CheckboxStyle}/>
-                            <NumberInputField
-                                fieldValue={23}
-                                onFieldValue={() => {}}
-                                id="equal-times-input"
-                                style={NumberInputFieldStyle}
-                            />
+                            <div style={CenterRaisedButtonStyle}>
+                                <RaisedButton
+                                    primary
+                                    label="Random"
+                                    style={RaisedButtonStyle}
+                                    onTouchTap={this._onRandomModulesOrder} />
+                            </div>
+                            <div>
+                                <Toggle
+                                    label="Test all modules equal times"
+                                    labelPosition="right"
+                                    style={ToggleStyle} />
+                                <NumberInputField
+                                    fieldValue={23}
+                                    onFieldValue={() => {}}
+                                    id="equal-times-input"
+                                    style={NumberInputFieldStyle} />
+                            </div>
                         </div>
                         <div style={{float: 'left'}}>
                             <Slots slots={slots} />
@@ -180,8 +206,7 @@ export default class Progress extends React.Component<void, ProgressState> {
                             <ModulesTestOrder
                                 order={order}
                                 onModuleTimesChange={this._onModuleTimesChange}
-                                onModulesOrderChange={this._onModulesOrderChange}
-                            />
+                                onModulesOrderChange={this._onModulesOrderChange} />
                         </div>
                     </div>
                 </div>
