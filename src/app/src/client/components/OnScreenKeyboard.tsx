@@ -5,6 +5,8 @@ export interface OnScreenKeyboardProps {
     layout: KeyboardLayout;
     textField: TextFieldElement;
     onInput: InputHandler;
+    correctorName?: string;
+    corrector?: Function;
 }
 
 export class OnScreenKeyboard extends React.Component<OnScreenKeyboardProps, void> {
@@ -17,7 +19,7 @@ export class OnScreenKeyboard extends React.Component<OnScreenKeyboardProps, voi
     }
 
     public render(): JSX.Element {
-        const { layout, textField, onInput } = this.props;
+        const { layout, textField, onInput, correctorName, corrector } = this.props;
         const { _keyboardKeyHeight, _keyboardKeyWidth, _keyboardKeySymbolSize } = OnScreenKeyboard;
         return (
             <Keyboard
@@ -25,6 +27,8 @@ export class OnScreenKeyboard extends React.Component<OnScreenKeyboardProps, voi
                 layouts={[layout]}
                 textField={textField}
                 onInput={onInput}
+                correctorName={correctorName}
+                corrector={corrector}
                 keyboardKeyHeight={_keyboardKeyHeight}
                 keyboardKeyWidth={_keyboardKeyWidth}
                 keyboardKeySymbolSize={_keyboardKeySymbolSize}
