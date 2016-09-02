@@ -8,7 +8,7 @@ import { AraSizeStyle } from './../Slots/Slots';
 import { FrameColor } from './../Slots/Frame';
 import { fullWhite } from 'material-ui/styles/colors';
 import { floatLeftStyle, EnhancedButtonStyle, IconStyle, TextStyle } from './Modules';
-import { SortableElement, SortableContainer, SortEndHandler, SortEnd, SortEvent } from 'react-sortable-hoc';
+import { SortableElement, SortableContainer, SortEndHandler, SortEnd, SortStartHandler, SortStart, SortEvent } from 'react-sortable-hoc';
 import { NumberInputField, NumberInputFieldValueHandler } from './../TextInputField/NumberInputField';
 
 const { div } = React.DOM;
@@ -51,57 +51,45 @@ export type ModulesOrder = Array<ModuleOrder>;
 
 export type ModulesOrderChangeHandler = (index: number, times: number) => void;
 
-export interface OrdarableModuleProps {
+export interface ModulesTestOrdereState {
+    blink: boolean;
+}
+
+export interface OrdarableModuleProps extends ModulesTestOrdereState {
     order: ModuleOrder;
     onModuleTimesChange: NumberInputFieldValueHandler;
 }
 
-export interface OrdarableModuleState {
-    blink: boolean;
-}
-
-export interface OrdarableModulesProps {
+export interface OrdablesBaseProps {
     order: ModulesOrder;
     onModuleTimesChange: ModulesOrderChangeHandler;
 }
 
-export interface ModulesTestOrderProps extends OrdarableModulesProps {
+export interface OrdarableModulesProps extends ModulesTestOrdereState, OrdablesBaseProps {
+
+}
+
+export interface ModulesTestOrderProps extends OrdablesBaseProps {
     onModulesOrderChange: ModulesOrderChangeHandler;
 }
 
 export const OrdarableModule = SortableElement(
-    class extends React.Component<OrdarableModuleProps, OrdarableModuleState> {
-        private _interval: number;
-        private _blink: () => void;
-
-        private _handleBlink(): void {
-            this.setState({ blink: !this.state.blink });
-        }
+    class extends React.Component<OrdarableModuleProps, void> {
 
         public constructor(props: OrdarableModuleProps) {
             super(props);
-            this.state = { blink: false };
-            this._interval = null;
-            this._blink = this._handleBlink.bind(this);
-        }
-
-        public componentDidMount(): void {
-            this._interval = window.setInterval(this._blink, 1000);
-        }
-
-        public componentWillUnmount(): void {
-            clearInterval(this._interval);
         }
 
         public render(): JSX.Element {
-            const { order, onModuleTimesChange } = this.props;
+            const { order, onModuleTimesChange, blink } = this.props;
             const slot: AraSlot = order;
             const moduleIndex: number = slot.index + 1;
             const moduleType: string = !AraSlotService.isSlotMerged(slot) ? 'single' : 'double';
             let iconProps: any = { style: IconStyle, color: FrameColor };
             let underlineStyle: React.CSSProperties = Object.assign({}, NumberInputUnderlineStyle);
-            if(this.state.blink) {
+            if(blink) {
                 delete iconProps.color;
+            } else {
                 underlineStyle.borderColor = FrameColor;
             }
             return (
@@ -144,7 +132,7 @@ export const OrdarableModules = SortableContainer(
         }
 
         public render(): JSX.Element {
-            const { order } = this.props;
+            const { order, blink } = this.props;
             const { length } = order;
             const modules: Array<JSX.Element> = order.map((moduleOrder: ModuleOrder, index: number): JSX.Element => {
                 const onModuleTimesChange: NumberInputFieldValueHandler = this._moduleTimesChangeFunctionFactory(index);
@@ -152,6 +140,7 @@ export const OrdarableModules = SortableContainer(
                     <OrdarableModule
                         key={index}
                         index={index}
+                        blink={blink}
                         order={moduleOrder}
                         onModuleTimesChange={onModuleTimesChange}
                     />
@@ -166,8 +155,27 @@ export const OrdarableModules = SortableContainer(
     }
 );
 
-export class ModulesTestOrder extends React.Component<ModulesTestOrderProps, void> {
+export class ModulesTestOrder extends React.Component<ModulesTestOrderProps, ModulesTestOrdereState> {
+    private _interval: number;
+    private _blink: () => void;
+    private _onSortStart: SortStartHandler;
     private _onSortEnd: SortEndHandler;
+
+    private _handleBlink(): void {
+        this.setState({ blink: !this.state.blink });
+    }
+
+    private _stopBlinking(): void {
+        if(this._interval !== null) {
+            clearInterval(this._interval);
+            this._interval = null;
+            this.setState({ blink: true });
+        }
+    }
+
+    private _handleSortStart(sort: SortStart, event: SortEnd): void {
+        this._stopBlinking();
+    }
 
     private _handleSortEnd(sort: SortEnd, event: SortEvent): void {
         this.props.onModulesOrderChange(sort.oldIndex, sort.newIndex);
@@ -175,15 +183,33 @@ export class ModulesTestOrder extends React.Component<ModulesTestOrderProps, voi
 
     public constructor(props: ModulesTestOrderProps) {
         super(props);
+        this.state = { blink: false };
+        this._interval = null;
+        this._blink = this._handleBlink.bind(this);
+        this._onSortStart = this._handleSortStart.bind(this);
         this._onSortEnd = this._handleSortEnd.bind(this);
     }
 
+    public componentDidMount(): void {
+        this._interval = window.setInterval(this._blink, 1000);
+    }
+
+    public componentWillReceiveProps(props: ModulesTestOrderProps): void {
+        this._stopBlinking();
+    }
+
+    public componentWillUnmount(): void {
+        this._stopBlinking();
+    }
+
     public render(): JSX.Element {
-        const { props, _onSortEnd } = this;
+        const { props, state, _onSortStart, _onSortEnd } = this;
         const { order, onModuleTimesChange } = props;
         return (
             <OrdarableModules
                 order={order}
+                blink={state.blink}
+                onSortStart={_onSortStart}
                 onSortEnd={_onSortEnd}
                 onModuleTimesChange={onModuleTimesChange}
             />
