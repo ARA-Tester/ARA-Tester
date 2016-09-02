@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import { LinearStepper, RequestStepTransitionHandler,  }  from './../LinearStepper';
+import Checkbox from 'material-ui/Checkbox';
+import { NumberInputField, NumberInputFieldValueHandler } from './../TextInputField/NumberInputField';
+import { LinearStepper, RequestStepTransitionHandler }  from './../LinearStepper';
 import { TextInputField, TextInputFieldValueHandler } from './../TextInputField/TextInputField';
 import { Slots, SlotSelectionHandler, AraSizeStyle } from './../Slots/Slots';
 import { AraSlot, AraSlotIdentifier } from './../Slots/AraSlot';
@@ -12,6 +14,16 @@ import { ModulesTestOrder, ModulesOrder, ModuleOrder, ModulesOrderChangeHandler 
 import { arrayMove } from 'react-sortable-hoc';
 
 const { div } = React.DOM;
+
+const ContainerWidth: number = AraSizeStyle.width * 2;
+
+const CheckboxWidth: number = ContainerWidth * (2 / 3);
+
+const NumberInputFieldWidth: number = ContainerWidth - CheckboxWidth
+
+const CheckboxStyle: React.CSSProperties = { width: CheckboxWidth };
+
+const NumberInputFieldStyle: React.CSSProperties = { width: NumberInputFieldWidth };
 
 interface ProgressState {
     stepIndex?: number;
@@ -137,7 +149,7 @@ export default class Progress extends React.Component<void, ProgressState> {
                 const mergedOption: boolean = Progress._askForMergedOption(slots, newSlot);
                 return  (
                     <div>
-                        <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
+                        <div style={{ width: ContainerWidth, margin: 'auto' }}>
                             <div style={{float: 'left'}}>
                                 <Slots slots={slots} onSlotSelection={this._onSlotSelection} />
                             </div>
@@ -150,10 +162,17 @@ export default class Progress extends React.Component<void, ProgressState> {
                 );
             case 1: return  (
                 <div>
-                    <div>
-                        <RaisedButton primary label="Random" onTouchTap={this._onRandomModulesOrder} />
-                    </div>
-                    <div style={{ width: 2 * AraSizeStyle.width, margin: 'auto' }}>
+                    <div style={{ width: ContainerWidth, margin: 'auto' }}>
+                        <div>
+                            <RaisedButton primary label="Random" onTouchTap={this._onRandomModulesOrder} />
+                            <Checkbox label="Test all modules equal times" style={CheckboxStyle}/>
+                            <NumberInputField
+                                fieldValue={23}
+                                onFieldValue={() => {}}
+                                id="equal-times-input"
+                                style={NumberInputFieldStyle}
+                            />
+                        </div>
                         <div style={{float: 'left'}}>
                             <Slots slots={slots} />
                         </div>
@@ -161,7 +180,8 @@ export default class Progress extends React.Component<void, ProgressState> {
                             <ModulesTestOrder
                                 order={order}
                                 onModuleTimesChange={this._onModuleTimesChange}
-                                onModulesOrderChange={this._onModulesOrderChange} />
+                                onModulesOrderChange={this._onModulesOrderChange}
+                            />
                         </div>
                     </div>
                 </div>
