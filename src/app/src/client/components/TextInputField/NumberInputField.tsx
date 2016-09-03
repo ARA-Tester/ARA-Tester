@@ -1,6 +1,6 @@
 import * as React from 'react';
 import OnScreenKeyboard from './OnScreenKeyboard';
-import { Keyboard } from 'react-material-ui-keyboard';
+import Keyboard from 'react-material-ui-keyboard';
 import { NumberInput, NumberInputProps, NumberInputValidHandler, NumberInputReqestValueHandller } from 'material-ui-number-input';
 import { NumericKeyboard, RequestCloseHandler, InputHandler, TextFieldElement } from 'react-material-ui-keyboard'
 
@@ -12,7 +12,7 @@ export interface NumberInputFieldProps extends NumberInputProps {
 }
 
 function corrector(value: string): void {
-    this.makeCorrection(value);
+    (this as Keyboard).makeCorrection(value);
 }
 
 export class NumberInputField extends React.Component<NumberInputFieldProps, void> {
