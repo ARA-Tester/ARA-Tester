@@ -251,7 +251,7 @@ export default class Progress extends React.Component<void, ProgressState> {
     private _isNextStepTransitionAllowed(): boolean {
         switch(this.state.stepIndex) {
             case 0: return this.state.slots.length > 0;
-            default: return false;
+            default: return true;
         }
     }
 
