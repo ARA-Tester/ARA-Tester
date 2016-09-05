@@ -42,8 +42,9 @@ export interface TextInputProps {
 
 export class TextInput extends React.Component<TextInputProps, void> {
     private static _getValidValue(value: string): string {
+        const emptyString: string = '';
         const match: RegExpMatchArray = value.match(TextInput._allowed);
-        return match !== null ? match.join() : '';
+        return match !== null ? match.join(emptyString) : emptyString;
     }
 
     private static _allowed: RegExp = /\w|\@|\-|\ |\./gi;

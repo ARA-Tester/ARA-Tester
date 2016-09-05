@@ -40,14 +40,14 @@ export class NumberInputField extends React.Component<NumberInputFieldProps, voi
                 {...numberInputProps}
                 value={String(fieldValue)}
                 strategy="ignore"
-                onReqestValue={_onInput} />
+                onRequestValue={_onInput} />
         );
         return (
             <OnScreenKeyboard
                 layout={NumericKeyboard}
                 textField={numberInput}
                 onInput={_onInput}
-                correctorName="onReqestValue"
+                correctorName="onRequestValue"
                 corrector={corrector} />
         )
     }
