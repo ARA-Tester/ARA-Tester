@@ -5,19 +5,19 @@ This project is with status: ***freezed until ARA project is resumed*** ...
 
 Some of technologies, frameworks and libraries that the project uses:
 
-- Linux device driver
-- Make
-- Node
-- TypeScript
-- MongoDB
-- Mongoose
-- hapi
-- nes
-- React
-- material-ui
-- WebSocket
-- webpack
-- electron
+- [Linux device driver](/src/driver)
+- [Make](https://www.gnu.org/software/make/)
+- [Node](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.9.0)
+- [TypeScript](https://github.com/Microsoft/TypeScript)
+- [MongoDB](https://github.com/mongodb/mongo)
+- [Mongoose](https://github.com/Automattic/mongoose)
+- [hapi](https://github.com/hapijs/hapi)
+- [nes](https://github.com/hapijs/nes)
+- [React](https://github.com/facebook/react)
+- [material-ui](https://github.com/callemall/material-ui)
+- [WebSocket](https://github.com/webpack/webpack)
+- [webpack](https://github.com/webpack/webpack)
+- [electron](https://github.com/electron/electron)
 
 Project structure:
 
