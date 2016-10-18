@@ -22,7 +22,7 @@ Some of technologies, frameworks and libraries that the project uses:
 Project structure:
 
 - `src/driver` - contains the developed device driver for controlling CNC motors, acessor of [cnc-controller](https://github.com/NoHomey/cnc-controller)
-- `src/app/src/share` - contains common code base share across the server, client and deskptop app, mainly TypeScript types
-- `src/app/src/server` - contains the server ran on the Raspberry Pi, uses hapi and nes (WebSocket based server)
+- `src/app/src/share` - contains common code base shared across the server, client and deskptop app, mainly TypeScript `interface`s and `type`s
+- `src/app/src/server` - contains the server ran on the controller, uses hapi and nes (WebSocket based server)
 - `src/app/src/client` - contains common code base share between the cleint and the desktop app, uses React and material-ui (SPA, uses WebSocket to communicate with the server)
 - `src/app/src/app` - contatins desktop specific files for configuring and starting the app, it is electron based desktop app and it is auto started after boot
