@@ -1,5 +1,5 @@
 # ara-modules-tester
-Automaic modules tester for [ARA](https://atap.google.com/ara/)
+Automaic modules tester for [Project ARA](https://atap.google.com/ara/)
 
 This project is with status: ***freezed until ARA project is resumed*** ...
 
